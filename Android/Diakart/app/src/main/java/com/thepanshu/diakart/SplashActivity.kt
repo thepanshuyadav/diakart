@@ -15,6 +15,7 @@ class SplashActivity : AppCompatActivity() {
 
         Timer("SettingUp", false).schedule(3000) {
             startActivity(i)
+            finish()
         }
 
     }

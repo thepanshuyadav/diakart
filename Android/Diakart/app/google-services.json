@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "3694904199",
+    "project_id": "diakart",
+    "storage_bucket": "diakart.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:3694904199:android:28d9234fa934a441020922",
+        "android_client_info": {
+          "package_name": "com.thepanshu.diakart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "3694904199-g11ph70vsgogccjdu7efb74a0dbh7dg5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgGoXZijniTFW4Y7GAxgspTbY9BXtGe5M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "3694904199-g11ph70vsgogccjdu7efb74a0dbh7dg5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
