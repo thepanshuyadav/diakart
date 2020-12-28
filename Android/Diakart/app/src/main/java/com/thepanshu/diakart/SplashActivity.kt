@@ -11,7 +11,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        val i = Intent(this, MainActivity::class.java)
+        val i = Intent(this, RegisterActivity::class.java)
 
         Timer("SettingUp", false).schedule(3000) {
             startActivity(i)
