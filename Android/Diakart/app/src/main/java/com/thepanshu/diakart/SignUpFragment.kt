@@ -112,6 +112,7 @@ class SignUpFragment : Fragment() {
         if(email.text.toString().matches(emailPattern.toRegex())) {
             signUpButton.isEnabled = false
             progressBar.visibility = View.VISIBLE
+            closeButton.isEnabled = false
             firebaseAuth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
@@ -130,6 +131,7 @@ class SignUpFragment : Fragment() {
                                     else {
                                         progressBar.visibility = View.INVISIBLE
                                         signUpButton.isEnabled = true
+                                        closeButton.isEnabled = true
                                         val error = it.exception!!.message
                                         Toast.makeText(activity, error, Toast.LENGTH_LONG).show()
                                     }

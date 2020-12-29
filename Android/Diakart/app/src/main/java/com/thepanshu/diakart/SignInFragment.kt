@@ -20,6 +20,8 @@ class SignInFragment : Fragment() {
     private lateinit var email: TextInputEditText
     private lateinit var pass: TextInputEditText
 
+    private lateinit var forgotPass: TextView
+
     private lateinit var signInButton: Button
     private lateinit var closeButton: ImageButton
 
@@ -41,8 +43,9 @@ class SignInFragment : Fragment() {
         frag_container = activity!!.findViewById(R.id.register_container)
         email = view.findViewById(R.id.email)
         pass = view.findViewById(R.id.pass)
-
+        forgotPass = view.findViewById(R.id.signin_forgot_pass_btn)
         progressBar = view.findViewById(R.id.signInProgressBar)
+        progressBar.visibility = View.INVISIBLE
 
         firebaseAuth = FirebaseAuth.getInstance()
 
@@ -68,6 +71,10 @@ class SignInFragment : Fragment() {
             checkEmailPass()
         }
 
+        forgotPass.setOnClickListener {
+            setFragment(ResetPasswordFragment())
+        }
+
         closeButton.setOnClickListener {
             val intent = Intent(activity, MainActivity::class.java)
             startActivity(intent)
@@ -80,6 +87,7 @@ class SignInFragment : Fragment() {
         if(email.text.toString().matches(emailPattern.toRegex())) {
             signUpButton.isEnabled = false
             progressBar.visibility = View.VISIBLE
+            closeButton.isEnabled = false
             firebaseAuth.signInWithEmailAndPassword(email.text.toString(), pass.text.toString())
                 .addOnCompleteListener {
                     if(it.isSuccessful) {
@@ -89,6 +97,7 @@ class SignInFragment : Fragment() {
                     }
                     else {
                         signUpButton.isEnabled = true
+                        closeButton.isEnabled = true
                         progressBar.visibility = View.INVISIBLE
                         val error = it.exception!!.message
                         Toast.makeText(activity, error, Toast.LENGTH_LONG).show()
