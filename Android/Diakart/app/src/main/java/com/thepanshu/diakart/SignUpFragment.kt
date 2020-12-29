@@ -13,6 +13,8 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import java.util.*
 
 class SignUpFragment : Fragment() {
 
@@ -27,7 +29,10 @@ class SignUpFragment : Fragment() {
 
     private lateinit var progressBar: ProgressBar
 
+    private lateinit var closeButton: ImageButton
+
     private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var firebaseFirestore: FirebaseFirestore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +43,7 @@ class SignUpFragment : Fragment() {
 
         signInButton = view.findViewById(R.id.signin_button)
         signUpButton = view.findViewById(R.id.signup_materialButton)
+        closeButton = view.findViewById(R.id.signup_close_btn)
 
         email = view.findViewById(R.id.email_text)
         name = view.findViewById(R.id.name_text)
@@ -49,6 +55,7 @@ class SignUpFragment : Fragment() {
         frag_container = activity!!.findViewById(R.id.register_container)
 
         firebaseAuth = FirebaseAuth.getInstance()
+        firebaseFirestore = FirebaseFirestore.getInstance()
 
         return view
     }
@@ -71,6 +78,11 @@ class SignUpFragment : Fragment() {
         signUpButton.setOnClickListener {
             checkEmail()
             // Send data to firebase
+        }
+        closeButton.setOnClickListener {
+            val intent = Intent(activity, MainActivity::class.java)
+            startActivity(intent)
+            activity!!.finish()
         }
     }
 
@@ -103,9 +115,25 @@ class SignUpFragment : Fragment() {
             firebaseAuth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
-                            val intent = Intent(activity, MainActivity::class.java)
-                            startActivity(intent)
-                            activity!!.finish()
+
+                            val userData = HashMap<Any, String>()
+                            userData["name"] = name.text.toString()
+
+                            firebaseFirestore.collection("USERS")
+                                .add(userData)
+                                .addOnCompleteListener {
+                                    if(it.isSuccessful) {
+                                        val intent = Intent(activity, MainActivity::class.java)
+                                        startActivity(intent)
+                                        activity!!.finish()
+                                    }
+                                    else {
+                                        progressBar.visibility = View.INVISIBLE
+                                        signUpButton.isEnabled = true
+                                        val error = it.exception!!.message
+                                        Toast.makeText(activity, error, Toast.LENGTH_LONG).show()
+                                    }
+                                }
                         } else {
                             progressBar.visibility = View.INVISIBLE
                             signUpButton.isEnabled = true
