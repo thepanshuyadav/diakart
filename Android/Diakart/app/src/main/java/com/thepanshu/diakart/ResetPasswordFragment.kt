@@ -41,6 +41,7 @@ class ResetPasswordFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        resetButton.isEnabled = false
         email.addTextChangedListener {
             resetButton.isEnabled = !(TextUtils.isEmpty(email.text.toString()))
         }
