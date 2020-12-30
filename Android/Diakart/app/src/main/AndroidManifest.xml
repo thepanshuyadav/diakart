@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.thepanshu.diakart">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -13,7 +13,9 @@
         android:theme="@style/Theme.Diakart">
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait"/>
+            android:label="@string/title_activity_main"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Diakart.NoActionBar"></activity>
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait"
@@ -26,7 +28,7 @@
         </activity>
         <activity
             android:name=".RegisterActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

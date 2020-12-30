@@ -28,4 +28,13 @@
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@drawable/splash_activity_bg</item>
     </style>
+
+    <style name="Theme.Diakart.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Diakart.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Diakart.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
