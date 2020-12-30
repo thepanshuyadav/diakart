@@ -16,5 +16,23 @@
         android:layout_marginTop="8dp"
         android:elevation="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/banner_slider_viewpager" />
+
+    <com.asksira.loopingviewpager.LoopingViewPager
+        android:layout_width="match_parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/banner_slider_viewpager"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:isInfinite="true"
+        app:wrap_content="true"
+        app:autoScroll="true"
+        app:scrollInterval="5000"
+        android:clipToPadding="false"
+        app:viewpagerAspectRatio="1.78"
+        app:itemAspectRatio="1.33"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
