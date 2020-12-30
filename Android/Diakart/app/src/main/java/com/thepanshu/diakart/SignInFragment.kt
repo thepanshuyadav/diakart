@@ -72,6 +72,7 @@ class SignInFragment : Fragment() {
         }
 
         forgotPass.setOnClickListener {
+            RegisterActivity.isResetPassFrag = true
             setFragment(ResetPasswordFragment())
         }
 
