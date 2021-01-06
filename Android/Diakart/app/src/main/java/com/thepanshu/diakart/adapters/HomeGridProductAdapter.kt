@@ -7,13 +7,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
 import com.thepanshu.diakart.R
-import com.thepanshu.diakart.models.HomeGridProductModel
+import com.thepanshu.diakart.models.Product
 
 class HomeGridProductAdapter (
-        private val categoryProductList: ArrayList<HomeGridProductModel>,
-        private val listener: HomeGridProductAdapter.OnCategoryGridProductClickListener
+    private val categoryProductList: ArrayList<Product>,
+    private val listener: HomeGridProductAdapter.OnCategoryGridProductClickListener
         ): RecyclerView.Adapter<HomeGridProductAdapter.CategoryProductViewHolder>() {
 
     inner class CategoryProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
@@ -28,8 +27,8 @@ class HomeGridProductAdapter (
         fun setProductTitle(productTitle: String) {
             productTitleTv.text = productTitle
         }
-        fun setProductSubtitle(productSubtitle: String) {
-            productSubtitleTv.text = productSubtitle
+        fun setProductSubtitle(productSubtitle: Int) {
+            productSubtitleTv.text = productSubtitle.toString()
         }
         fun setProductImage(productResId:Int) {
             productImageView.setImageResource(productResId)
@@ -68,9 +67,9 @@ class HomeGridProductAdapter (
 //            })
 
         //holder.setCategoryName(categoryList[position].categoryName)
-        holder.setProductImage(categoryProductList[position].productImage)
-        holder.setProductTitle(categoryProductList[position].productTitle)
-        holder.setProductSubtitle(categoryProductList[position].productPrice)
+        holder.setProductImage(categoryProductList[position].product_images[0])
+        holder.setProductTitle(categoryProductList[position].product_name)
+        holder.setProductSubtitle(categoryProductList[position].price)
 
     }
 

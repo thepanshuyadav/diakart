@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+<LinearLayout android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".ui.ProductDetailFragment"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ProgressBar
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:indeterminate="true"
+        android:id="@+id/product_detail_progress_bar"
+        android:layout_height="wrap_content" />
+
+
     <ScrollView
         android:layout_width="match_parent"
         android:id="@+id/product_detail_scroll"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/link_external_btn"
         android:scrollbarStyle="insideInset">
 
         <LinearLayout
@@ -25,7 +30,7 @@
                 android:id="@+id/specific_product_image_rv"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:padding="8dp"
+                android:padding="4dp"
                 android:gravity="center"
                 android:adjustViewBounds="true"
                 />
@@ -79,8 +84,31 @@
                     tools:text="(Box of 6)"/>
 
             </LinearLayout>
-<!--            TODO: Rating View-->
-<!--            TODO: Add to wishlist View-->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/link_external_btn"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableEnd="@drawable/ic_baseline_open_in_new_24"
+                android:text="Buy" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/wishlist_btn"
+                android:layout_width="250dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableEnd="@drawable/ic_round_wishlist_24"
+                android:drawableTint="@color/indigo_500"
+                android:text="Remove from wishlist" />
+            <View
+                android:id="@+id/divider1"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_marginTop="8dp"
+                android:background="?android:attr/listDivider" />
+            <!--            TODO: Add to wishlist View-->
+
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -98,23 +126,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:text="@string/sample_paragraph"
-                android:textSize="14sp"/>
+                android:text="@string/app_name"
+                android:textSize="12sp"/>
 
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="?android:attr/listDivider" />
 
+            <include layout="@layout/ratings_layout"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="300dp"/>
         </LinearLayout>
-    </ScrollView>
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/link_external_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginEnd="48dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/product_detail_scroll"
-        android:drawableEnd="@drawable/ic_baseline_open_in_new_24"
-        android:text="Buy" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+
+</LinearLayout>
