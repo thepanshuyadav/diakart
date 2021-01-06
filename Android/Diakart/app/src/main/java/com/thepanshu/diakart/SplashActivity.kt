@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
+import com.thepanshu.diakart.authenticate.RegisterActivity
 import java.util.*
 import kotlin.concurrent.schedule
 

@@ -1,4 +1,4 @@
-package com.thepanshu.diakart
+package com.thepanshu.diakart.authenticate
 
 import android.os.Bundle
 import android.text.TextUtils
@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
+import com.thepanshu.diakart.R
 
 class ResetPasswordFragment : Fragment() {
 

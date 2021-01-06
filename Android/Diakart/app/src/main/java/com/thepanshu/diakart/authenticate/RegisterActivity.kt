@@ -1,11 +1,11 @@
-package com.thepanshu.diakart
+package com.thepanshu.diakart.authenticate
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
+import com.thepanshu.diakart.R
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var frag_container: FrameLayout

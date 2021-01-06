@@ -1,4 +1,4 @@
-package com.thepanshu.diakart
+package com.thepanshu.diakart.authenticate
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,6 +11,8 @@ import android.widget.*
 import androidx.core.widget.addTextChangedListener
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
+import com.thepanshu.diakart.MainActivity
+import com.thepanshu.diakart.R
 
 class SignInFragment : Fragment() {
 

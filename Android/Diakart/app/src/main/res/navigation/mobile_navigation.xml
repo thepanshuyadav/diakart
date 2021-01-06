@@ -9,7 +9,11 @@
         android:id="@+id/nav_home"
         android:name="com.thepanshu.diakart.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_productsListFragment"
+            app:destination="@id/productsListFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_wishlist"
@@ -22,4 +26,18 @@
         android:name="com.thepanshu.diakart.ui.account.AccountFragment"
         android:label="@string/menu_account"
         tools:layout="@layout/account_fragment" />
+    <fragment
+        android:id="@+id/productsListFragment"
+        android:name="com.thepanshu.diakart.ui.ProductsListFragment"
+        android:label="Products"
+        tools:layout="@layout/fragment_products_list" >
+        <action
+            android:id="@+id/action_productsListFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productDetailFragment"
+        android:name="com.thepanshu.diakart.ui.ProductDetailFragment"
+        android:label="Item"
+        tools:layout="@layout/fragment_product_detail" />
 </navigation>

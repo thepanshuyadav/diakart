@@ -1,4 +1,4 @@
-package com.thepanshu.diakart
+package com.thepanshu.diakart.authenticate
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,11 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.widget.addTextChangedListener
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.textfield.TextInputEditText
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.thepanshu.diakart.MainActivity
+import com.thepanshu.diakart.R
 import java.util.*
 
 class SignUpFragment : Fragment() {

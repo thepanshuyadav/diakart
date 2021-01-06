@@ -15,7 +15,7 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Diakart.NoActionBar"></activity>
+            android:theme="@style/Theme.Diakart.NoActionBar" />
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait"
@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RegisterActivity"
+            android:name=".authenticate.RegisterActivity"
             android:screenOrientation="portrait" />
     </application>
 
