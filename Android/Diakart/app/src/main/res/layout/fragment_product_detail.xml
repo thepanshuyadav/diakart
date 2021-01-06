@@ -89,6 +89,7 @@
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="16dp"
                 android:drawableEnd="@drawable/ic_baseline_open_in_new_24"
                 android:text="Buy" />
             <com.google.android.material.button.MaterialButton
