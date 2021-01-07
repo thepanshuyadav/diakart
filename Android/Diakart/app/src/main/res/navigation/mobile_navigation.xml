@@ -28,9 +28,17 @@
 
     <fragment
         android:id="@+id/nav_wishlist"
-        android:name="com.thepanshu.diakart.ui.wishlist.WishlistFragment"
+        android:name="com.thepanshu.diakart.ui.wishlist.WishListFragment"
         android:label="@string/menu_wish_list"
-        tools:layout="@layout/fragment_wishlist" />
+        tools:layout="@layout/fragment_wishlist" >
+        <action
+            android:id="@+id/action_nav_wishlist_to_productDetailFragment"
+            app:destination="@id/productDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_account"
@@ -39,7 +47,7 @@
         tools:layout="@layout/account_fragment" />
     <fragment
         android:id="@+id/productsListFragment"
-        android:name="com.thepanshu.diakart.ui.ProductsListFragment"
+        android:name="com.thepanshu.diakart.ui.products_list.ProductsListFragment"
         android:label="Products"
         tools:layout="@layout/fragment_products_list" >
         <action

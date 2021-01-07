@@ -78,14 +78,14 @@ class HomeFragment : Fragment(), CategoryAdapter.OnCategoryClickListener, HomeGr
 
         bannerList.add(BannerSliderModel(R.drawable.ic_baseline_search_24))
         bannerList.add(BannerSliderModel(R.drawable.ic_baseline_close_24))
-        bannerList.add(BannerSliderModel(R.drawable.ic_round_wishlist_24))
+        bannerList.add(BannerSliderModel(R.drawable.ic_baseline_favorite_24))
         bannerList.add(BannerSliderModel(R.drawable.ic_baseline_add_circle_24))
         bannerList.add(BannerSliderModel(R.drawable.ic_baseline_notifications_24))
         bannerList.add(BannerSliderModel(R.drawable.ic_round_home_24))
 
         // Grid Category Layout
         gridCategoryList = ArrayList()
-        val productImages = arrayListOf(R.drawable.ic_round_wishlist_24,R.drawable.ic_round_wishlist_24,R.drawable.ic_round_wishlist_24,R.drawable.ic_round_wishlist_24)
+        val productImages = arrayListOf(R.drawable.ic_baseline_favorite_24, R.drawable.ic_baseline_favorite_24, R.drawable.ic_baseline_favorite_24,R.drawable.ic_baseline_favorite_24)
         gridCategoryList.add(
             Product(1, "Almond Chocolate","50g", 50,
                 "Dairy Milk", "Chocolate",product_images = productImages,

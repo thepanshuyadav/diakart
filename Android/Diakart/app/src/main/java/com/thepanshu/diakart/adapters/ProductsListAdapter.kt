@@ -7,14 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.models.Product
+import com.thepanshu.diakart.ui.wishlist.WishListFragment
 
 
 class ProductsListAdapter(
-    private val productsList: ArrayList<Product>,
+    private val productsList: LiveData<List<Product>>,
     private val listener: OnProductClickListener
 ):
     RecyclerView.Adapter<ProductsListAdapter.ProductsListViewHolder>() {
@@ -26,13 +29,13 @@ class ProductsListAdapter(
         return ProductsListViewHolder(view)
     }
 
-    override fun getItemCount(): Int  = productsList.size
+    override fun getItemCount(): Int  = productsList.value!!.size
 
     override fun onBindViewHolder(holder: ProductsListViewHolder, position: Int) {
-        holder.productNameTv.text = productsList[position].product_name
-        holder.brandNameTv.text = productsList[position].brand_name
-        holder.productQuantityTv.text = productsList[position].quantity
-        holder.productPriceTv.text = productsList[position].price.toString()
+        holder.productNameTv.text = productsList.value!![position].product_name
+        holder.brandNameTv.text = productsList.value!![position].brand_name
+        holder.productQuantityTv.text = productsList.value!![position].quantity
+        holder.productPriceTv.text = productsList.value!![position].price.toString()
         //TODO: Picasso to update  product image placeholder
         // ERROR: Different shimmer size than object
 //        Picasso.get()
@@ -46,7 +49,7 @@ class ProductsListAdapter(
 //                    //do smth when there is picture loading error
 //                }
 //            })
-        holder.productListImageView.setImageResource(productsList[position].product_images[0])
+        holder.productListImageView.setImageResource(productsList.value!![position].product_images[0])
     }
 
     inner class ProductsListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {

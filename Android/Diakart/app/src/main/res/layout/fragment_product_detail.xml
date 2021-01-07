@@ -98,7 +98,7 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:drawableEnd="@drawable/ic_round_wishlist_24"
+                android:drawableEnd="@drawable/ic_baseline_favorite_24"
                 android:drawableTint="@color/indigo_500"
                 android:text="Remove from wishlist" />
             <View

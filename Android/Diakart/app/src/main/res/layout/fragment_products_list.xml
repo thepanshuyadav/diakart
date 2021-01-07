@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.ProductsListFragment">
+    tools:context=".ui.products_list.ProductsListFragment">
 
     <ProgressBar
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
