@@ -23,7 +23,7 @@ class ProductsListFragment : Fragment(), ProductsListAdapter.OnProductClickListe
     private lateinit var productsListViewModel: ProductsListViewModel
     private var data= MutableLiveData<List<Product>>()
     private lateinit  var da:List<Product>
-    private var isAnimating = false
+//    private var isAnimating = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,16 +37,14 @@ class ProductsListFragment : Fragment(), ProductsListAdapter.OnProductClickListe
         val progressBar = rootView.findViewById<ProgressBar>(R.id.products_list_progress_bar)
         rvProducts.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         productsListViewModel.getProductsList().observe(viewLifecycleOwner, Observer<List<Product>> {
+            progressBar.visibility = View.VISIBLE
             data.value = it
             da=it
             rvProducts.adapter = ProductsListAdapter(data, this)
+            progressBar.visibility = View.GONE
         })
 
         // TODO: Use data binding to set the visibility of progress bar
-        productsListViewModel.isFetchingResult().observe(viewLifecycleOwner, Observer<Boolean> {
-            isAnimating = it
-            progressBar.visibility = if (isAnimating) View.VISIBLE else View.INVISIBLE
-        })
         return rootView
     }
     override fun onProductClick(position: Int) {

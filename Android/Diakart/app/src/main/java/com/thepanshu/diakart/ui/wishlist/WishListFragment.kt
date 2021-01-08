@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
@@ -30,11 +31,14 @@ class WishListFragment : Fragment(), ProductsListAdapter.OnProductClickListener 
                 ViewModelProvider(this).get(WishListViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_wishlist, container, false)
         val wishListRecyclerView: RecyclerView = root.findViewById(R.id.wish_list_rv)
+        val progressBar = root.findViewById<ProgressBar>(R.id.wishlist_progressBar)
 
         wishListViewModel.getWishList().observe(viewLifecycleOwner,  {
+            progressBar.visibility = View.VISIBLE
             data.value = it
             da=it
             wishListRecyclerView.adapter= ProductsListAdapter(data, this)
+            progressBar.visibility = View.INVISIBLE
         })
 
         return root
