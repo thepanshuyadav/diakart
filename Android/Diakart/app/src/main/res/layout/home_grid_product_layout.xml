@@ -18,7 +18,7 @@
             android:layout_marginTop="8dp"
             android:text="Title"
             android:textColor="@color/indigo_500"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/view_all_btn"
             app:layout_constraintStart_toStartOf="parent"

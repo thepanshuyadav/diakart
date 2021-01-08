@@ -15,17 +15,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.adapters.ImageListAdapter
 import com.thepanshu.diakart.models.Product
+import kotlinx.android.synthetic.main.account_fragment.*
 
 class ProductDetailFragment : Fragment() {
     private lateinit var product: Product
     private lateinit var intentToSite: Intent
 
-    //////Ratings Layout
-    private lateinit var rateNowLayout: LinearLayout
-    /////
-    companion object {
-        var rating = 0
-    }
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -36,19 +31,6 @@ class ProductDetailFragment : Fragment() {
         rvProductImage.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         rvProductImage.adapter = ImageListAdapter(product.product_images)
         return rootView
-    }
-
-    private fun setRating() {
-        for(i in 0..4) {
-            val starImageView = rateNowLayout.getChildAt(i) as ImageView
-            //starImageView.imageTintList = ColorStateList.valueOf(Color.parseColor("#545455"))
-            if(i <= rating) {
-                starImageView.imageTintList = ColorStateList.valueOf(Color.parseColor("#FFFFEA00"))
-            }
-            else {
-                starImageView.imageTintList = ColorStateList.valueOf(Color.parseColor("#545455"))
-            }
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,17 +49,9 @@ class ProductDetailFragment : Fragment() {
         view.findViewById<TextView>(R.id.specific_product_price).text = product.price.toString()
         view.findViewById<TextView>(R.id.specific_product_quantity).text = " (${product.quantity})"
 
-        rateNowLayout = view.findViewById(R.id.rate_now_container)
-        rateNowLayout.setOnClickListener {
-            Toast.makeText(context, rateNowLayout.childCount.toString(), Toast.LENGTH_SHORT).show()
-        }
-        val childCount: Int = rateNowLayout.childCount
-        for (i in 0 until childCount) {
-            val v: View = rateNowLayout.getChildAt(i)
-            v.setOnClickListener {
-                rating = i
-                setRating()
-            }
+        val ratingBar = view.findViewById<RatingBar>(R.id.product_ratingBar)
+        ratingBar.setOnRatingBarChangeListener { ratingBar, fl, b ->
+            Toast.makeText(context, "Rating = ${ratingBar.rating.toInt()}", Toast.LENGTH_SHORT).show()
         }
 
         intentToSite = Intent(Intent.ACTION_VIEW, Uri.parse(product.link))

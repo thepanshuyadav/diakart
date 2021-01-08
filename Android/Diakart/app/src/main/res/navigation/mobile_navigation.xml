@@ -44,7 +44,22 @@
         android:id="@+id/nav_account"
         android:name="com.thepanshu.diakart.ui.account.AccountFragment"
         android:label="@string/menu_account"
-        tools:layout="@layout/account_fragment" />
+        tools:layout="@layout/account_fragment" >
+        <action
+            android:id="@+id/action_nav_account_to_nav_wishlist"
+            app:destination="@id/nav_wishlist"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_nav_account_to_productDetailFragment"
+            app:destination="@id/productDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
     <fragment
         android:id="@+id/productsListFragment"
         android:name="com.thepanshu.diakart.ui.products_list.ProductsListFragment"
