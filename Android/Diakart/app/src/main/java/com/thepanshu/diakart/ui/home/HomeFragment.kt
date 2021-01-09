@@ -75,7 +75,7 @@ class HomeFragment : Fragment(), CategoryAdapter.OnCategoryClickListener, GridPr
                     }
                     gridList.clear()
                     for(i in categoryList) {
-                        gridList.add(CategoryModel(i.icon, i.title, gridCategoryList))
+                        gridList.add(CategoryModel(Category(i.icon, i.title), gridCategoryList))
                     }
                     gridListRv.adapter!!.notifyDataSetChanged()
                 }

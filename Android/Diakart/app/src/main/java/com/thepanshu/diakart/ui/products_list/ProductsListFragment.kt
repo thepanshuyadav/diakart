@@ -35,6 +35,7 @@ class ProductsListFragment : Fragment(), ProductsListAdapter.OnProductClickListe
         val rvProducts = rootView.findViewById(R.id.products_rv) as RecyclerView
         val progressBar = rootView.findViewById<ProgressBar>(R.id.products_list_progress_bar)
         rvProducts.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+
         productsListViewModel.getProductsList().observe(viewLifecycleOwner, Observer<List<Product>> {
             progressBar.visibility = View.VISIBLE
             data.value = it

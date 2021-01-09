@@ -35,7 +35,7 @@ class GridListAdapter(
     override fun getItemCount(): Int = categoryList.size
 
     override fun onBindViewHolder(holder: GridListAdapter.GridListViewHolder, position: Int) {
-        holder.categoryTitleTv.text = categoryList[position].title
+        holder.categoryTitleTv.text = categoryList[position].category.title
 
         val childItemAdapter = GridProductAdapter(categoryList[position].productList, listener)
         holder.childRecyclerView.setRecycledViewPool(viewPool)

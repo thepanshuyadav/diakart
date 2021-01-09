@@ -11,22 +11,13 @@ import kotlin.concurrent.schedule
 class ProductsListViewModel : ViewModel() {
 
     private var productsList: MutableLiveData<List<Product>>? = null
-    private var isFetching = MutableLiveData<Boolean>().apply {
-        value = false
-    }
 
     internal fun getProductsList(): MutableLiveData<List<Product>> {
         if (productsList == null) {
             productsList = MutableLiveData()
-            isFetching.postValue(true)
             loadProductsList()
-            isFetching.postValue(false)
         }
         return productsList as MutableLiveData<List<Product>>
-    }
-
-    internal fun isFetchingResult(): MutableLiveData<Boolean> {
-        return isFetching
     }
 
     private fun loadProductsList() {
