@@ -1,10 +1,10 @@
-package com.thepanshu.diakart.models
+package com.thepanshu.diakart.data
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Category(
-    val categoryName: String = "",
-    val categoryImageLink: String = ""
+    val icon: String = "",
+    val title: String = ""
 
 ):Parcelable

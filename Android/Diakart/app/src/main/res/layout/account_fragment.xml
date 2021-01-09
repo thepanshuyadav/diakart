@@ -93,7 +93,7 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:textColor="#F50057"/>
 
-        <include layout="@layout/home_grid_product_layout"
+        <include layout="@layout/home_grid_layout"
             android:id="@+id/wishlist_grid"/>
 
 

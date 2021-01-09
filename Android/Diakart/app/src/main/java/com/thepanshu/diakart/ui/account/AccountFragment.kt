@@ -1,6 +1,5 @@
 package com.thepanshu.diakart.ui.account
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,11 +12,10 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.thepanshu.diakart.R
-import com.thepanshu.diakart.adapters.CategoryAdapter
-import com.thepanshu.diakart.adapters.HomeGridProductAdapter
-import com.thepanshu.diakart.models.Product
+import com.thepanshu.diakart.adapters.GridProductAdapter
+import com.thepanshu.diakart.data.Product
 
-class AccountFragment : Fragment(), HomeGridProductAdapter.OnCategoryGridProductClickListener {
+class AccountFragment : Fragment(), GridProductAdapter.OnCategoryGridProductClickListener {
     private lateinit var gridCategoryList: ArrayList<Product>
     private val desc = "Chocolate is a preparation of roasted and ground cacao seeds that is made in the form of a liquid, paste, or in a block, which may also be used as a flavoring ingredient in other foods. The earliest signs of use are associated with Olmec sites (within what would become Mexico’s post-colonial territory) suggesting consumption of chocolate beverages, dating from the 19th century BC.[1][2] The majority of Mesoamerican people made chocolate beverages, including the Maya and Aztecs.[3] The English word \"chocolate\" comes, via Spanish, from the Classical Nahuatl word xocolātl.[4]\n" +
             "\n" +
@@ -41,7 +39,7 @@ class AccountFragment : Fragment(), HomeGridProductAdapter.OnCategoryGridProduct
         }
         val rvGrid = root.findViewById<RecyclerView>(R.id.home_category_grid_view)
         rvGrid.layoutManager = GridLayoutManager(activity, 1, GridLayoutManager.HORIZONTAL, false)
-        rvGrid.adapter = HomeGridProductAdapter(gridCategoryList, this)
+        rvGrid.adapter = GridProductAdapter(gridCategoryList, this)
         return root
     }
 

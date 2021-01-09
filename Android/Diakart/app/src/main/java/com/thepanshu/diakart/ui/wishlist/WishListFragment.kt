@@ -8,13 +8,12 @@ import android.widget.ProgressBar
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.adapters.ProductsListAdapter
-import com.thepanshu.diakart.models.Product
+import com.thepanshu.diakart.data.Product
 
 class WishListFragment : Fragment(), ProductsListAdapter.OnProductClickListener  {
 

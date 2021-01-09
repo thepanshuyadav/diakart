@@ -1,8 +1,6 @@
 package com.thepanshu.diakart.ui
 
 import android.content.Intent
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,8 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.adapters.ImageListAdapter
-import com.thepanshu.diakart.models.Product
-import kotlinx.android.synthetic.main.account_fragment.*
+import com.thepanshu.diakart.data.Product
 
 class ProductDetailFragment : Fragment() {
     private lateinit var product: Product
@@ -50,7 +47,7 @@ class ProductDetailFragment : Fragment() {
         view.findViewById<TextView>(R.id.specific_product_quantity).text = " (${product.quantity})"
 
         val ratingBar = view.findViewById<RatingBar>(R.id.product_ratingBar)
-        ratingBar.setOnRatingBarChangeListener { ratingBar, fl, b ->
+        ratingBar.setOnRatingBarChangeListener { _, _, _ ->
             Toast.makeText(context, "Rating = ${ratingBar.rating.toInt()}", Toast.LENGTH_SHORT).show()
         }
 

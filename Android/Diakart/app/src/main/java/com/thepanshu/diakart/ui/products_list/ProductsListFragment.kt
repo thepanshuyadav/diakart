@@ -15,8 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.adapters.ProductsListAdapter
-import com.thepanshu.diakart.models.Product
-import com.thepanshu.diakart.ui.wishlist.WishListViewModel
+import com.thepanshu.diakart.data.Product
 
 class ProductsListFragment : Fragment(), ProductsListAdapter.OnProductClickListener {
     private lateinit var category: String

@@ -1,10 +1,9 @@
 package com.thepanshu.diakart.ui.products_list
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.thepanshu.diakart.R
-import com.thepanshu.diakart.models.Product
+import com.thepanshu.diakart.data.Product
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.concurrent.schedule

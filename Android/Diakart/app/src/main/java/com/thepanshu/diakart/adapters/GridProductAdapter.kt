@@ -8,12 +8,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.thepanshu.diakart.R
-import com.thepanshu.diakart.models.Product
+import com.thepanshu.diakart.data.Product
 
-class HomeGridProductAdapter (
-    private val categoryProductList: ArrayList<Product>,
-    private val listener: HomeGridProductAdapter.OnCategoryGridProductClickListener
-        ): RecyclerView.Adapter<HomeGridProductAdapter.CategoryProductViewHolder>() {
+class GridProductAdapter (
+        private val categoryProductList: ArrayList<Product>,
+        private val listener: OnCategoryGridProductClickListener
+        ): RecyclerView.Adapter<GridProductAdapter.CategoryProductViewHolder>() {
 
     inner class CategoryProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         private val productImageView: ImageView = itemView.findViewById(R.id.grid_product_image)
@@ -54,19 +54,6 @@ class HomeGridProductAdapter (
     }
 
     override fun onBindViewHolder(holder: CategoryProductViewHolder, position: Int) {
-//        Picasso.get()
-//            .load(categoryList[position].categoryImageLink)
-//            .into(holder.categoryImageView, object: com.squareup.picasso.Callback {
-//                override fun onSuccess() {
-//                    //set animations here
-//                }
-//
-//                override fun onError(e: java.lang.Exception?) {
-//                    //do smth when there is picture loading error
-//                }
-//            })
-
-        //holder.setCategoryName(categoryList[position].categoryName)
         holder.setProductImage(categoryProductList[position].product_images[0])
         holder.setProductTitle(categoryProductList[position].product_name)
         holder.setProductSubtitle(categoryProductList[position].price)

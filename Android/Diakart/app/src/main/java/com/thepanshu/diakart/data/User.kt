@@ -1,4 +1,4 @@
-package com.thepanshu.diakart.models
+package com.thepanshu.diakart.data
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

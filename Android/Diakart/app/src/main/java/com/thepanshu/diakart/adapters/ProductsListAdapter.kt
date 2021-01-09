@@ -8,17 +8,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
 import com.thepanshu.diakart.R
-import com.thepanshu.diakart.models.Product
-import com.thepanshu.diakart.ui.wishlist.WishListFragment
+import com.thepanshu.diakart.data.Product
 
 
 class ProductsListAdapter(
-    private val productsList: LiveData<List<Product>>,
-    private val listener: OnProductClickListener
+        private val productsList: LiveData<List<Product>>,
+        private val listener: OnProductClickListener
 ):
     RecyclerView.Adapter<ProductsListAdapter.ProductsListViewHolder>() {
 

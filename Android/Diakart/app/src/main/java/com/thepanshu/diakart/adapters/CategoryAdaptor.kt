@@ -1,24 +1,28 @@
 package com.thepanshu.diakart.adapters
 
+import android.app.Activity
 import android.content.Context
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
+import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import com.thepanshu.diakart.R
-import com.thepanshu.diakart.models.Category
+import com.thepanshu.diakart.data.Category
 
 class CategoryAdapter (
-    private val categoryList: ArrayList<Category>,
-    private val listener: OnCategoryClickListener
+        private val activity: Activity,
+        private val categoryList: ArrayList<Category>,
+        private val listener: OnCategoryClickListener
 ): RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
     inner class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        val categoryImageView: ImageView = itemView.findViewById(R.id.category_icon_image)
-        val categoryNameTextView = itemView.findViewById<TextView>(R.id.category_name_tv)
+        private val categoryImageView: ImageView = itemView.findViewById(R.id.category_icon_image)
+        private val categoryNameTextView = itemView.findViewById<TextView>(R.id.category_name_tv)
         init {
             itemView.setOnClickListener(this)
         }
@@ -28,6 +32,10 @@ class CategoryAdapter (
             if(position != RecyclerView.NO_POSITION) {
                 listener.onCategoryClick(position)
             }
+        }
+
+        fun setCategoryIcon(categoryIcon: Uri, ) {
+            GlideToVectorYou.justLoadImage(activity, categoryIcon, categoryImageView)
         }
 
         fun setCategoryName(categoryName: String) {
@@ -46,19 +54,11 @@ class CategoryAdapter (
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-//        Picasso.get()
-//            .load(categoryList[position].categoryImageLink)
-//            .into(holder.categoryImageView, object: com.squareup.picasso.Callback {
-//                override fun onSuccess() {
-//                    //set animations here
-//                }
-//
-//                override fun onError(e: java.lang.Exception?) {
-//                    //do smth when there is picture loading error
-//                }
-//            })
+        val imageUri = categoryList[position].icon.toUri()
+        holder.setCategoryIcon(imageUri)
 
-        holder.setCategoryName(categoryList[position].categoryName)
+
+        holder.setCategoryName(categoryList[position].title)
 
     }
 
