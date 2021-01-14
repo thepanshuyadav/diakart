@@ -15,5 +15,5 @@ data class ProductDetailModel(
         //var product_images: ArrayList<Int> = ArrayList(),
         var links: ArrayList<String> = arrayListOf("www.google.com", "www.google.com"),
         var description: String = "",
-        var ratings: ArrayList<Int> = ArrayList()
+        var rating: ArrayList<Int> = ArrayList()
 ) : Parcelable

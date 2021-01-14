@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/main_search_icon"
-        android:orderInCategory="100"
-        android:icon="@drawable/ic_baseline_search_24"
-        app:showAsAction="always"
-        android:title="Search" />
+
 
     <item
         android:id="@+id/main_notif_icon"
@@ -14,4 +9,10 @@
         android:title="Notifications"
         android:icon="@drawable/ic_baseline_notifications_24"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/main_share_icon"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_baseline_share_24"
+        app:showAsAction="always"
+        android:title="Share" />
 </menu>

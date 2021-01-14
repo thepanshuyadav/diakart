@@ -152,10 +152,12 @@ class SignInFragment : Fragment() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
+
                     Log.d(TAG, "signInWithCredential:success")
                     val user = auth.currentUser
                     val name = user!!.displayName
                     val uuid = user.uid
+                    val email = user.email
                     val profilePic = user.photoUrl.toString()
 
                     // TODO: Send to firebase
@@ -165,9 +167,10 @@ class SignInFragment : Fragment() {
                         .addOnSuccessListener { document ->
                             if (!document.exists()) {
                                 val userFb = hashMapOf(
-                                    "name" to name,
-                                    "uuid" to uuid,
-                                    "profile_pic" to profilePic
+                                        "name" to name,
+                                        "uuid" to uuid,
+                                        "email" to email,
+                                        "profile_pic" to profilePic
                                 )
                                 db.collection("USERS").document(user.uid)
                                     .set(userFb)
@@ -188,6 +191,11 @@ class SignInFragment : Fragment() {
                                             Toast.makeText(activity, error, Toast.LENGTH_LONG).show()
                                         }
                                     }
+                            }
+                            else {
+                                val intent = Intent(activity, MainActivity::class.java)
+                                startActivity(intent)
+                                requireActivity().finish()
                             }
                         }
                         .addOnFailureListener { exception ->

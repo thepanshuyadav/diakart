@@ -18,16 +18,12 @@
             android:title="@string/menu_account" />
 
     </group>
-    <item
-        android:id="@+id/nav_sign_out"
-        android:icon="@drawable/ic_baseline_signout_24"
-        android:title="@string/sign_out" />
-    <item android:title="@string/support">
-        <menu>
-            <item
-                android:title="@string/menu_share"
-                android:id="@+id/main_share"
-                android:icon="@drawable/ic_baseline_share_24"/>
-        </menu>
-    </item>
+<!--    <item-->
+<!--        android:id="@+id/nav_sign_out"-->
+<!--        android:icon="@drawable/ic_baseline_signout_24"-->
+<!--        android:title="@string/sign_out" />-->
+<!--    <item-->
+<!--        android:title="@string/menu_share"-->
+<!--        android:id="@+id/main_share"-->
+<!--        android:icon="@drawable/ic_baseline_share_24"/>-->
 </menu>

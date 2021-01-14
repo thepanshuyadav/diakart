@@ -1,18 +1,28 @@
 package com.thepanshu.diakart.ui.account
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
+import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYouListener
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.squareup.picasso.Picasso
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.adapters.GridProductAdapter
 import com.thepanshu.diakart.authenticate.RegisterActivity
@@ -41,16 +51,30 @@ class AccountFragment : Fragment(), GridProductAdapter.OnCategoryGridProductClic
             val navController = view?.let { Navigation.findNavController(it) }
             navController?.navigate(R.id.action_nav_account_to_nav_wishlist)
         }
-        val rvGrid = root.findViewById<RecyclerView>(R.id.home_category_grid_view)
-        rvGrid.layoutManager = GridLayoutManager(activity, 1, GridLayoutManager.HORIZONTAL, false)
-        rvGrid.adapter = GridProductAdapter(gridCategoryList, this)
-        return root
-    }
+        val usernameTv = root.findViewById<TextView>(R.id.username_tv)
+        val userEmailTv = root.findViewById<TextView>(R.id.user_email_tv)
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        //viewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
-        // TODO: Use the ViewModel
+//        val rvGrid = root.findViewById<RecyclerView>(R.id.home_category_grid_view)
+        val profileImage = root.findViewById<ImageView>(R.id.profile_pic_img)
+        val user = Firebase.auth.currentUser
+        val db = Firebase.firestore
+        val docRef = db.collection("USERS").document(user!!.uid)
+        docRef.get().addOnSuccessListener {
+            if (it != null) {
+
+                Log.d("PHOTO", "DocumentSnapshot data: ${it.data}")
+                usernameTv.text = it.data?.get("name").toString()
+                userEmailTv.text = it.data?.get("email").toString()
+                val imageSrc = it.data?.get("profile_pic").toString()
+                Picasso.get().load(imageSrc).into(profileImage)
+
+            } else {
+                //Log.d(TAG, "No such document")
+            }
+        }
+//        rvGrid.layoutManager = GridLayoutManager(activity, 1, GridLayoutManager.HORIZONTAL, false)
+//        rvGrid.adapter = GridProductAdapter(gridCategoryList, this)
+        return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,44 +90,6 @@ class AccountFragment : Fragment(), GridProductAdapter.OnCategoryGridProductClic
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        gridCategoryList = ArrayList()
-        val productImages = arrayListOf(R.drawable.ic_baseline_favorite_24, R.drawable.ic_baseline_favorite_24, R.drawable.ic_baseline_favorite_24, R.drawable.ic_baseline_favorite_24)
-        gridCategoryList.add(
-                Product(1, "Almond Chocolate", "50g", 50,
-                        "Dairy Milk", "Chocolate", product_images = productImages,
-                        "https://www.flipkart.com", desc)
-        )
-        gridCategoryList.add(
-                Product(1, "Almond Chocolate", "50g", 50,
-                        "Dairy Milk", "Chocolate", product_images = productImages,
-                        "https://www.flipkart.com", desc)
-        )
-        gridCategoryList.add(
-                Product(1, "Almond Chocolate", "50g", 50,
-                        "Dairy Milk", "Chocolate", product_images = productImages,
-                        "https://www.flipkart.com", desc)
-        )
-        gridCategoryList.add(
-                Product(1, "Almond Chocolate", "50g", 50,
-                        "Dairy Milk", "Chocolate", product_images = productImages,
-                        "https://www.flipkart.com", desc)
-        )
-        gridCategoryList.add(
-                Product(1, "Almond Chocolate", "50g", 50,
-                        "Dairy Milk", "Chocolate", product_images = productImages,
-                        "https://www.flipkart.com", desc)
-        )
-        gridCategoryList.add(
-                Product(1, "Almond Chocolate", "50g", 50,
-                        "Dairy Milk", "Chocolate", product_images = productImages,
-                        "https://www.flipkart.com", desc)
-        )
-
-        gridCategoryList.add(
-                Product(1, "Almond Chocolate", "50g", 50,
-                        "Dairy Milk", "Chocolate", product_images = productImages,
-                        "https://www.flipkart.com", desc)
-        )
     }
 
     override fun onCategoryGridProductClick(position: Int) {

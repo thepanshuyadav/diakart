@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.data.Product
+import com.thepanshu.diakart.models.ProductDetailModel
 
 class GridProductAdapter (
         private val categoryProductList: ArrayList<Product>,

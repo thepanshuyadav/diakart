@@ -122,6 +122,7 @@ class SignUpFragment : Fragment() {
                             val user = hashMapOf(
                                     "name" to name.text.toString(),
                                     "uuid" to task.result!!.user!!.uid,
+                                    "email" to email.text.toString(),
                                     "profile_pic" to "https://firebasestorage.googleapis.com/v0/b/diakart.appspot.com/o/res%2Fdefault_user_avatar.png?alt=media&token=3d84a23a-a3e1-4a63-93b5-af0a4b601a44"
                             )
 

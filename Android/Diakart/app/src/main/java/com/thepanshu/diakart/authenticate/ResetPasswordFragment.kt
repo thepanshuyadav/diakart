@@ -1,18 +1,20 @@
 package com.thepanshu.diakart.authenticate
 
+import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.FrameLayout
-import android.widget.ProgressBar
-import android.widget.Toast
+import android.widget.*
 import androidx.core.widget.addTextChangedListener
+import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.squareup.picasso.Picasso
 import com.thepanshu.diakart.R
 
 class ResetPasswordFragment : Fragment() {
@@ -35,8 +37,13 @@ class ResetPasswordFragment : Fragment() {
         resetButton = view.findViewById(R.id.reset_button)
         backButton = view.findViewById(R.id.back_button)
         progressBar = view.findViewById(R.id.resetPassProgressBar)
-        frag_container = activity!!.findViewById(R.id.register_container)
+        frag_container = requireActivity().findViewById(R.id.register_container)
         firebaseAuth = FirebaseAuth.getInstance()
+        val resetPassImageView = view.findViewById<ImageView>(R.id.forgot_image)
+        val imageLink = "https://firebasestorage.googleapis.com/v0/b/diakart.appspot.com/o/res%2Fundraw_my_password_d6kg.svg?alt=media&token=0886d8ad-974f-432f-8a87-19bab1fa73b3"
+        GlideToVectorYou.justLoadImage(activity, Uri.parse(imageLink), resetPassImageView)
+        //Picasso.get().load(imageLink).into(resetPassImageView)
+
         return view
     }
 
@@ -56,7 +63,7 @@ class ResetPasswordFragment : Fragment() {
                 .addOnCompleteListener {
                     if(it.isSuccessful) {
                         // TODO: Show alert
-                        Toast.makeText(activity, "Check your Email", Toast.LENGTH_LONG).show()
+                        Toast.makeText(activity, "Check your Email for reset link", Toast.LENGTH_LONG).show()
                     }
                     else {
                         val err = it.exception!!.message
@@ -73,7 +80,7 @@ class ResetPasswordFragment : Fragment() {
         }
     }
     private fun setFragment(fragment: Fragment) {
-        val fragmentTransaction = activity!!.supportFragmentManager.beginTransaction()
+        val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
         fragmentTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right)
         fragmentTransaction.replace(frag_container.id, fragment)
         fragmentTransaction.commit()
