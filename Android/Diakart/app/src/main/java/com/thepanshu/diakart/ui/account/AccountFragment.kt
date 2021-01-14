@@ -1,19 +1,23 @@
 package com.thepanshu.diakart.ui.account
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.adapters.GridProductAdapter
+import com.thepanshu.diakart.authenticate.RegisterActivity
 import com.thepanshu.diakart.data.Product
+
 
 class AccountFragment : Fragment(), GridProductAdapter.OnCategoryGridProductClickListener {
     private lateinit var gridCategoryList: ArrayList<Product>
@@ -49,44 +53,55 @@ class AccountFragment : Fragment(), GridProductAdapter.OnCategoryGridProductClic
         // TODO: Use the ViewModel
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val signOutButton = view.findViewById<Button>(R.id.signout_btn)
+        signOutButton.setOnClickListener {
+            val auth = FirebaseAuth.getInstance()
+            auth.signOut()
+            startActivity(Intent(activity, RegisterActivity::class.java))
+            requireActivity().finish()
+        }
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         gridCategoryList = ArrayList()
-        val productImages = arrayListOf(R.drawable.ic_baseline_favorite_24, R.drawable.ic_baseline_favorite_24, R.drawable.ic_baseline_favorite_24,R.drawable.ic_baseline_favorite_24)
+        val productImages = arrayListOf(R.drawable.ic_baseline_favorite_24, R.drawable.ic_baseline_favorite_24, R.drawable.ic_baseline_favorite_24, R.drawable.ic_baseline_favorite_24)
         gridCategoryList.add(
-                Product(1, "Almond Chocolate","50g", 50,
-                        "Dairy Milk", "Chocolate",product_images = productImages,
+                Product(1, "Almond Chocolate", "50g", 50,
+                        "Dairy Milk", "Chocolate", product_images = productImages,
                         "https://www.flipkart.com", desc)
         )
         gridCategoryList.add(
-                Product(1, "Almond Chocolate","50g", 50,
-                        "Dairy Milk", "Chocolate",product_images = productImages,
+                Product(1, "Almond Chocolate", "50g", 50,
+                        "Dairy Milk", "Chocolate", product_images = productImages,
                         "https://www.flipkart.com", desc)
         )
         gridCategoryList.add(
-                Product(1, "Almond Chocolate","50g", 50,
-                        "Dairy Milk", "Chocolate",product_images = productImages,
+                Product(1, "Almond Chocolate", "50g", 50,
+                        "Dairy Milk", "Chocolate", product_images = productImages,
                         "https://www.flipkart.com", desc)
         )
         gridCategoryList.add(
-                Product(1, "Almond Chocolate","50g", 50,
-                        "Dairy Milk", "Chocolate",product_images = productImages,
+                Product(1, "Almond Chocolate", "50g", 50,
+                        "Dairy Milk", "Chocolate", product_images = productImages,
                         "https://www.flipkart.com", desc)
         )
         gridCategoryList.add(
-                Product(1, "Almond Chocolate","50g", 50,
-                        "Dairy Milk", "Chocolate",product_images = productImages,
+                Product(1, "Almond Chocolate", "50g", 50,
+                        "Dairy Milk", "Chocolate", product_images = productImages,
                         "https://www.flipkart.com", desc)
         )
         gridCategoryList.add(
-                Product(1, "Almond Chocolate","50g", 50,
-                        "Dairy Milk", "Chocolate",product_images = productImages,
+                Product(1, "Almond Chocolate", "50g", 50,
+                        "Dairy Milk", "Chocolate", product_images = productImages,
                         "https://www.flipkart.com", desc)
         )
 
         gridCategoryList.add(
-                Product(1, "Almond Chocolate","50g", 50,
-                        "Dairy Milk", "Chocolate",product_images = productImages,
+                Product(1, "Almond Chocolate", "50g", 50,
+                        "Dairy Milk", "Chocolate", product_images = productImages,
                         "https://www.flipkart.com", desc)
         )
     }

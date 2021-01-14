@@ -15,6 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.thepanshu.diakart.MainActivity
 import com.thepanshu.diakart.R
 import java.util.*
+import kotlin.collections.ArrayList
 
 class SignUpFragment : Fragment() {
 
@@ -52,7 +53,7 @@ class SignUpFragment : Fragment() {
         progressBar = view.findViewById(R.id.signUpProgressBar)
         progressBar.visibility = View.INVISIBLE
 
-        frag_container = activity!!.findViewById(R.id.register_container)
+        frag_container = requireActivity().findViewById(R.id.register_container)
 
         firebaseAuth = FirebaseAuth.getInstance()
         firebaseFirestore = FirebaseFirestore.getInstance()
@@ -82,12 +83,12 @@ class SignUpFragment : Fragment() {
         closeButton.setOnClickListener {
             val intent = Intent(activity, MainActivity::class.java)
             startActivity(intent)
-            activity!!.finish()
+            requireActivity().finish()
         }
     }
 
     private fun setFragment(fragment: Fragment) {
-        val fragmentTransaction = activity!!.supportFragmentManager.beginTransaction()
+        val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
         fragmentTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right)
         fragmentTransaction.replace(frag_container.id, fragment)
         fragmentTransaction.commit()
@@ -114,32 +115,37 @@ class SignUpFragment : Fragment() {
             progressBar.visibility = View.VISIBLE
             closeButton.isEnabled = false
             firebaseAuth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
-                    .addOnCompleteListener {
-                        if (it.isSuccessful) {
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
 
-                            val userData = HashMap<Any, String>()
-                            userData["name"] = name.text.toString()
+
+                            val user = hashMapOf(
+                                    "name" to name.text.toString(),
+                                    "uuid" to task.result!!.user!!.uid,
+                                    "profile_pic" to "https://firebasestorage.googleapis.com/v0/b/diakart.appspot.com/o/res%2Fdefault_user_avatar.png?alt=media&token=3d84a23a-a3e1-4a63-93b5-af0a4b601a44"
+                            )
 
                             firebaseFirestore.collection("USERS")
-                                .add(userData)
-                                .addOnCompleteListener {
-                                    if(it.isSuccessful) {
-                                        val intent = Intent(activity, MainActivity::class.java)
-                                        startActivity(intent)
-                                        activity!!.finish()
+                                    .document(task.result!!.user!!.uid)
+                                    .set(user)
+                                    .addOnCompleteListener {
+                                        if(it.isSuccessful) {
+                                            val intent = Intent(activity, MainActivity::class.java)
+                                            startActivity(intent)
+                                            requireActivity().finish()
+                                        }
+                                        else {
+                                            progressBar.visibility = View.INVISIBLE
+                                            signUpButton.isEnabled = true
+                                            closeButton.isEnabled = true
+                                            val error = it.exception!!.message
+                                            Toast.makeText(activity, error, Toast.LENGTH_LONG).show()
+                                        }
                                     }
-                                    else {
-                                        progressBar.visibility = View.INVISIBLE
-                                        signUpButton.isEnabled = true
-                                        closeButton.isEnabled = true
-                                        val error = it.exception!!.message
-                                        Toast.makeText(activity, error, Toast.LENGTH_LONG).show()
-                                    }
-                                }
                         } else {
                             progressBar.visibility = View.INVISIBLE
                             signUpButton.isEnabled = true
-                            val error = it.exception!!.message
+                            val error = task.exception!!.message
                             Toast.makeText(activity, error, Toast.LENGTH_LONG).show()
                         }
                     }
