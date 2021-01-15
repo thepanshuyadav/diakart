@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.data.Product
 import com.thepanshu.diakart.models.ProductDetailModel
 
 class GridProductAdapter (
-        private val categoryProductList: ArrayList<Product>,
+        private val categoryProductList: ArrayList<ProductDetailModel>,
         private val listener: OnCategoryGridProductClickListener
         ): RecyclerView.Adapter<GridProductAdapter.CategoryProductViewHolder>() {
 
@@ -31,8 +32,9 @@ class GridProductAdapter (
         fun setProductSubtitle(productSubtitle: Int) {
             productSubtitleTv.text = productSubtitle.toString()
         }
-        fun setProductImage(productResId:Int) {
-            productImageView.setImageResource(productResId)
+        fun setProductImage(productImageLink: String) {
+            Picasso.get().load(productImageLink).into(productImageView)
+            //productImageView.setImageResource(productResId)
         }
 
         override fun onClick(p0: View?) {
@@ -55,9 +57,9 @@ class GridProductAdapter (
     }
 
     override fun onBindViewHolder(holder: CategoryProductViewHolder, position: Int) {
-        holder.setProductImage(categoryProductList[position].product_images[0])
-        holder.setProductTitle(categoryProductList[position].product_name)
-        holder.setProductSubtitle(categoryProductList[position].price)
+        holder.setProductImage(categoryProductList[position].images[0])
+        holder.setProductTitle(categoryProductList[position].name)
+        holder.setProductSubtitle(categoryProductList[position].mrp)
 
     }
 

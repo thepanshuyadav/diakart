@@ -13,6 +13,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,8 +28,10 @@ import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.adapters.GridProductAdapter
+import com.thepanshu.diakart.adapters.ProductsListAdapter
 import com.thepanshu.diakart.authenticate.RegisterActivity
 import com.thepanshu.diakart.data.Product
+import com.thepanshu.diakart.models.UserModel
 
 
 class AccountFragment : Fragment(), GridProductAdapter.OnCategoryGridProductClickListener {
@@ -40,38 +45,33 @@ class AccountFragment : Fragment(), GridProductAdapter.OnCategoryGridProductClic
     }
 
     private lateinit var viewModel: AccountViewModel
+    //private var userDao= MutableLiveData<UserModel>()
+    private lateinit  var user:UserModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         var root = inflater.inflate(R.layout.account_fragment, container, false)
-        val wishListGrid = root.findViewById<TextView>(R.id.grid_category_title)
-        wishListGrid.text = "My Wish List"
-        val openWishListButton = root.findViewById<Button>(R.id.view_all_btn)
-        openWishListButton.setOnClickListener {
-            val navController = view?.let { Navigation.findNavController(it) }
-            navController?.navigate(R.id.action_nav_account_to_nav_wishlist)
-        }
+        viewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
+
+//        val wishListGrid = root.findViewById<TextView>(R.id.grid_category_title)
+//        wishListGrid.text = "My Wish List"
+//        val openWishListButton = root.findViewById<Button>(R.id.view_all_btn)
+//        openWishListButton.setOnClickListener {
+//            val navController = view?.let { Navigation.findNavController(it) }
+//            navController?.navigate(R.id.action_nav_account_to_nav_wishlist)
+//        }
         val usernameTv = root.findViewById<TextView>(R.id.username_tv)
         val userEmailTv = root.findViewById<TextView>(R.id.user_email_tv)
-
-//        val rvGrid = root.findViewById<RecyclerView>(R.id.home_category_grid_view)
         val profileImage = root.findViewById<ImageView>(R.id.profile_pic_img)
-        val user = Firebase.auth.currentUser
-        val db = Firebase.firestore
-        val docRef = db.collection("USERS").document(user!!.uid)
-        docRef.get().addOnSuccessListener {
-            if (it != null) {
-
-                Log.d("PHOTO", "DocumentSnapshot data: ${it.data}")
-                usernameTv.text = it.data?.get("name").toString()
-                userEmailTv.text = it.data?.get("email").toString()
-                val imageSrc = it.data?.get("profile_pic").toString()
-                Picasso.get().load(imageSrc).into(profileImage)
-
-            } else {
-                //Log.d(TAG, "No such document")
-            }
-        }
+        viewModel.getUserDetail().observe(viewLifecycleOwner, Observer<UserModel> {
+            //progressBar.visibility = View.VISIBLE
+            user = it
+            usernameTv.text = user.name
+            userEmailTv.text = user.email
+            Picasso.get().load(user.profile_pic).into(profileImage)
+            //progressBar.visibility = View.GONE
+        })
+        //        val rvGrid = root.findViewById<RecyclerView>(R.id.home_category_grid_view)
 //        rvGrid.layoutManager = GridLayoutManager(activity, 1, GridLayoutManager.HORIZONTAL, false)
 //        rvGrid.adapter = GridProductAdapter(gridCategoryList, this)
         return root

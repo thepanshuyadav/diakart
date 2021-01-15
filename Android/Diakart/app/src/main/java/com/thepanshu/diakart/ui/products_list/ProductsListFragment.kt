@@ -13,16 +13,19 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.DocumentReference
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.adapters.ProductsListAdapter
 import com.thepanshu.diakart.data.Product
+import com.thepanshu.diakart.models.CategoryModel
+import com.thepanshu.diakart.models.ProductDetailModel
 
 class ProductsListFragment : Fragment(), ProductsListAdapter.OnProductClickListener {
     private lateinit var category: String
+    lateinit var productListRef: DocumentReference
     private lateinit var productsListViewModel: ProductsListViewModel
-    private var data= MutableLiveData<List<Product>>()
-    private lateinit  var da:List<Product>
-//    private var isAnimating = false
+    private var data= MutableLiveData<List<ProductDetailModel>>()
+    private lateinit  var da:List<ProductDetailModel>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,11 +39,11 @@ class ProductsListFragment : Fragment(), ProductsListAdapter.OnProductClickListe
         val progressBar = rootView.findViewById<ProgressBar>(R.id.products_list_progress_bar)
         rvProducts.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
 
-        productsListViewModel.getProductsList().observe(viewLifecycleOwner, Observer<List<Product>> {
+        productsListViewModel.getProductsList(productListRef).observe(viewLifecycleOwner, Observer<List<ProductDetailModel>> {
             progressBar.visibility = View.VISIBLE
             data.value = it
             da=it
-            rvProducts.adapter = ProductsListAdapter(data, this)
+            rvProducts.adapter = ProductsListAdapter(da, this)
             progressBar.visibility = View.GONE
         })
 
@@ -49,8 +52,15 @@ class ProductsListFragment : Fragment(), ProductsListAdapter.OnProductClickListe
     }
     override fun onProductClick(position: Int) {
         val bundle = bundleOf("product" to da[position])
-        val navController = view?.let { Navigation.findNavController(it) }
-        navController?.navigate(R.id.action_productsListFragment_to_productDetailFragment, bundle)
+//        val navController = view?.let { Navigation.findNavController(it) }
+//        navController?.navigate(R.id.action_productsListFragment_to_productDetailFragment, bundle)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if(arguments?.getParcelable<CategoryModel>("categoryProductsRef") != null){
+            productListRef = arguments?.getParcelable<CategoryModel>("categoryProductsRef")!!.productList
+        }
     }
 
 }

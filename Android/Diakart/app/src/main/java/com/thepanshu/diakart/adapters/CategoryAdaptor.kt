@@ -13,11 +13,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.data.Category
+import com.thepanshu.diakart.models.CategoryModel
 
 class CategoryAdapter (
-        private val activity: Activity,
-        private val categoryList: ArrayList<Category>,
-        private val listener: OnCategoryClickListener
+    private val activity: Activity,
+    private val categoryList: List<CategoryModel>,
+    private val listener: OnCategoryClickListener
 ): RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
     inner class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
@@ -34,7 +35,7 @@ class CategoryAdapter (
             }
         }
 
-        fun setCategoryIcon(categoryIcon: Uri, ) {
+        fun setCategoryIcon(categoryIcon: Uri) {
             GlideToVectorYou.justLoadImage(activity, categoryIcon, categoryImageView)
         }
 

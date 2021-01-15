@@ -2,6 +2,7 @@ package com.thepanshu.diakart.adapters
 
 
 import android.content.Context
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,12 +10,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
+import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
+import com.squareup.picasso.Picasso
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.data.Product
+import com.thepanshu.diakart.models.ProductDetailModel
 
 
 class ProductsListAdapter(
-        private val productsList: LiveData<List<Product>>,
+        private val productsList: List<ProductDetailModel>,
         private val listener: OnProductClickListener
 ):
     RecyclerView.Adapter<ProductsListAdapter.ProductsListViewHolder>() {
@@ -26,27 +30,15 @@ class ProductsListAdapter(
         return ProductsListViewHolder(view)
     }
 
-    override fun getItemCount(): Int  = productsList.value!!.size
+    override fun getItemCount(): Int  = productsList.size
 
     override fun onBindViewHolder(holder: ProductsListViewHolder, position: Int) {
-        holder.productNameTv.text = productsList.value!![position].product_name
-        holder.brandNameTv.text = productsList.value!![position].brand_name
-        holder.productQuantityTv.text = productsList.value!![position].quantity
-        holder.productPriceTv.text = productsList.value!![position].price.toString()
+        holder.productNameTv.text = productsList[position].name
+        holder.brandNameTv.text = productsList[position].brand
+        holder.productQuantityTv.text = productsList[position].quantity
+        holder.productPriceTv.text = productsList[position].mrp.toString()
+        holder.setProductImage(productsList[position].images[0])
         //TODO: Picasso to update  product image placeholder
-        // ERROR: Different shimmer size than object
-//        Picasso.get()
-//            .load(productsList[position].product_images[0])
-//            .into(holder.productListImageView, object: com.squareup.picasso.Callback {
-//                override fun onSuccess() {
-//                    //set animations here
-//                }
-//
-//                override fun onError(e: java.lang.Exception?) {
-//                    //do smth when there is picture loading error
-//                }
-//            })
-        holder.productListImageView.setImageResource(productsList.value!![position].product_images[0])
     }
 
     inner class ProductsListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
@@ -65,6 +57,10 @@ class ProductsListAdapter(
             if(position != RecyclerView.NO_POSITION) {
                 listener.onProductClick(position)
             }
+        }
+
+        fun setProductImage(imageSrc: String) {
+            Picasso.get().load(imageSrc).into(productListImageView)
         }
 
     }
