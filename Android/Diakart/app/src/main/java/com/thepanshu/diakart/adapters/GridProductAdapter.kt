@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.thepanshu.diakart.R
-import com.thepanshu.diakart.data.Product
 import com.thepanshu.diakart.models.ProductDetailModel
 
 class GridProductAdapter (

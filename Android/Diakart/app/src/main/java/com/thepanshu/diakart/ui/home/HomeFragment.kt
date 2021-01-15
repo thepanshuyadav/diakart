@@ -12,15 +12,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.adapters.*
-import com.thepanshu.diakart.data.Category
-import com.thepanshu.diakart.data.Product
 import com.thepanshu.diakart.models.CategoryModel
-import com.thepanshu.diakart.ui.account.AccountViewModel
-import kotlin.collections.ArrayList
+import com.thepanshu.diakart.models.ProductDetailModel
 
 class HomeFragment : Fragment(), CategoryAdapter.OnCategoryClickListener, GridProductAdapter.OnCategoryGridProductClickListener {
 
@@ -30,6 +25,7 @@ class HomeFragment : Fragment(), CategoryAdapter.OnCategoryClickListener, GridPr
     private lateinit var rvCategory: RecyclerView
     private lateinit var categoryList: List<CategoryModel>
     private lateinit var progressBar: ProgressBar
+    private lateinit var gridPreviewList: List<ProductDetailModel>
 
     private lateinit var homeViewModel: HomeViewModel
 
@@ -83,7 +79,7 @@ class HomeFragment : Fragment(), CategoryAdapter.OnCategoryClickListener, GridPr
     }
 
     override fun onCategoryGridProductClick(position: Int) {
-//        val bundle = bundleOf("product" to gridCategoryList[position])
+//        val bundle = bundleOf("product" to categoryList[position].preview[position])
 //        val navController = view?.let { Navigation.findNavController(it) }
 //        navController?.navigate(R.id.action_nav_home_to_productDetailFragment, bundle)
     }

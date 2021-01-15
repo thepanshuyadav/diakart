@@ -39,7 +39,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:background="@color/indigo_500"
-                app:srcCompat="@drawable/ic_baseline_shopping_cart_24" />
+                app:srcCompat="@drawable/ic_baseline_share_24" />
         </com.google.android.material.card.MaterialCardView>
 
 

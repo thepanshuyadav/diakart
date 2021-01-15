@@ -12,7 +12,6 @@ import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import com.thepanshu.diakart.R
-import com.thepanshu.diakart.data.Category
 import com.thepanshu.diakart.models.CategoryModel
 
 class CategoryAdapter (

@@ -75,7 +75,7 @@
     </fragment>
     <fragment
         android:id="@+id/productDetailFragment"
-        android:name="com.thepanshu.diakart.ui.ProductDetailFragment"
+        android:name="com.thepanshu.diakart.ui.product_detail.ProductDetailFragment"
         android:label="Item"
         tools:layout="@layout/fragment_product_detail" />
 </navigation>

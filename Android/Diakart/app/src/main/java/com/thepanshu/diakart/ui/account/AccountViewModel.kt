@@ -3,7 +3,6 @@ package com.thepanshu.diakart.ui.account
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.thepanshu.diakart.data.Product
 import com.thepanshu.diakart.models.UserModel
 import com.thepanshu.diakart.repository.FirebaseUserService
 import kotlinx.coroutines.launch

@@ -12,7 +12,6 @@ data class ProductDetailModel(
         var prices: ArrayList<Int> = ArrayList(),
         var brand: String = "",
         var images: ArrayList<String> = ArrayList(),
-        //var product_images: ArrayList<Int> = ArrayList(),
         var links: ArrayList<String> = arrayListOf("www.google.com", "www.google.com"),
         var description: String = "",
         var rating: ArrayList<Int> = ArrayList()

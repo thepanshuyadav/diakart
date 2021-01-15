@@ -2,7 +2,6 @@
 
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="75dp"
     android:layout_height="75dp"
     android:layout_marginEnd="6dp"
@@ -22,9 +21,10 @@
         <ImageView
             android:id="@+id/category_icon_image"
             android:layout_width="24dp"
+            android:scaleType="centerCrop"
             android:layout_height="24dp"
             android:layout_margin="8dp"
-            android:src="@drawable/ic_baseline_add_circle_24" />
+            android:src="@mipmap/ic_launcher_foreground" />
 
         <TextView
             android:id="@+id/category_name_tv"

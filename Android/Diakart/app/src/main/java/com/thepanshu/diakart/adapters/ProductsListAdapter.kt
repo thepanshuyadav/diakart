@@ -8,12 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
-import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import com.squareup.picasso.Picasso
 import com.thepanshu.diakart.R
-import com.thepanshu.diakart.data.Product
 import com.thepanshu.diakart.models.ProductDetailModel
 
 

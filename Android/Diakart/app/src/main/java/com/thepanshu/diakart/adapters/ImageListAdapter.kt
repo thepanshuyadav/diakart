@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import com.thepanshu.diakart.R
 
 class ImageListAdapter(
-    //private val productImageList: ArrayList<String>
-    private val productImageList: ArrayList<Int>)
+    private val productImageList: ArrayList<String>
+    //private val productImageList: List<Int>
+    )
     : RecyclerView.Adapter<ImageListAdapter.ImageViewHolder>() {
 
     inner class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -26,11 +28,11 @@ class ImageListAdapter(
     override fun getItemCount(): Int = productImageList.size
 
     override fun onBindViewHolder(holder: ImageListAdapter.ImageViewHolder, position: Int) {
-        holder.imageView.setImageResource(productImageList[position])
-//        Picasso.get()
-//            .load(productImageList[position])
-//            .placeholder(R.drawable.progress_animation)
-//            .into(holder.imageView)
+        //holder.imageView.setImageResource(productImageList[position])
+        Picasso.get()
+            .load(productImageList[position])
+            //.placeholder(R.drawable.progress_animation)
+            .into(holder.imageView)
     }
 
 }

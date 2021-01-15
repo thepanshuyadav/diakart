@@ -1,34 +1,22 @@
 package com.thepanshu.diakart.ui.account
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
-import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYouListener
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.adapters.GridProductAdapter
-import com.thepanshu.diakart.adapters.ProductsListAdapter
 import com.thepanshu.diakart.authenticate.RegisterActivity
 import com.thepanshu.diakart.data.Product
 import com.thepanshu.diakart.models.UserModel
@@ -45,7 +33,6 @@ class AccountFragment : Fragment(), GridProductAdapter.OnCategoryGridProductClic
     }
 
     private lateinit var viewModel: AccountViewModel
-    //private var userDao= MutableLiveData<UserModel>()
     private lateinit  var user:UserModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

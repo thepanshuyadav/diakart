@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.DocumentReference
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.adapters.ProductsListAdapter
-import com.thepanshu.diakart.data.Product
 import com.thepanshu.diakart.models.CategoryModel
 import com.thepanshu.diakart.models.ProductDetailModel
 
@@ -52,8 +51,8 @@ class ProductsListFragment : Fragment(), ProductsListAdapter.OnProductClickListe
     }
     override fun onProductClick(position: Int) {
         val bundle = bundleOf("product" to da[position])
-//        val navController = view?.let { Navigation.findNavController(it) }
-//        navController?.navigate(R.id.action_productsListFragment_to_productDetailFragment, bundle)
+        val navController = view?.let { Navigation.findNavController(it) }
+        navController?.navigate(R.id.action_productsListFragment_to_productDetailFragment, bundle)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
