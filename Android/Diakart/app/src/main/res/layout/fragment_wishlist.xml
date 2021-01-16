@@ -15,8 +15,8 @@
         android:indeterminate="true"
         android:layout_height="wrap_content" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:id="@+id/wish_list_rv"
-        android:layout_height="match_parent"/>
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:id="@+id/wish_list_rv"-->
+<!--        android:layout_height="match_parent"/>-->
 </LinearLayout>

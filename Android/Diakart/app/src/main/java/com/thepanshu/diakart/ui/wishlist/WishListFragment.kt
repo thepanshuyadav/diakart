@@ -31,16 +31,6 @@ class WishListFragment : Fragment(), ProductsListAdapter.OnProductClickListener 
         wishListViewModel =
                 ViewModelProvider(this).get(WishListViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_wishlist, container, false)
-//        val wishListRecyclerView: RecyclerView = root.findViewById(R.id.wish_list_rv)
-//        val progressBar = root.findViewById<ProgressBar>(R.id.wishlist_progressBar)
-//
-//        wishListViewModel.getWishList().observe(viewLifecycleOwner,  {
-//            progressBar.visibility = View.VISIBLE
-//            data.value = it
-//            da=it
-//            wishListRecyclerView.adapter= ProductsListAdapter(da, this)
-//            progressBar.visibility = View.INVISIBLE
-//        })
 
         return root
     }

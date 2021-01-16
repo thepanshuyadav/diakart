@@ -7,6 +7,7 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.thepanshu.diakart.models.CategoryModel
 import com.thepanshu.diakart.models.ProductDetailModel
+import com.thepanshu.diakart.models.SliderModel
 import kotlinx.coroutines.tasks.await
 
 object FirebaseListingsService {
@@ -59,13 +60,35 @@ object FirebaseListingsService {
         }
     }
 
+    suspend fun getBannerList(): ArrayList<SliderModel>? {
+        try {
+            val bannerDocList = db.collection("HOME_BANNER").get().await().documents
+
+            val bannerList = ArrayList<SliderModel>()
+            bannerDocList.forEach { doc ->
+                val banner = doc.toObject(SliderModel::class.java)
+                if(banner != null) {
+                    bannerList.add(banner)
+                }
+
+            }
+            return bannerList
+        } catch (e: Exception) {
+            Log.e(TAG, "Error getting banner", e)
+            FirebaseCrashlytics.getInstance().log("Error getting banner")
+            FirebaseCrashlytics.getInstance().setCustomKey("banner", TAG)
+            FirebaseCrashlytics.getInstance().recordException(e)
+            return null
+        }
+    }
+
     suspend fun getProductDetail(reference: DocumentReference): ProductDetailModel? {
         return try {
             reference.get().await().toObject(ProductDetailModel::class.java)
         } catch (e: Exception) {
-            Log.e(TAG, "Error getting user details", e)
-            FirebaseCrashlytics.getInstance().log("Error getting user details")
-            FirebaseCrashlytics.getInstance().setCustomKey("user", TAG)
+            Log.e(TAG, "Error getting product details", e)
+            FirebaseCrashlytics.getInstance().log("Error getting product details")
+            FirebaseCrashlytics.getInstance().setCustomKey("PRODUCT", TAG)
             FirebaseCrashlytics.getInstance().recordException(e)
             null
         }
