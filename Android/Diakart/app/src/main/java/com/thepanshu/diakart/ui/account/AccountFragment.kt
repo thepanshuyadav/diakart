@@ -79,10 +79,9 @@ class AccountFragment : Fragment(), GridProductAdapter.OnCategoryGridProductClic
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCategoryGridProductClick(position: Int) {
-        val bundle = bundleOf("product" to gridCategoryList[position])
-        val navController = view?.let { Navigation.findNavController(it) }
-        navController?.navigate(R.id.action_nav_account_to_productDetailFragment, bundle)
+
+    override fun onCategoryGridProductClick(gridIdx: Int, position: Int) {
+        //TODO("Not yet implemented")
     }
 
 }

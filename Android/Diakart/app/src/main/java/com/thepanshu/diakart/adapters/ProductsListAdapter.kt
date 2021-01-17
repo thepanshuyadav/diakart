@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import com.thepanshu.diakart.R
@@ -44,6 +46,7 @@ class ProductsListAdapter(
         val productPriceTv: TextView = itemView.findViewById(R.id.product_price_tv)
         val productQuantityTv: TextView = itemView.findViewById(R.id.product_quantity_tv)
         val productListImageView: ImageView = itemView.findViewById(R.id.products_list_item_image)
+
 
         init {
             itemView.setOnClickListener(this)

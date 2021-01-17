@@ -11,20 +11,10 @@
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-
         android:layout_width="match_parent"
         android:padding="8dp"
+        android:id="@+id/product_list_item_layout"
         android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/wishlist_imageView"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/linearLayout2"
-            app:srcCompat="@drawable/ic_baseline_favorite_border_24" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/productImageCard"
@@ -42,15 +32,13 @@
                 app:srcCompat="@drawable/ic_baseline_share_24" />
         </com.google.android.material.card.MaterialCardView>
 
-
         <LinearLayout
-            android:id="@+id/linearLayout2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_marginStart="8dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="@+id/productImageCard"
-            app:layout_constraintEnd_toStartOf="@+id/wishlist_imageView"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/productImageCard"
             app:layout_constraintTop_toTopOf="@+id/productImageCard">
 
@@ -59,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="Product Brand"
+                tools:text="Product Brand"
                 android:textColor="@color/indigo_500"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -69,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="Product Title"
+                tools:text="Product Title"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
@@ -83,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_weight="1"
-                    android:text="Product Price"
+                    tools:text="Product Price"
                     android:textColor="#00E676"
                     android:textSize="12sp" />
 
@@ -93,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_weight="1"
-                    android:text="Product Quantity"
+                    tools:text="Product Quantity"
                     android:textSize="12sp" />
             </LinearLayout>
         </LinearLayout>

@@ -12,6 +12,7 @@ import com.thepanshu.diakart.R
 import com.thepanshu.diakart.models.ProductDetailModel
 
 class GridProductAdapter (
+        private val gridIdx: Int,
         private val categoryProductList: ArrayList<ProductDetailModel>,
         private val listener: OnCategoryGridProductClickListener
         ): RecyclerView.Adapter<GridProductAdapter.CategoryProductViewHolder>() {
@@ -39,14 +40,14 @@ class GridProductAdapter (
         override fun onClick(p0: View?) {
             val position: Int = adapterPosition
             if(position != RecyclerView.NO_POSITION) {
-                listener.onCategoryGridProductClick(position)
+                listener.onCategoryGridProductClick(gridIdx, position)
             }
         }
 
     }
 
     interface OnCategoryGridProductClickListener {
-        fun onCategoryGridProductClick(position: Int)
+        fun onCategoryGridProductClick(gridIdx: Int, position: Int)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryProductViewHolder {

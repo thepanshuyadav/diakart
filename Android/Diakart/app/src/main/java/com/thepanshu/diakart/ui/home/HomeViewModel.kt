@@ -4,17 +4,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.thepanshu.diakart.models.CategoryModel
-import com.thepanshu.diakart.models.ProductDetailModel
 import com.thepanshu.diakart.models.SliderModel
-import com.thepanshu.diakart.models.UserModel
 import com.thepanshu.diakart.repository.FirebaseListingsService
-import com.thepanshu.diakart.repository.FirebaseUserService
 import kotlinx.coroutines.launch
 
 class HomeViewModel: ViewModel() {
     private var _categoryList: MutableLiveData<List<CategoryModel>>? = null
     private var _bannerList: MutableLiveData<ArrayList<SliderModel>>? = null
-    //private var productList: MutableLiveData<List<ProductDetailModel>>? = null
 
     internal fun getBannerList(): MutableLiveData<ArrayList<SliderModel>> {
         if (_bannerList == null) {

@@ -17,19 +17,19 @@ object FirebaseListingsService {
 
         try {
             return db.collection("CATEGORIES").get()
-                .await()
-                .documents.mapNotNull {
-                    val title = it.data?.get("title").toString()
-                    val icon = it.data?.get("icon").toString()
-                    val products = it.data?.get("products") as DocumentReference
-                    val previewRef= it.data?.get("preview") as List<DocumentReference>
-                    val preview = ArrayList<ProductDetailModel>()
-                    previewRef.forEach { doc ->
-                        preview.add(doc.get().await().toObject(ProductDetailModel::class.java)!!)
+                    .await()
+                    .documents.mapNotNull {
+                        val title = it.data?.get("title").toString()
+                        val icon = it.data?.get("icon").toString()
+                        val products = it.data?.get("products") as DocumentReference
+                        val previewRef= it.data?.get("preview") as List<DocumentReference>
+                        val preview = ArrayList<ProductDetailModel>()
+                        previewRef.forEach { doc ->
+                            preview.add(doc.get().await().toObject(ProductDetailModel::class.java)!!)
 
+                        }
+                        CategoryModel(icon, title, preview, products)
                     }
-                    CategoryModel(icon, title, preview, products)
-                }
         } catch (e: Exception) {
             Log.e(TAG, "Error getting user details", e)
             FirebaseCrashlytics.getInstance().log("Error getting user details")

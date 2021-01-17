@@ -17,14 +17,18 @@ import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnima
 import com.smarteist.autoimageslider.SliderAnimations
 import com.smarteist.autoimageslider.SliderView
 import com.thepanshu.diakart.R
-import com.thepanshu.diakart.adapters.*
+import com.thepanshu.diakart.adapters.CategoryAdapter
+import com.thepanshu.diakart.adapters.GridListAdapter
+import com.thepanshu.diakart.adapters.GridProductAdapter
+import com.thepanshu.diakart.adapters.SliderAdapter
 import com.thepanshu.diakart.models.CategoryModel
-import com.thepanshu.diakart.models.ProductDetailModel
 import com.thepanshu.diakart.models.SliderModel
 import java.util.*
 
 
-class HomeFragment : Fragment(), CategoryAdapter.OnCategoryClickListener, GridProductAdapter.OnCategoryGridProductClickListener {
+class HomeFragment : Fragment(),
+        CategoryAdapter.OnCategoryClickListener,
+        GridProductAdapter.OnCategoryGridProductClickListener, GridListAdapter.OnGridClickListener{
 
 
     private lateinit var gridListRv: RecyclerView
@@ -35,7 +39,6 @@ class HomeFragment : Fragment(), CategoryAdapter.OnCategoryClickListener, GridPr
 
     private lateinit var categoryList: List<CategoryModel>
     private lateinit var bannerList: ArrayList<SliderModel>
-    private lateinit var gridPreviewList: List<ProductDetailModel>
 
     private lateinit var homeViewModel: HomeViewModel
 
@@ -66,20 +69,20 @@ class HomeFragment : Fragment(), CategoryAdapter.OnCategoryClickListener, GridPr
             bannerList = it
             sliderView = root.findViewById(R.id.banner_slider_ad)
             sliderView.setSliderAdapter(SliderAdapter(requireContext(), bannerList))
-            sliderView.setIndicatorAnimation(IndicatorAnimationType.WORM);
-            sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
-            sliderView.autoCycleDirection = SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH;
-            sliderView.indicatorSelectedColor = Color.WHITE;
-            sliderView.indicatorUnselectedColor = Color.GRAY;
-            sliderView.scrollTimeInSec = 4; //set scroll delay in seconds :
-            sliderView.startAutoCycle();
+            sliderView.setIndicatorAnimation(IndicatorAnimationType.THIN_WORM)
+            sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION)
+            sliderView.autoCycleDirection = SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH
+            sliderView.indicatorSelectedColor = Color.WHITE
+            sliderView.indicatorUnselectedColor = Color.GRAY
+            sliderView.scrollTimeInSec = 4 //set scroll delay in seconds :
+            sliderView.startAutoCycle()
             //progressBar.visibility = View.GONE
         })
         homeViewModel.getCategoryDetail().observe(viewLifecycleOwner, {
             // TODO: Show progress bar
             progressBar.visibility = View.VISIBLE
             categoryList = it
-            gridListRv.adapter = GridListAdapter(requireActivity(), this, it)
+            gridListRv.adapter = GridListAdapter(requireActivity(), this,this, it)
             rvCategory.adapter = CategoryAdapter(requireActivity(), it, this)
             progressBar.visibility = View.GONE
 
@@ -93,10 +96,15 @@ class HomeFragment : Fragment(), CategoryAdapter.OnCategoryClickListener, GridPr
         navController?.navigate(R.id.action_nav_home_to_productsListFragment, bundle)
     }
 
-    override fun onCategoryGridProductClick(position: Int) {
-//        val bundle = bundleOf("product" to categoryList[position].preview[position])
-//        val navController = view?.let { Navigation.findNavController(it) }
-//        navController?.navigate(R.id.action_nav_home_to_productDetailFragment, bundle)
+    override fun onCategoryGridProductClick(gridIdx: Int, position: Int) {
+        val bundle = bundleOf("product" to categoryList[gridIdx].preview[position])
+        val navController = view?.let { Navigation.findNavController(it) }
+        navController?.navigate(R.id.action_nav_home_to_productDetailFragment, bundle)
     }
 
+    override fun onGridViewAllClick(position: Int) {
+        val bundle = bundleOf("categoryProductsRef" to categoryList[position])
+        val navController = view?.let { Navigation.findNavController(it) }
+        navController?.navigate(R.id.action_nav_home_to_productsListFragment, bundle)
+    }
 }
