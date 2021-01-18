@@ -31,7 +31,7 @@
         android:id="@+id/fl_shadow_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/indigo_500"
+        android:background="@color/teal_200"
         android:alpha="0.75"
         android:layout_gravity="bottom">
 
@@ -39,7 +39,8 @@
             android:id="@+id/tv_auto_image_slider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
+            android:paddingBottom="16dp"
+            android:paddingTop="8dp"
             android:textColor="#FFF"
             android:textSize="8sp" />
 

@@ -78,13 +78,13 @@
                 android:id="@+id/banner_slider_ad"
                 android:layout_width="match_parent"
                 android:paddingTop="8dp"
-                android:layout_height="200dp"
+                android:layout_height="300dp"
                 app:sliderAnimationDuration="600"
                 app:sliderAutoCycleDirection="back_and_forth"
                 app:sliderAutoCycleEnabled="true"
                 app:sliderIndicatorAnimationDuration="600"
-                app:sliderIndicatorGravity="center_horizontal|bottom"
-                app:sliderIndicatorMargin="15dp"
+                app:sliderIndicatorGravity="bottom|center_horizontal"
+                app:sliderIndicatorMargin="0dp"
                 app:sliderIndicatorOrientation="horizontal"
                 app:sliderIndicatorPadding="1dp"
                 app:sliderIndicatorRadius="1dp"
@@ -96,7 +96,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/categories_rv"/>
 
-<!--            todo: add coupon rv-->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/grid_list_rv"
                 android:layout_width="match_parent"
