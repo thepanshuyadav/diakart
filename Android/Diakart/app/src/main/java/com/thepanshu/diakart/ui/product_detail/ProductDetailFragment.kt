@@ -3,6 +3,7 @@ package com.thepanshu.diakart.ui.product_detail
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.DocumentReference
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.adapters.ImageListAdapter
 import com.thepanshu.diakart.models.ProductDetailModel
@@ -19,7 +19,9 @@ import com.thepanshu.diakart.models.ProductDetailModel
 class ProductDetailFragment : Fragment() {
     private lateinit var product: ProductDetailModel
     private lateinit var intentToSite: Intent
-    //private lateinit var productRef: DocumentReference
+    private lateinit var ratingBar: RatingBar
+    private lateinit var productRatings : ArrayList<Int>
+    //private var rating = MutableLiveData<Int>()
     private lateinit var viewModel: ProductDetailViewModel
 
     override fun onCreateView(
@@ -43,22 +45,57 @@ class ProductDetailFragment : Fragment() {
         productDescTv.text = product.description
         productMRPTv.text = "RS ${product.mrp}"
         productQuantityTv.text = product.quantity
+        Log.d("RATING", product.rating.toString())
+        val averageRatingTv = rootView.findViewById<TextView>(R.id.average_rating)
+        val totalRatingsTv = rootView.findViewById<TextView>(R.id.total_raters)
+        val fiveRatingNo = rootView.findViewById<TextView>(R.id.number_of_five_ratings)
+        val fiveRatingBar = rootView.findViewById<ProgressBar>(R.id.five_rating_progressBar)
+
+        val fourRatingNo = rootView.findViewById<TextView>(R.id.number_of_four_ratings)
+        val fourRatingBar = rootView.findViewById<ProgressBar>(R.id.four_rating_progressBar)
+
+        val threeRatingNo = rootView.findViewById<TextView>(R.id.number_of_three_ratings)
+        val threeRatingBar = rootView.findViewById<ProgressBar>(R.id.three_rating_progressBar)
+
+        val twoRatingNo = rootView.findViewById<TextView>(R.id.number_of_two_ratings)
+        val twoRatingBar = rootView.findViewById<ProgressBar>(R.id.two_rating_progressBar)
+
+        val oneRatingNo = rootView.findViewById<TextView>(R.id.number_of_one_ratings)
+        val oneRatingBar = rootView.findViewById<ProgressBar>(R.id.one_rating_progressBar)
 
         rvProductImage.adapter = ImageListAdapter(product.images)
 
-//
-//        viewModel.getProductDetail(productRef).observe(viewLifecycleOwner,{
-//            if(it!=null) {
-//                product = it
-//
-//                productNameTv.text = it.name
-//                brandNameTv.text = it.brand
-//                productDescTv.text = it.description
-//                productMRPTv.text = "RS ${it.mrp}"
-//                productQuantityTv.text = it.quantity
-//
-//                rvProductImage.adapter = ImageListAdapter(it.images)
-//            }
+        var totalRatings: Int = 0
+        for(i in productRatings) {
+            totalRatings += i
+        }
+        totalRatingsTv.text = totalRatings.toString()
+        val average = ((productRatings[0] + productRatings[1]*2
+                +productRatings[2]*3 +productRatings[3]*4 +productRatings[4]*5).toDouble()/totalRatings)
+
+        averageRatingTv.text = String.format("%.2f", average).toDouble().toString()
+        oneRatingNo.text = productRatings[0].toString()
+        oneRatingBar.progress = (((productRatings[0].toDouble()/totalRatings.toDouble()))*100).toInt()
+
+        twoRatingNo.text = productRatings[1].toString()
+        twoRatingBar.progress = ((productRatings[1].toDouble()/totalRatings)*100).toInt()
+
+        threeRatingNo.text = productRatings[2].toString()
+        threeRatingBar.progress = ((productRatings[2].toDouble()/totalRatings)*100).toInt()
+
+        fourRatingNo.text = productRatings[3].toString()
+        fourRatingBar.progress = ((productRatings[3].toDouble()/totalRatings)*100).toInt()
+
+        fiveRatingNo.text = productRatings[4].toString()
+        fiveRatingBar.progress = ((productRatings[4].toDouble()/totalRatings)*100).toInt()
+
+        ratingBar = rootView.findViewById(R.id.product_ratingBar)
+        ratingBar.setOnRatingBarChangeListener { _, _, _ ->
+            //rating.value = ratingBar.rating.toInt()
+            Toast.makeText(context, "Rating = ${ratingBar.rating.toDouble()}", Toast.LENGTH_SHORT).show()
+        }
+//        rating.observe(viewLifecycleOwner, {
+//            viewModel.setProductRating(it, product.documentId)
 //        })
         return rootView
     }
@@ -67,17 +104,13 @@ class ProductDetailFragment : Fragment() {
         super.onCreate(savedInstanceState)
         if(arguments?.getParcelable<ProductDetailModel>("product") != null){
             product = arguments?.getParcelable<ProductDetailModel>("product")!!
+            productRatings = product.rating
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // TODO: Rating bar
         super.onViewCreated(view, savedInstanceState)
-
-        val ratingBar = view.findViewById<RatingBar>(R.id.product_ratingBar)
-        ratingBar.setOnRatingBarChangeListener { _, _, _ ->
-            Toast.makeText(context, "Rating = ${ratingBar.rating.toInt()}", Toast.LENGTH_SHORT).show()
-        }
 
         intentToSite = Intent(Intent.ACTION_VIEW, Uri.parse(product.links[0]))
         val buyButton: Button = view.findViewById<TextView>(R.id.link_external_btn) as Button

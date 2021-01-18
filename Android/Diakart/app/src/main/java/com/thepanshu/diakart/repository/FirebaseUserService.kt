@@ -11,10 +11,10 @@ import kotlinx.coroutines.tasks.await
 
 object FirebaseUserService {
     private const val TAG = "FirebaseUserService"
+    private val userId = Firebase.auth.currentUser?.uid.toString()
+    private val db = FirebaseFirestore.getInstance()
     suspend fun getProfileData(): UserModel? {
-        val db = FirebaseFirestore.getInstance()
         return try {
-            val userId = Firebase.auth.currentUser?.uid.toString()
             db.collection("USERS")
                     .document(userId).get().await().toUser()
         } catch (e: Exception) {
@@ -26,5 +26,45 @@ object FirebaseUserService {
         }
     }
 
+
     // TODO: get wish list and ratings
+    suspend fun updateRating(rating: Int, prodDocId: String) {
+        val userRatingCollRef = db.collection("USERS")
+                .document(userId)
+                .collection("RATINGS")
+
+
+        val doc = userRatingCollRef
+                .whereEqualTo("productDocRef", prodDocId)
+                .get()
+                .result?.documents?.get(0)?.reference
+        val productDoc = db.collection("PRODUCTS")
+                .document(prodDocId.toString())
+                .get().result?.reference
+
+        if(doc != null && productDoc != null) {
+            db.runTransaction {
+                it.update(doc, "rating", rating)
+
+                val snapshot = it.get(productDoc)
+                val ratingList = snapshot.get("rating") as Array<Double>
+                val prev = ratingList[rating]
+                ratingList.set(rating, prev.toDouble())
+                it.update(productDoc, "rating", ratingList)
+            }
+        }
+        else {
+            db.runTransaction {
+                val map = hashMapOf("rating" to rating, "productDocRef" to prodDocId.toString())
+                userRatingCollRef.add(map)
+
+                val snapshot = it.get(productDoc!!)
+                val ratingList = snapshot.get("rating") as Array<Double>
+                val prev = ratingList[rating]
+                ratingList.set(rating, prev.toDouble())
+                it.update(productDoc, "rating", ratingList)
+            }
+
+        }
+    }
 }

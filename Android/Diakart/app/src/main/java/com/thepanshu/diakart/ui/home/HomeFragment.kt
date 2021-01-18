@@ -28,7 +28,8 @@ import java.util.*
 
 class HomeFragment : Fragment(),
         CategoryAdapter.OnCategoryClickListener,
-        GridProductAdapter.OnCategoryGridProductClickListener, GridListAdapter.OnGridClickListener{
+        GridProductAdapter.OnCategoryGridProductClickListener,
+        GridListAdapter.OnGridClickListener{
 
 
     private lateinit var gridListRv: RecyclerView

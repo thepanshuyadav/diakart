@@ -1,18 +1,24 @@
 package com.thepanshu.diakart.repository
 
+import android.os.Handler
 import android.util.Log
-import com.google.android.gms.tasks.Tasks.await
+import androidx.lifecycle.MutableLiveData
+import com.google.firebase.FirebaseError
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Transaction
 import com.thepanshu.diakart.models.CategoryModel
 import com.thepanshu.diakart.models.ProductDetailModel
 import com.thepanshu.diakart.models.SliderModel
 import kotlinx.coroutines.tasks.await
+import kotlin.Result.Companion.success
+
 
 object FirebaseListingsService {
-    val db = FirebaseFirestore.getInstance()
+    private val db = FirebaseFirestore.getInstance()
     private const val TAG = "FirebaseListingsService"
+
     suspend fun getCategory(): List<CategoryModel> {
 
         try {
@@ -82,6 +88,20 @@ object FirebaseListingsService {
         }
     }
 
+//    suspend fun getProductRating(prodDocId: String): List<Int>? {
+//        return try {
+//            val doc = db.collection("PRODUCTS")
+//                    .document(prodDocId).get()
+//            for(item in doc[])
+//        } catch (e: Exception) {
+//            Log.e(TAG, "Error getting product rating", e)
+//            FirebaseCrashlytics.getInstance().log("Error getting product rating")
+//            FirebaseCrashlytics.getInstance().setCustomKey("rating", TAG)
+//            FirebaseCrashlytics.getInstance().recordException(e)
+//            emptyList()
+//        }
+//    }
+
     suspend fun getProductDetail(reference: DocumentReference): ProductDetailModel? {
         return try {
             reference.get().await().toObject(ProductDetailModel::class.java)
@@ -92,6 +112,5 @@ object FirebaseListingsService {
             FirebaseCrashlytics.getInstance().recordException(e)
             null
         }
-
     }
 }
