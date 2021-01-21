@@ -1,8 +1,10 @@
 package com.thepanshu.diakart.ui.product_detail
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.DocumentReference
 import com.thepanshu.diakart.models.CategoryModel
 import com.thepanshu.diakart.models.ProductDetailModel
@@ -12,46 +14,53 @@ import kotlinx.coroutines.launch
 
 class ProductDetailViewModel: ViewModel() {
 
-    private var _product: MutableLiveData<ProductDetailModel>? = null
-    private var _product_rating: MutableLiveData<List<Int>>? = null
+    //private var _product: MutableLiveData<ProductDetailModel>? = null
+    private var _is_wishlisted: MutableLiveData<Boolean>? = null
+
+    //private var _product_rating: MutableLiveData<List<Int>>? = null
 
 
-    internal fun getProductDetail(path: DocumentReference): MutableLiveData<ProductDetailModel> {
-        if (_product == null) {
-            _product = MutableLiveData()
-            loadCategoryList(path)
+    internal fun isWishListed(prodDocId: String): MutableLiveData<Boolean> {
+        if (_is_wishlisted == null) {
+            _is_wishlisted = MutableLiveData()
+            loadWishListedInfo(prodDocId)
         }
-        return _product as MutableLiveData<ProductDetailModel>
+        return _is_wishlisted as MutableLiveData<Boolean>
     }
 
 
-    private fun loadCategoryList(path: DocumentReference) {
+    internal fun loadWishListedInfo(prodDocId: String) {
         viewModelScope.launch {
-            val fetchedProduct = FirebaseListingsService.getProductDetail(path)
-            _product?.postValue(fetchedProduct)
+            val isPresent = FirebaseUserService.isWishListed(prodDocId)
+            _is_wishlisted?.postValue(isPresent)
         }
     }
 
-    internal fun getProductRating(docId: String): MutableLiveData<List<Int>> {
-        if ( _product_rating == null) {
-            _product_rating = MutableLiveData()
-            loadProductRatings(docId)
-        }
-        return  _product_rating as MutableLiveData<List<Int>>
-    }
-
-
-    private fun loadProductRatings(docId: String) {
+    internal fun addToWishList(productDetailModel: ProductDetailModel) {
         viewModelScope.launch {
-//            val fetchedProductRating = FirebaseListingsService.getProductRating(docId)
-//            _product_rating?.postValue(fetchedProductRating)
+            _is_wishlisted?.postValue(FirebaseUserService.addToWishList(productDetailModel))
         }
     }
-//    TODO: Post rating
-//    fun setProductRating(rating: Int, id: String) {
-//        viewModelScope.launch {
-//            FirebaseUserService.updateRating(rating, id)
+
+    internal fun removeFromWishList(prodDocId: String) {
+        viewModelScope.launch {
+            _is_wishlisted?.postValue(FirebaseUserService.removeFromWishList(prodDocId))
+        }
+    }
+
+    //TODO: Get current rating
+//    internal fun postRating(rating: Int, id: String): MutableLiveData<ProductDetailModel> {
+//        if (_product == null) {
+//            _product = MutableLiveData()
+//            loadCategoryList(path)
 //        }
+//        return _product as MutableLiveData<ProductDetailModel>
 //    }
+
+    fun setProductRating(rating: Int, id: String) {
+        viewModelScope.launch {
+            FirebaseUserService.updateRating(rating, id)
+        }
+    }
 
 }

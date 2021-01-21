@@ -88,20 +88,6 @@ object FirebaseListingsService {
         }
     }
 
-//    suspend fun getProductRating(prodDocId: String): List<Int>? {
-//        return try {
-//            val doc = db.collection("PRODUCTS")
-//                    .document(prodDocId).get()
-//            for(item in doc[])
-//        } catch (e: Exception) {
-//            Log.e(TAG, "Error getting product rating", e)
-//            FirebaseCrashlytics.getInstance().log("Error getting product rating")
-//            FirebaseCrashlytics.getInstance().setCustomKey("rating", TAG)
-//            FirebaseCrashlytics.getInstance().recordException(e)
-//            emptyList()
-//        }
-//    }
-
     suspend fun getProductDetail(reference: DocumentReference): ProductDetailModel? {
         return try {
             reference.get().await().toObject(ProductDetailModel::class.java)

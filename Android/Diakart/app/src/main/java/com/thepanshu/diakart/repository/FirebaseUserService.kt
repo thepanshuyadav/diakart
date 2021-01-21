@@ -5,6 +5,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.thepanshu.diakart.models.ProductDetailModel
 import com.thepanshu.diakart.models.UserModel
 import com.thepanshu.diakart.models.UserModel.Companion.toUser
 import kotlinx.coroutines.tasks.await
@@ -29,42 +30,94 @@ object FirebaseUserService {
 
     // TODO: get wish list and ratings
     suspend fun updateRating(rating: Int, prodDocId: String) {
-        val userRatingCollRef = db.collection("USERS")
-                .document(userId)
-                .collection("RATINGS")
 
-
-        val doc = userRatingCollRef
-                .whereEqualTo("productDocRef", prodDocId)
-                .get()
-                .result?.documents?.get(0)?.reference
-        val productDoc = db.collection("PRODUCTS")
-                .document(prodDocId.toString())
-                .get().result?.reference
-
-        if(doc != null && productDoc != null) {
-            db.runTransaction {
-                it.update(doc, "rating", rating)
-
-                val snapshot = it.get(productDoc)
-                val ratingList = snapshot.get("rating") as Array<Double>
-                val prev = ratingList[rating]
-                ratingList.set(rating, prev.toDouble())
-                it.update(productDoc, "rating", ratingList)
-            }
+        db.runTransaction { transaction->
+            transaction.set(db.collection("USERS")
+                    .document(userId)
+                    .collection("RATINGS")
+                    .document(prodDocId),
+                    hashMapOf("rating" to rating))
         }
-        else {
-            db.runTransaction {
-                val map = hashMapOf("rating" to rating, "productDocRef" to prodDocId.toString())
-                userRatingCollRef.add(map)
+    }
 
-                val snapshot = it.get(productDoc!!)
-                val ratingList = snapshot.get("rating") as Array<Double>
-                val prev = ratingList[rating]
-                ratingList.set(rating, prev.toDouble())
-                it.update(productDoc, "rating", ratingList)
-            }
+    suspend fun addToWishList(product: ProductDetailModel): Boolean {
+        return try {
+            db.runTransaction { transaction ->
+                transaction.set(db.collection("USERS")
+                        .document(userId)
+                        .collection("WISHLIST")
+                        .document(product.documentId),
+                        product)
+            }.isSuccessful
+        } catch (e: Exception) {
+//            Log.e(FirebaseUserService.TAG, "Error getting wish list", e)
+//            FirebaseCrashlytics.getInstance().log("Error getting wish list")
+//            FirebaseCrashlytics.getInstance().setCustomKey("wishlist", FirebaseUserService.TAG)
+//            FirebaseCrashlytics.getInstance().recordException(e)
+            false
+        }
 
+
+    }
+
+    suspend fun removeFromWishList(prodDocId: String): Boolean {
+        return try {
+            db.runTransaction { transaction->
+                transaction.delete(db.collection("USERS")
+                        .document(userId)
+                        .collection("WISHLIST")
+                        .document(prodDocId))
+            }.isSuccessful
+        } catch (e: Exception) {
+//            Log.e(FirebaseUserService.TAG, "Error getting wish list", e)
+//            FirebaseCrashlytics.getInstance().log("Error getting wish list")
+//            FirebaseCrashlytics.getInstance().setCustomKey("wishlist", FirebaseUserService.TAG)
+//            FirebaseCrashlytics.getInstance().recordException(e)
+            false
+        }
+    }
+
+    suspend fun fetchWishList(): List<ProductDetailModel> {
+        return try {
+            val list = ArrayList<ProductDetailModel>()
+            db.collection("USERS")
+                    .document(userId)
+                    .collection("WISHLIST")
+                    .get().await().documents.mapNotNull {
+                        list.add(it.toObject(ProductDetailModel::class.java)!!)
+                    }
+            list
+        } catch (e: Exception) {
+            Log.e(FirebaseUserService.TAG, "Error fetching wish list", e)
+            FirebaseCrashlytics.getInstance().log("Error fetching wish list")
+            FirebaseCrashlytics.getInstance().setCustomKey("fetch_wish_list", FirebaseUserService.TAG)
+            FirebaseCrashlytics.getInstance().recordException(e)
+            emptyList()
+        }
+    }
+
+    suspend fun isWishListed(prodDocId: String): Boolean? {
+        return try {
+            db.collection("USERS")
+                    .document(userId)
+                    .collection("WISHLIST")
+                    .document(prodDocId)
+//                    .addSnapshotListener { snapshot, e->
+////                        if (e != null) {
+////                            Log.w(TAG, "Listen failed.", e)
+////                            return@addSnapshotListener
+////                        }
+//
+//                        snapshot != null && snapshot.exists()
+//                    }
+                    .get().result?.exists()
+            true
+        } catch (e: Exception) {
+            Log.e(FirebaseUserService.TAG, "Error getting wish list", e)
+            FirebaseCrashlytics.getInstance().log("Error getting wish list")
+            FirebaseCrashlytics.getInstance().setCustomKey("wishlist", FirebaseUserService.TAG)
+            FirebaseCrashlytics.getInstance().recordException(e)
+            null
         }
     }
 }

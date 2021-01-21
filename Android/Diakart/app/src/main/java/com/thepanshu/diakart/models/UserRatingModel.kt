@@ -6,5 +6,5 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class UserRatingModel(
         val rating: Int = 0,
-        val productDocRef: String = ""
+        val product: ProductDetailModel = ProductDetailModel()
 ): Parcelable

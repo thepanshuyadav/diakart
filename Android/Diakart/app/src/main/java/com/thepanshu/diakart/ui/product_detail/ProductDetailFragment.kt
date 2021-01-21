@@ -1,6 +1,7 @@
 package com.thepanshu.diakart.ui.product_detail
 
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,22 +21,28 @@ import com.thepanshu.diakart.models.ProductDetailModel
 
 class ProductDetailFragment : Fragment() {
     private lateinit var product: ProductDetailModel
+
     private lateinit var intentToSite: Intent
+
     private lateinit var ratingBar: RatingBar
     private lateinit var productRatings : ArrayList<Int>
-    //private var rating = MutableLiveData<Int>()
+    private var rating = MutableLiveData<Int>()
+
+    private lateinit var addWishListButton: Button
+    private lateinit var removeWishListButton: Button
+    private var _is_wishlisted = MutableLiveData<Boolean>()
     private lateinit var viewModel: ProductDetailViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_product_detail, container, false)
         viewModel = ViewModelProvider(this).get(ProductDetailViewModel::class.java)
 
         val rvProductImage = rootView.findViewById(R.id.specific_product_image_rv) as RecyclerView
         rvProductImage.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        rvProductImage.adapter = ImageListAdapter(product.images)
 
         val productNameTv = rootView.findViewById<TextView>(R.id.specific_product_name)
         val brandNameTv = rootView.findViewById<TextView>(R.id.specific_product_brand_name)
@@ -45,7 +54,8 @@ class ProductDetailFragment : Fragment() {
         productDescTv.text = product.description
         productMRPTv.text = "RS ${product.mrp}"
         productQuantityTv.text = product.quantity
-        Log.d("RATING", product.rating.toString())
+
+        // MARK: Rating
         val averageRatingTv = rootView.findViewById<TextView>(R.id.average_rating)
         val totalRatingsTv = rootView.findViewById<TextView>(R.id.total_raters)
         val fiveRatingNo = rootView.findViewById<TextView>(R.id.number_of_five_ratings)
@@ -63,9 +73,7 @@ class ProductDetailFragment : Fragment() {
         val oneRatingNo = rootView.findViewById<TextView>(R.id.number_of_one_ratings)
         val oneRatingBar = rootView.findViewById<ProgressBar>(R.id.one_rating_progressBar)
 
-        rvProductImage.adapter = ImageListAdapter(product.images)
-
-        var totalRatings: Int = 0
+        var totalRatings = 0
         for(i in productRatings) {
             totalRatings += i
         }
@@ -91,12 +99,48 @@ class ProductDetailFragment : Fragment() {
 
         ratingBar = rootView.findViewById(R.id.product_ratingBar)
         ratingBar.setOnRatingBarChangeListener { _, _, _ ->
-            //rating.value = ratingBar.rating.toInt()
+            rating.value = ratingBar.rating.toInt()
             Toast.makeText(context, "Rating = ${ratingBar.rating.toDouble()}", Toast.LENGTH_SHORT).show()
         }
-//        rating.observe(viewLifecycleOwner, {
-//            viewModel.setProductRating(it, product.documentId)
-//        })
+        rating.observe(viewLifecycleOwner, {
+            viewModel.setProductRating(it, product.documentId)
+        })
+        // MARK: Rating End
+        viewModel.isWishListed(product.documentId).observe(viewLifecycleOwner, {
+            _is_wishlisted.postValue(it)
+        })
+
+        addWishListButton = rootView.findViewById(R.id.add_wish_list_btn)
+        removeWishListButton = rootView.findViewById(R.id.remove_wish_list_btn)
+
+        addWishListButton.setOnClickListener {
+            viewModel.addToWishList(product)
+
+            viewModel.isWishListed(product.documentId).observe(viewLifecycleOwner, {
+                _is_wishlisted.postValue(it)
+                Log.d("WISHLIST", _is_wishlisted.value.toString())
+            })
+        }
+
+        removeWishListButton.setOnClickListener {
+            viewModel.removeFromWishList(product.documentId)
+            viewModel.isWishListed(product.documentId).observe(viewLifecycleOwner, {
+                _is_wishlisted.postValue(it)
+            })
+        }
+
+        _is_wishlisted.observe(viewLifecycleOwner, {
+            if(it==true) {
+                addWishListButton.visibility = View.GONE
+                removeWishListButton.visibility = View.VISIBLE
+
+            }
+            else {
+                addWishListButton.visibility = View.VISIBLE
+                removeWishListButton.visibility = View.GONE
+            }
+        })
+
         return rootView
     }
 
@@ -119,7 +163,6 @@ class ProductDetailFragment : Fragment() {
             if(product.links[0] != "") {
                 startActivity(intentToSite)
             }
-
         }
     }
 }

@@ -1,64 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    tools:context=".ui.product_detail.ProductDetailFragment"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".ui.product_detail.ProductDetailFragment">
 
     <ProgressBar
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="match_parent"
-        android:indeterminate="true"
         android:id="@+id/product_detail_progress_bar"
-        android:layout_height="wrap_content" />
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:indeterminate="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <ScrollView
-        android:layout_width="match_parent"
         android:id="@+id/product_detail_scroll"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbarStyle="insideInset">
+        android:scrollbarStyle="insideInset"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/specific_product_image_rv"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:padding="4dp"
-                android:gravity="center"
                 android:adjustViewBounds="true"
-                />
-            <TextView
-                android:id="@+id/specific_product_name"
-                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:padding="4dp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginTop="16dp"
-                android:textAllCaps="false"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                tools:text="Coffee Cocoa"/>
-            <TextView
-                android:id="@+id/specific_product_brand_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:textAllCaps="false"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-                android:textSize="16sp"
-                tools:text="the whole truth"/>
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/specific_product_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAllCaps="false"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        tools:text="Coffee Cocoa" />
+
+                    <TextView
+                        android:id="@+id/specific_product_brand_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textAllCaps="false"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+                        android:textSize="16sp"
+                        tools:text="the whole truth" />
+                </LinearLayout>
+<!--                <ImageButton-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:id="@+id/wish_list_btn"-->
+<!--                    android:src="@drawable/ic_baseline_favorite_24"-->
+<!--                    android:layout_gravity="end|center"-->
+<!--                    android:backgroundTint="@android:color/transparent"-->
+<!--                    android:layout_height="match_parent"/>-->
+
+
+            </FrameLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
                     android:id="@+id/specific_product_price"
                     android:layout_width="wrap_content"
@@ -69,21 +99,22 @@
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    tools:text="Rs 600"/>
+                    tools:text="Rs 600" />
 
                 <TextView
                     android:id="@+id/specific_product_quantity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
+                    android:paddingStart="32dp"
                     android:textAllCaps="false"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    tools:text="(Box of 6)"/>
+                    tools:text="(Box of 6)" />
 
             </LinearLayout>
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/link_external_btn"
                 android:layout_width="250dp"
@@ -93,14 +124,35 @@
                 android:drawableEnd="@drawable/ic_baseline_open_in_new_24"
                 android:text="Buy" />
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/wishlist_btn"
                 android:layout_width="250dp"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:id="@+id/add_wish_list_btn"
+                android:visibility="gone"
+                android:text="Add to wish list"
                 android:drawableEnd="@drawable/ic_baseline_favorite_24"
-                android:drawableTint="@color/indigo_500"
-                android:text="Remove from wishlist" />
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/remove_wish_list_btn"
+                android:text="remove from wishlist"
+                android:visibility="gone"
+                android:drawableEnd="@drawable/ic_baseline_delete_24"
+                app:backgroundTint="#DD2C00"/>
+
+<!--            <com.google.android.material.button.MaterialButton-->
+<!--                android:id="@+id/wish_list_btn"-->
+<!--                style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--                android:layout_width="250dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:drawableEnd="@drawable/ic_baseline_favorite_24"-->
+<!--                android:drawableTint="@color/red"-->
+<!--                tools:text="Add to wish list"-->
+<!--                android:textColor="@color/green" />-->
+
             <View
                 android:id="@+id/divider1"
                 android:layout_width="match_parent"
@@ -110,17 +162,16 @@
             <!--            TODO: Add to wishlist View-->
 
 
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:text="About"
                 android:textAllCaps="true"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:text="About"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/specific_product_desc"
@@ -128,7 +179,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="@string/app_name"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
             <View
                 android:id="@+id/divider2"
@@ -136,13 +187,14 @@
                 android:layout_height="2dp"
                 android:background="?android:attr/listDivider" />
 
-            <include layout="@layout/ratings_layout"/>
+            <include layout="@layout/ratings_layout" />
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"/>
+                android:layout_height="300dp" />
         </LinearLayout>
 
     </ScrollView>
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

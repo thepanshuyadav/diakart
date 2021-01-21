@@ -3,29 +3,28 @@ package com.thepanshu.diakart.ui.wishlist
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.thepanshu.diakart.data.Product
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.concurrent.schedule
+import androidx.lifecycle.viewModelScope
+import com.thepanshu.diakart.models.ProductDetailModel
+import com.thepanshu.diakart.repository.FirebaseUserService
+import kotlinx.coroutines.launch
 
 class WishListViewModel : ViewModel() {
 
-    private var wishList: MutableLiveData<List<Product>>? = null
-    private var isFetching: LiveData<Boolean>? = null
+    private var wishList: MutableLiveData<List<ProductDetailModel>>? = null
+    //private var isFetching: LiveData<Boolean>? = null
 
-    internal fun getWishList(): MutableLiveData<List<Product>> {
+    internal fun getWishList(): MutableLiveData<List<ProductDetailModel>> {
         if (wishList == null) {
             wishList = MutableLiveData()
             loadWishList()
         }
-        return wishList as MutableLiveData<List<Product>>
+        return wishList as MutableLiveData<List<ProductDetailModel>>
     }
 
     private fun loadWishList() {
         // do async operation to fetch users
-        Timer("SettingUp", false).schedule(5000) {
-            val fetchedWishList = ArrayList<Product>()
-            wishList!!.postValue(fetchedWishList)
+        viewModelScope.launch {
+            wishList?.value = FirebaseUserService.fetchWishList()
         }
     }
 }
