@@ -49,26 +49,27 @@ class HomeFragment : Fragment(),
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_home, container, false)
-        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+
 
         progressBar = root.findViewById(R.id.home_progress_bar)
-
         rvCategory = root.findViewById(R.id.categories_rv) as RecyclerView
-        rvCategory.layoutManager = LinearLayoutManager(
-            activity, LinearLayoutManager.HORIZONTAL, false
-        )
-
         gridListRv = root.findViewById(R.id.grid_list_rv)
-        gridListRv.layoutManager = LinearLayoutManager(
-            activity,
-            LinearLayoutManager.VERTICAL,
-            false
-        )
+        sliderView = root.findViewById(R.id.banner_slider_ad)
+
+        return root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+
+        rvCategory.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        gridListRv.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+
         homeViewModel.getBannerList().observe(viewLifecycleOwner, {
             //progressBar.visibility = View.VISIBLE
             Log.d("BANNER", it.toString())
             bannerList = it
-            sliderView = root.findViewById(R.id.banner_slider_ad)
             sliderView.setSliderAdapter(SliderAdapter(requireContext(), bannerList))
             sliderView.setIndicatorAnimation(IndicatorAnimationType.THIN_WORM)
             sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION)
@@ -79,6 +80,7 @@ class HomeFragment : Fragment(),
             sliderView.startAutoCycle()
             //progressBar.visibility = View.GONE
         })
+
         homeViewModel.getCategoryDetail().observe(viewLifecycleOwner, {
             // TODO: Show progress bar
             progressBar.visibility = View.VISIBLE
@@ -88,7 +90,6 @@ class HomeFragment : Fragment(),
             progressBar.visibility = View.GONE
 
         })
-        return root
     }
 
     override fun onCategoryClick(position: Int) {

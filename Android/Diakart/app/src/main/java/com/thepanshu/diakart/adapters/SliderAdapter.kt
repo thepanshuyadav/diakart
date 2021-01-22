@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import com.smarteist.autoimageslider.SliderViewAdapter
 import com.squareup.picasso.Picasso
@@ -54,7 +55,12 @@ class SliderAdapter(private val context: Context, private var mSliderItems: Arra
             .load(sliderItem.image)
             .placeholder(R.drawable.ic_undraw_loading_frh4)
             .into(viewHolder.imageViewBackground)
-        Picasso.get().load(sliderItem.gif).into(viewHolder.imageGifContainer)
+        Glide.with(context)
+                .asGif()
+                .load(sliderItem.gif)
+                .placeholder(R.drawable.ic_undraw_loading_frh4)
+                .into(viewHolder.imageGifContainer);
+        //Picasso.get().load().into()
     }
 
     override fun getCount(): Int {
