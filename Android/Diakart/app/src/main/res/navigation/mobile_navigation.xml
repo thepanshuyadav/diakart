@@ -81,6 +81,6 @@
     <fragment
         android:id="@+id/nav_rating"
         android:name="com.thepanshu.diakart.ui.user_rating.UserRatingFragment"
-        android:label="user_rating_fragment"
+        android:label="My Ratings"
         tools:layout="@layout/user_rating_fragment" />
 </navigation>
