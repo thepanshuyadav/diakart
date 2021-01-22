@@ -12,11 +12,11 @@ import com.squareup.picasso.Picasso
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.models.UserRatingModel
 
-class ProductRatingListAdapter(
+class UserRatingListAdapter(
         private val userRatingList: List<UserRatingModel>,
         private val listener: OnProductClickListener
 ):
-        RecyclerView.Adapter<ProductRatingListAdapter.ProductRatingListViewHolder>() {
+        RecyclerView.Adapter<UserRatingListAdapter.ProductRatingListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductRatingListViewHolder {
 
@@ -28,11 +28,11 @@ class ProductRatingListAdapter(
     override fun getItemCount(): Int  = userRatingList.size
 
     override fun onBindViewHolder(holder: ProductRatingListViewHolder, position: Int) {
-        holder.productNameTv.text = userRatingList[position].product.name
-        holder.brandNameTv.text = userRatingList[position].product.brand
-        holder.productQuantityTv.text = userRatingList[position].product.quantity
-        holder.productPriceTv.text = userRatingList[position].product.mrp.toString()
-        holder.setProductImage(userRatingList[position].product.images[0])
+        holder.productNameTv.text = userRatingList[position].name
+        holder.brandNameTv.text = userRatingList[position].brand
+        holder.productQuantityTv.text = userRatingList[position].quantity
+        holder.productPriceTv.text = userRatingList[position].mrp.toString()
+        holder.setProductImage(userRatingList[position].image)
         holder.productRatingView.rating = userRatingList[position].rating.toFloat()
         //TODO: Picasso to update  product image placeholder
     }
@@ -47,7 +47,7 @@ class ProductRatingListAdapter(
 
 
         init {
-            itemView.setOnClickListener(this)
+            //itemView.setOnClickListener(this)
         }
 
         override fun onClick(p0: View?) {

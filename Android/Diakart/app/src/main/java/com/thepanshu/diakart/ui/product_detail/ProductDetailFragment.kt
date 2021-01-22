@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.adapters.ImageListAdapter
 import com.thepanshu.diakart.models.ProductDetailModel
+import com.thepanshu.diakart.models.UserRatingModel
 
 class ProductDetailFragment : Fragment() {
     private lateinit var product: ProductDetailModel
@@ -28,9 +29,9 @@ class ProductDetailFragment : Fragment() {
     private lateinit var productRatings : ArrayList<Int>
     private var rating = MutableLiveData<Int>()
 
+    private var isWishListed = MutableLiveData<Boolean>()
     private lateinit var addWishListButton: Button
     private lateinit var removeWishListButton: Button
-    private var _is_wishlisted = MutableLiveData<Boolean>()
     private lateinit var viewModel: ProductDetailViewModel
 
     override fun onCreateView(
@@ -102,44 +103,51 @@ class ProductDetailFragment : Fragment() {
             rating.value = ratingBar.rating.toInt()
             Toast.makeText(context, "Rating = ${ratingBar.rating.toDouble()}", Toast.LENGTH_SHORT).show()
         }
+        viewModel.getRating(product.documentId).observe(viewLifecycleOwner, {
+            ratingBar.rating = it.toFloat()
+        })
         rating.observe(viewLifecycleOwner, {
-            viewModel.setProductRating(it, product.documentId)
+            val rating = UserRatingModel(it, product.name, product.quantity, product.mrp, product.brand, product.images[0], product.documentId)
+            viewModel.setProductRating(rating, product.documentId)
         })
         // MARK: Rating End
-        viewModel.isWishListed(product.documentId).observe(viewLifecycleOwner, {
-            _is_wishlisted.postValue(it)
-        })
 
+        viewModel.isWishListed(product.documentId).observe(viewLifecycleOwner, {
+            rootView.visibility = View.GONE
+            isWishListed.value = it
+            rootView.visibility = View.VISIBLE
+        })
         addWishListButton = rootView.findViewById(R.id.add_wish_list_btn)
         removeWishListButton = rootView.findViewById(R.id.remove_wish_list_btn)
 
-        addWishListButton.setOnClickListener {
-            viewModel.addToWishList(product)
-
-            viewModel.isWishListed(product.documentId).observe(viewLifecycleOwner, {
-                _is_wishlisted.postValue(it)
-                Log.d("WISHLIST", _is_wishlisted.value.toString())
-            })
-        }
-
-        removeWishListButton.setOnClickListener {
-            viewModel.removeFromWishList(product.documentId)
-            viewModel.isWishListed(product.documentId).observe(viewLifecycleOwner, {
-                _is_wishlisted.postValue(it)
-            })
-        }
-
-        _is_wishlisted.observe(viewLifecycleOwner, {
-            if(it==true) {
+        isWishListed.observe(viewLifecycleOwner, {
+            rootView.visibility = View.GONE
+            if(it == true) {
                 addWishListButton.visibility = View.GONE
                 removeWishListButton.visibility = View.VISIBLE
-
             }
             else {
                 addWishListButton.visibility = View.VISIBLE
                 removeWishListButton.visibility = View.GONE
             }
+            rootView.visibility = View.VISIBLE
         })
+
+        addWishListButton.setOnClickListener {
+            viewModel.addWishList(product).observe(viewLifecycleOwner, {
+                rootView.visibility = View.GONE
+                isWishListed.postValue(it)
+                rootView.visibility = View.VISIBLE
+            })
+        }
+
+        removeWishListButton.setOnClickListener {
+            viewModel.removeFromWishList(product.documentId).observe(viewLifecycleOwner, {
+                rootView.visibility = View.GONE
+                isWishListed.postValue(it)
+                rootView.visibility = View.VISIBLE
+            })
+        }
 
         return rootView
     }

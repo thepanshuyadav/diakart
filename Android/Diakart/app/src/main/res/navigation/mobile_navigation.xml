@@ -78,4 +78,9 @@
         android:name="com.thepanshu.diakart.ui.product_detail.ProductDetailFragment"
         android:label="Item"
         tools:layout="@layout/fragment_product_detail" />
+    <fragment
+        android:id="@+id/nav_rating"
+        android:name="com.thepanshu.diakart.ui.user_rating.UserRatingFragment"
+        android:label="user_rating_fragment"
+        tools:layout="@layout/user_rating_fragment" />
 </navigation>

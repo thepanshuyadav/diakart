@@ -40,7 +40,7 @@ class WishListFragment : Fragment(), ProductsListAdapter.OnProductClickListener 
 
         wishListViewModel
                 .getWishList()
-                .observe(viewLifecycleOwner, Observer<List<ProductDetailModel>> {
+                .observe(viewLifecycleOwner, {
             progressBar.visibility = View.VISIBLE
             data.value = it
             da=it

@@ -2,12 +2,14 @@ package com.thepanshu.diakart.adapters
 
 import android.content.Context
 import android.graphics.Color
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import com.smarteist.autoimageslider.SliderViewAdapter
 import com.squareup.picasso.Picasso
 import com.thepanshu.diakart.R
@@ -48,8 +50,10 @@ class SliderAdapter(private val context: Context, private var mSliderItems: Arra
                 Toast.LENGTH_SHORT
             ).show()
         }
-
-        Picasso.get().load(sliderItem.image).into(viewHolder.imageViewBackground)
+        Picasso.get()
+            .load(sliderItem.image)
+            .placeholder(R.drawable.ic_undraw_loading_frh4)
+            .into(viewHolder.imageViewBackground)
         Picasso.get().load(sliderItem.gif).into(viewHolder.imageGifContainer)
     }
 

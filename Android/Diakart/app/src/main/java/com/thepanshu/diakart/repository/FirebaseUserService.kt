@@ -3,10 +3,10 @@ package com.thepanshu.diakart.repository
 import android.util.Log
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
-import com.thepanshu.diakart.models.ProductDetailModel
-import com.thepanshu.diakart.models.UserModel
+import com.thepanshu.diakart.models.*
 import com.thepanshu.diakart.models.UserModel.Companion.toUser
 import kotlinx.coroutines.tasks.await
 
@@ -27,16 +27,49 @@ object FirebaseUserService {
         }
     }
 
-
-    // TODO: get wish list and ratings
-    suspend fun updateRating(rating: Int, prodDocId: String) {
+    suspend fun updateRating(rating: UserRatingModel, prodDocId: String) {
 
         db.runTransaction { transaction->
             transaction.set(db.collection("USERS")
                     .document(userId)
                     .collection("RATINGS")
                     .document(prodDocId),
-                    hashMapOf("rating" to rating))
+                    rating)
+        }
+    }
+    suspend fun getRating(prodDocId: String): Int {
+        return try {
+            var rating: Int
+            db.collection("USERS")
+                .document(userId)
+                .collection("RATINGS")
+                .document(prodDocId).get().await()["rating"].toString().toInt()
+        } catch (e: Exception) {
+            Log.e(TAG, "Error getting user's product rating", e)
+            FirebaseCrashlytics.getInstance().log("Error getting user's product rating")
+            FirebaseCrashlytics.getInstance().setCustomKey("user_rating", TAG)
+            FirebaseCrashlytics.getInstance().recordException(e)
+            0
+        }
+    }
+
+    suspend fun getUserRatingList() : List<UserRatingModel>
+    {
+        return try {
+            db.collection("USERS")
+                .document(userId)
+                .collection("RATINGS")
+                .get()
+                .await()
+                .documents.mapNotNull {
+                    it.toObject(UserRatingModel::class.java)
+                }
+        } catch (e: Exception) {
+//            Log.e(FirebaseUserService.TAG, "Error getting user details", e)
+//            FirebaseCrashlytics.getInstance().log("Error getting user details")
+//            FirebaseCrashlytics.getInstance().setCustomKey("user", FirebaseUserService.TAG)
+//            FirebaseCrashlytics.getInstance().recordException(e)
+            emptyList()
         }
     }
 
@@ -96,22 +129,21 @@ object FirebaseUserService {
         }
     }
 
+
+    // todo
     suspend fun isWishListed(prodDocId: String): Boolean? {
         return try {
             db.collection("USERS")
                     .document(userId)
                     .collection("WISHLIST")
-                    .document(prodDocId)
-//                    .addSnapshotListener { snapshot, e->
-////                        if (e != null) {
-////                            Log.w(TAG, "Listen failed.", e)
-////                            return@addSnapshotListener
-////                        }
-//
-//                        snapshot != null && snapshot.exists()
-//                    }
-                    .get().result?.exists()
-            true
+                    .document(prodDocId).get().result?.exists()
+//            db.runTransaction {
+//                it.get(db.collection("USERS")
+//                    .document(userId)
+//                    .collection("WISHLIST")
+//                    .document(prodDocId)).exists()
+//            }.result
+
         } catch (e: Exception) {
             Log.e(FirebaseUserService.TAG, "Error getting wish list", e)
             FirebaseCrashlytics.getInstance().log("Error getting wish list")
