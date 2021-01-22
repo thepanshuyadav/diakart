@@ -20,6 +20,8 @@ class CouponListFragment : Fragment() {
 
     private lateinit var viewModel: CouponListViewModel
 
+    private lateinit var rootView: View
+
     private lateinit var progressBar: ProgressBar
     private lateinit var recyclerView: RecyclerView
 
@@ -27,7 +29,7 @@ class CouponListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.coupon_list_fragment, container, false)
+        rootView = inflater.inflate(R.layout.coupon_list_fragment, container, false)
         progressBar = rootView.findViewById(R.id.progressBar)
         recyclerView = rootView.findViewById(R.id.coupon_list_rv)
         return rootView
@@ -39,7 +41,7 @@ class CouponListFragment : Fragment() {
         viewModel.getCouponsList().observe(viewLifecycleOwner, {
             progressBar.visibility = View.VISIBLE
             recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            recyclerView.adapter = CouponAdapter(it, requireContext())
+            recyclerView.adapter = CouponAdapter(it, requireContext(), rootView)
             progressBar.visibility = View.GONE
         })
         // TODO: Use the ViewModel

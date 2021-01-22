@@ -1,6 +1,7 @@
 package com.thepanshu.diakart.adapters
 
 import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.CLIPBOARD_SERVICE
 import android.content.Intent
@@ -11,15 +12,18 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.models.CouponModel
 
 
 class CouponAdapter(
     val couponList: List<CouponModel>,
-    val context: Context
+    val context: Context,
+    val view: View
     ) : RecyclerView.Adapter<CouponAdapter.CouponAdapterViewHolder>() {
     inner class CouponAdapterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val couponTitleTv: TextView = itemView.findViewById(R.id.coupon_title)
@@ -51,9 +55,12 @@ class CouponAdapter(
             }
         }
         fun setCopyButton() {
-//            val clipboard = getSystemService(context, Context.CLIPBOARD_SERVICE)
-//            val clip = ClipData.newPlainText("Coupon", couponValueTv.text.toString())
-//            clipboard?.setPrimaryClip(clip)
+            var myClipboard = getSystemService(context, ClipboardManager::class.java) as ClipboardManager
+            copyCoupon.setOnClickListener {
+                val clip = ClipData.newPlainText("Coupon", couponValueTv.text.toString())
+                myClipboard.setPrimaryClip(clip)
+                Snackbar.make(view, "Text Copied Successfully", Snackbar.LENGTH_SHORT).show()
+            }
         }
     }
 
