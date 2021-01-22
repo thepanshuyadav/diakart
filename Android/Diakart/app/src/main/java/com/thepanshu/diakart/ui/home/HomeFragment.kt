@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import com.smarteist.autoimageslider.SliderAnimations
 import com.smarteist.autoimageslider.SliderView
@@ -55,6 +56,12 @@ class HomeFragment : Fragment(),
         rvCategory = root.findViewById(R.id.categories_rv) as RecyclerView
         gridListRv = root.findViewById(R.id.grid_list_rv)
         sliderView = root.findViewById(R.id.banner_slider_ad)
+        val couponListCard = root.findViewById<MaterialCardView>(R.id.coupons_card_view)
+        couponListCard.setOnClickListener {
+            //val bundle = bundleOf("categoryProductsRef" to categoryList[position])
+            val navController = view?.let { Navigation.findNavController(it) }
+            navController?.navigate(R.id.action_nav_home_to_couponListFragment)
+        }
 
         return root
     }

@@ -24,6 +24,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_nav_home_to_couponListFragment"
+            app:destination="@id/couponListFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
 
     <fragment
@@ -83,4 +90,9 @@
         android:name="com.thepanshu.diakart.ui.user_rating.UserRatingFragment"
         android:label="My Ratings"
         tools:layout="@layout/user_rating_fragment" />
+    <fragment
+        android:id="@+id/couponListFragment"
+        android:name="com.thepanshu.diakart.ui.coupon_list.CouponListFragment"
+        android:label="Offers"
+        tools:layout="@layout/coupon_list_fragment" />
 </navigation>

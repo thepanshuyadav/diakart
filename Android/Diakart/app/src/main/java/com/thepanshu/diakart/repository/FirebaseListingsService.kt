@@ -9,6 +9,8 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Transaction
 import com.thepanshu.diakart.models.CategoryModel
+import com.thepanshu.diakart.models.CouponModel
+import com.thepanshu.diakart.models.CouponModel.Companion.toCoupon
 import com.thepanshu.diakart.models.ProductDetailModel
 import com.thepanshu.diakart.models.SliderModel
 import kotlinx.coroutines.tasks.await
@@ -44,6 +46,21 @@ object FirebaseListingsService {
             return emptyList()
         }
     }
+
+    suspend fun getCouponList(): List<CouponModel>? {
+        return try {
+            db.collection("COUPONS").get().await().documents.mapNotNull {
+                it.toObject(CouponModel::class.java)
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error getting user details", e)
+            FirebaseCrashlytics.getInstance().log("Error getting user details")
+            FirebaseCrashlytics.getInstance().setCustomKey("user", TAG)
+            FirebaseCrashlytics.getInstance().recordException(e)
+            null
+        }
+    }
+
 
     suspend fun getProductList(path: DocumentReference): ArrayList<ProductDetailModel>? {
         return try {

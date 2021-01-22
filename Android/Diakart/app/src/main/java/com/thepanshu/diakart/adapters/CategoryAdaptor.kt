@@ -56,8 +56,6 @@ class CategoryAdapter (
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         val imageUri = categoryList[position].icon.toUri()
         holder.setCategoryIcon(imageUri)
-
-
         holder.setCategoryName(categoryList[position].title)
 
     }

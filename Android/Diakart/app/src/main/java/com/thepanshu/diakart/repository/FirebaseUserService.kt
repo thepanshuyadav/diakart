@@ -39,7 +39,6 @@ object FirebaseUserService {
     }
     suspend fun getRating(prodDocId: String): Int {
         return try {
-            var rating: Int
             db.collection("USERS")
                 .document(userId)
                 .collection("RATINGS")
