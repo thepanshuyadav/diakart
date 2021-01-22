@@ -27,7 +27,10 @@ class ProductsListFragment : Fragment(), ProductsListAdapter.OnProductClickListe
     lateinit var productListRef: DocumentReference
     private lateinit var productsListViewModel: ProductsListViewModel
     private var data= MutableLiveData<List<ProductDetailModel>>()
-    private lateinit  var da:List<ProductDetailModel>
+    private lateinit var da:List<ProductDetailModel>
+
+    private lateinit var rvProducts: RecyclerView
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,12 +38,20 @@ class ProductsListFragment : Fragment(), ProductsListAdapter.OnProductClickListe
     ): View? {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_products_list, container, false)
+        rvProducts = rootView.findViewById(R.id.products_rv) as RecyclerView
+        progressBar = rootView.findViewById<ProgressBar>(R.id.products_list_progress_bar)
+
+
+
+        // TODO: Use data binding to set the visibility of progress bar
+        return rootView
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         productsListViewModel =
                 ViewModelProvider(this).get(ProductsListViewModel::class.java)
-        val rvProducts = rootView.findViewById(R.id.products_rv) as RecyclerView
-        val progressBar = rootView.findViewById<ProgressBar>(R.id.products_list_progress_bar)
         rvProducts.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-
         productsListViewModel.getProductsList(productListRef).observe(viewLifecycleOwner, Observer<List<ProductDetailModel>> {
             progressBar.visibility = View.VISIBLE
             data.value = it
@@ -49,8 +60,6 @@ class ProductsListFragment : Fragment(), ProductsListAdapter.OnProductClickListe
             progressBar.visibility = View.GONE
         })
 
-        // TODO: Use data binding to set the visibility of progress bar
-        return rootView
     }
     override fun onProductClick(position: Int) {
         val bundle = bundleOf("product" to da[position])
