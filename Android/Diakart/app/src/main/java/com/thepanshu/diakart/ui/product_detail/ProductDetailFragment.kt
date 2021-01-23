@@ -1,16 +1,13 @@
 package com.thepanshu.diakart.ui.product_detail
 
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,7 +40,7 @@ class ProductDetailFragment : Fragment() {
 
         val rvProductImage = rootView.findViewById(R.id.specific_product_image_rv) as RecyclerView
         rvProductImage.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        rvProductImage.adapter = ImageListAdapter(product.images)
+        rvProductImage.adapter = ImageListAdapter(product.images, requireContext())
 
         val productNameTv = rootView.findViewById<TextView>(R.id.specific_product_name)
         val brandNameTv = rootView.findViewById<TextView>(R.id.specific_product_brand_name)

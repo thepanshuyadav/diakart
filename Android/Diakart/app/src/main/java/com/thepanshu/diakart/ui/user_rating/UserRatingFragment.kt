@@ -1,12 +1,12 @@
 package com.thepanshu.diakart.ui.user_rating
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.thepanshu.diakart.R
@@ -38,7 +38,7 @@ class UserRatingFragment : Fragment(), UserRatingListAdapter.OnProductClickListe
         viewModel.getProductsList().observe(viewLifecycleOwner, {
             progressBar.visibility = View.VISIBLE
             userRatingRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            userRatingRecyclerView.adapter = UserRatingListAdapter(it, this)
+            userRatingRecyclerView.adapter = UserRatingListAdapter(it, this, requireContext())
             progressBar.visibility = View.GONE
         })
 

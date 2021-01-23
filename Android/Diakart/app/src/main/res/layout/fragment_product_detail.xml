@@ -9,7 +9,6 @@
     tools:context=".ui.product_detail.ProductDetailFragment">
 
     <ProgressBar
-        android:id="@+id/product_detail_progress_bar"
         style="@style/Widget.AppCompat.ProgressBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,7 +20,6 @@
 
 
     <ScrollView
-        android:id="@+id/product_detail_scroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbarStyle="insideInset"
@@ -152,7 +150,6 @@
 <!--                android:textColor="@color/green" />-->
 
             <View
-                android:id="@+id/divider1"
                 android:layout_width="match_parent"
                 android:layout_height="5dp"
                 android:layout_marginTop="8dp"
@@ -180,7 +177,6 @@
                 android:textSize="12sp" />
 
             <View
-                android:id="@+id/divider2"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="?android:attr/listDivider" />

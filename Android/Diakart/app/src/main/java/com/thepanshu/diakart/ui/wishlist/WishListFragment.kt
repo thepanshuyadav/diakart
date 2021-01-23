@@ -52,7 +52,7 @@ class WishListFragment : Fragment(), ProductsListAdapter.OnProductClickListener 
                 progressBar.visibility = View.VISIBLE
                 data.value = it
                 da=it
-                rvProducts.adapter = ProductsListAdapter(da, this)
+                rvProducts.adapter = ProductsListAdapter(da, this, requireContext())
                 progressBar.visibility = View.GONE
             })
     }

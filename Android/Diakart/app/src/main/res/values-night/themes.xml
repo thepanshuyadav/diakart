@@ -28,7 +28,4 @@
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@drawable/splash_activity_bg</item>
     </style>
-    <style name="ShapeAppearanceOverlay.App.CornerSize10Percent" parent="">
-        <item name="cornerSize">20%</item>
-    </style>
 </resources>

@@ -1,6 +1,7 @@
 package com.thepanshu.diakart.adapters
 
 import android.content.Context
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,13 +9,14 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.models.UserRatingModel
 
 class UserRatingListAdapter(
         private val userRatingList: List<UserRatingModel>,
-        private val listener: OnProductClickListener
+        private val listener: OnProductClickListener,
+        val context: Context
 ):
         RecyclerView.Adapter<UserRatingListAdapter.ProductRatingListViewHolder>() {
 
@@ -58,7 +60,7 @@ class UserRatingListAdapter(
         }
 
         fun setProductImage(imageSrc: String) {
-            Picasso.get().load(imageSrc).into(productImageView)
+            Glide.with(context).load(Uri.parse(imageSrc)).into(productImageView)
         }
 
     }

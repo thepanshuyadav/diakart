@@ -1,16 +1,18 @@
 package com.thepanshu.diakart.adapters
 
 import android.content.Context
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
 import com.thepanshu.diakart.R
 
 class ImageListAdapter(
-    private val productImageList: ArrayList<String>
+    private val productImageList: ArrayList<String>,
+        val context: Context
     //private val productImageList: List<Int>
     )
     : RecyclerView.Adapter<ImageListAdapter.ImageViewHolder>() {
@@ -28,11 +30,7 @@ class ImageListAdapter(
     override fun getItemCount(): Int = productImageList.size
 
     override fun onBindViewHolder(holder: ImageListAdapter.ImageViewHolder, position: Int) {
-        //holder.imageView.setImageResource(productImageList[position])
-        Picasso.get()
-            .load(productImageList[position])
-            //.placeholder(R.drawable.progress_animation)
-            .into(holder.imageView)
+        Glide.with(context).load(Uri.parse(productImageList[position])).into(holder.imageView)
     }
 
 }

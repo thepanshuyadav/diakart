@@ -1,13 +1,16 @@
 package com.thepanshu.diakart
 
+import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.AttributeSet
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
@@ -16,18 +19,20 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.squareup.picasso.Picasso
-import com.thepanshu.diakart.authenticate.RegisterActivity
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var profileImageView: ImageView
+    private lateinit var imageSrc: String
+    private lateinit var userNameTv: TextView
+    private lateinit var userEmailTv: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,11 +52,19 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         val navHeader = navView.getHeaderView(0)
-        val profileImageView = navHeader.findViewById<ImageView>(R.id.main_profile_img)
-        val userNameTv = navHeader.findViewById<TextView>(R.id.main_full_name)
-        val userEmailTv = navHeader.findViewById<TextView>(R.id.main_email)
-        val shareButton = navView.menu.size().toString()
-        Log.d("SHARE", shareButton)
+        profileImageView = navHeader.findViewById(R.id.main_profile_img)
+        userNameTv = navHeader.findViewById(R.id.main_full_name)
+        userEmailTv = navHeader.findViewById(R.id.main_email)
+
+
+    }
+
+    override fun onCreateView(
+        parent: View?,
+        name: String,
+        context: Context,
+        attrs: AttributeSet
+    ): View? {
         val user = Firebase.auth.currentUser
         val db = Firebase.firestore
         val docRef = db.collection("USERS").document(user!!.uid)
@@ -61,15 +74,12 @@ class MainActivity : AppCompatActivity() {
                 Log.d("PHOTO", "DocumentSnapshot data: ${it.data}")
                 userNameTv.text = it.data?.get("name").toString()
                 userEmailTv.text = it.data?.get("email").toString()
-                val imageSrc = it.data?.get("profile_pic").toString()
-                Picasso.get().load(imageSrc).into(profileImageView)
+                imageSrc = it.data?.get("profile_pic").toString()
+                Glide.with(context).load(Uri.parse(imageSrc)).into(profileImageView)
 
-            } else {
-                //Log.d(TAG, "No such document")
             }
         }
-
-
+        return super.onCreateView(parent, name, context, attrs)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

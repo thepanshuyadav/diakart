@@ -19,10 +19,11 @@ import com.thepanshu.diakart.models.CategoryModel
 
 
 class GridListAdapter(
+        private val context: Context,
         private val activity: Activity,
         private val gridClickListener: OnGridClickListener,
         private val gridProductClickListener: GridProductAdapter.OnCategoryGridProductClickListener,
-        CategoryList: List<CategoryModel>)
+        CategoryList: List<CategoryModel>, )
     : RecyclerView.Adapter<GridListAdapter.GridListViewHolder>() {
     private val viewPool = RecycledViewPool()
     private val categoryList = CategoryList
@@ -69,7 +70,7 @@ class GridListAdapter(
     override fun onBindViewHolder(holder: GridListAdapter.GridListViewHolder, position: Int) {
         holder.categoryTitleTv.text = categoryList[position].title
         holder.setCategoryIcon(categoryList[position].icon.toUri())
-        val childItemAdapter = GridProductAdapter(position, categoryList[position].preview, gridProductClickListener)
+        val childItemAdapter = GridProductAdapter(position, categoryList[position].preview, gridProductClickListener, context)
         holder.childRecyclerView.setRecycledViewPool(viewPool)
         val layoutManager = LinearLayoutManager(holder.childRecyclerView.context, LinearLayoutManager.HORIZONTAL, false)
         layoutManager.initialPrefetchItemCount = categoryList[position].preview.size

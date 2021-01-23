@@ -99,7 +99,8 @@ class HomeFragment : Fragment(),
             // TODO: Show progress bar
             progressBar.visibility = View.VISIBLE
             categoryList = it
-            gridListRv.adapter = GridListAdapter(requireActivity(), this,this, it)
+            gridListRv.adapter = GridListAdapter(
+                    requireContext(), requireActivity(), this,this, it)
             rvCategory.adapter = CategoryAdapter(requireActivity(), it, this)
             progressBar.visibility = View.GONE
 

@@ -12,7 +12,6 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import com.smarteist.autoimageslider.SliderViewAdapter
-import com.squareup.picasso.Picasso
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.models.SliderModel
 
@@ -51,16 +50,16 @@ class SliderAdapter(private val context: Context, private var mSliderItems: Arra
                 Toast.LENGTH_SHORT
             ).show()
         }
-        Picasso.get()
-            .load(sliderItem.image)
-            .placeholder(R.drawable.ic_undraw_loading_frh4)
-            .into(viewHolder.imageViewBackground)
+
+        Glide.with(context)
+                .load(Uri.parse(sliderItem.image))
+                //.placeholder(R.drawable.ic_undraw_loading_frh4)
+                .into(viewHolder.imageViewBackground);
         Glide.with(context)
                 .asGif()
                 .load(sliderItem.gif)
                 .placeholder(R.drawable.ic_undraw_loading_frh4)
-                .into(viewHolder.imageGifContainer);
-        //Picasso.get().load().into()
+                .into(viewHolder.imageGifContainer)
     }
 
     override fun getCount(): Int {

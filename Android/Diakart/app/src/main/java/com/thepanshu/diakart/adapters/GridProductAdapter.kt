@@ -1,6 +1,7 @@
 package com.thepanshu.diakart.adapters
 
 import android.content.Context
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,14 +9,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.squareup.picasso.Picasso
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.models.ProductDetailModel
 
 class GridProductAdapter (
         private val gridIdx: Int,
         private val categoryProductList: ArrayList<ProductDetailModel>,
-        private val listener: OnCategoryGridProductClickListener
+        private val listener: OnCategoryGridProductClickListener,
+        val context: Context
         ): RecyclerView.Adapter<GridProductAdapter.CategoryProductViewHolder>() {
 
     inner class CategoryProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
@@ -34,8 +35,8 @@ class GridProductAdapter (
             productSubtitleTv.text = productSubtitle.toString()
         }
         fun setProductImage(productImageLink: String) {
-            Picasso.get().load(productImageLink).into(productImageView)
-            //productImageView.setImageResource(productResId)
+            Glide.with(context).load(Uri.parse(productImageLink)).into(productImageView)
+            //Glide.with(context).load(Uri.parse("")).into()
         }
 
         override fun onClick(p0: View?) {

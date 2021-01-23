@@ -7,18 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.models.ProductDetailModel
 
 
 class ProductsListAdapter(
         private val productsList: List<ProductDetailModel>,
-        private val listener: OnProductClickListener
+        private val listener: OnProductClickListener,
+        val context: Context
 ):
     RecyclerView.Adapter<ProductsListAdapter.ProductsListViewHolder>() {
 
@@ -60,7 +59,7 @@ class ProductsListAdapter(
         }
 
         fun setProductImage(imageSrc: String) {
-            Picasso.get().load(imageSrc).into(productListImageView)
+            Glide.with(context).load(Uri.parse(imageSrc)).into(productListImageView)
         }
 
     }

@@ -3,18 +3,15 @@ package com.thepanshu.diakart.authenticate
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import com.squareup.picasso.Picasso
 import com.thepanshu.diakart.R
 
 class ResetPasswordFragment : Fragment() {

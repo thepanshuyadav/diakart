@@ -1,6 +1,7 @@
 package com.thepanshu.diakart.ui.account
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,17 +10,13 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
-import com.squareup.picasso.Picasso
 import com.thepanshu.diakart.BuildConfig
 import com.thepanshu.diakart.R
-import com.thepanshu.diakart.adapters.GridProductAdapter
 import com.thepanshu.diakart.authenticate.RegisterActivity
 import com.thepanshu.diakart.models.UserModel
 
@@ -73,7 +70,7 @@ class AccountFragment : Fragment() {
             user = it
             usernameTv.text = user.name
             userEmailTv.text = user.email
-            Picasso.get().load(user.profile_pic).into(profileImage)
+            Glide.with(requireContext()).load(Uri.parse(user.profile_pic)).into(profileImage)
             userPointsTv.text = user.points.toString()
             progressBar.visibility = View.GONE
         })
@@ -84,7 +81,8 @@ class AccountFragment : Fragment() {
 
             sendIntent.putExtra(
                 Intent.EXTRA_TEXT,
-                "Hey check out and install Diakart app to earn points : https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID
+                    // TODO: Change text
+                "Hey, Diakart is a healthy food catalog app with discount and coupon information. Get it for free at : https://play.google.com/store/apps/details?id= \nUse invite code to earn points: \n${user.uuid}" + BuildConfig.APPLICATION_ID
             )
             sendIntent.type = "text/plain"
             startActivity(sendIntent)
