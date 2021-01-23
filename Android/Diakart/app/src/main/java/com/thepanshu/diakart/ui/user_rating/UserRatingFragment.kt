@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -22,12 +23,15 @@ class UserRatingFragment : Fragment(), UserRatingListAdapter.OnProductClickListe
     private lateinit var userRatingRecyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
 
+    private lateinit var imageView: ImageView
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
         val rootView = inflater.inflate(R.layout.user_rating_fragment, container, false)
         userRatingRecyclerView = rootView.findViewById(R.id.user_rating_rv)
         progressBar = rootView.findViewById(R.id.progressBar)
+        imageView = rootView.findViewById(R.id.list_bg_imageView)
         return rootView
     }
 
@@ -38,7 +42,11 @@ class UserRatingFragment : Fragment(), UserRatingListAdapter.OnProductClickListe
         viewModel.getProductsList().observe(viewLifecycleOwner, {
             progressBar.visibility = View.VISIBLE
             userRatingRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            userRatingRecyclerView.adapter = UserRatingListAdapter(it, this, requireContext())
+            if(it.isEmpty()){
+                imageView.setImageResource(R.drawable.ic_undraw_empty_xct9)
+            } else {
+                userRatingRecyclerView.adapter = UserRatingListAdapter(it, this, requireContext())
+            }
             progressBar.visibility = View.GONE
         })
 

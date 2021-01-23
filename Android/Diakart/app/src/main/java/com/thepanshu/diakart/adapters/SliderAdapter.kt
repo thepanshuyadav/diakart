@@ -58,7 +58,7 @@ class SliderAdapter(private val context: Context, private var mSliderItems: Arra
         Glide.with(context)
                 .asGif()
                 .load(sliderItem.gif)
-                .placeholder(R.drawable.ic_undraw_loading_frh4)
+                //.placeholder(R.drawable.ic_undraw_loading_frh4)
                 .into(viewHolder.imageGifContainer)
     }
 
