@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -26,6 +27,7 @@ class WishListFragment : Fragment(), ProductsListAdapter.OnProductClickListener 
     private lateinit var da:List<ProductDetailModel>
 
     private lateinit var rvProducts:RecyclerView
+    private lateinit var imageView: ImageView
     private lateinit var progressBar: ProgressBar
 
     override fun onCreateView(
@@ -38,6 +40,7 @@ class WishListFragment : Fragment(), ProductsListAdapter.OnProductClickListener 
 
         rvProducts = rootView.findViewById(R.id.wish_list_rv)
         progressBar = rootView.findViewById(R.id.wish_list_progressBar)
+        imageView = rootView.findViewById(R.id.wishlist_bg_imageView)
 
 
         return rootView
@@ -49,11 +52,16 @@ class WishListFragment : Fragment(), ProductsListAdapter.OnProductClickListener 
             ViewModelProvider(this).get(WishListViewModel::class.java)
         rvProducts.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         wishListViewModel.getWishList().observe(viewLifecycleOwner, {
-                progressBar.visibility = View.VISIBLE
-                data.value = it
-                da=it
+            progressBar.visibility = View.VISIBLE
+            data.value = it
+            da=it
+            if(it.isEmpty()) {
+                imageView.setImageResource(R.drawable.ic_undraw_empty_xct9)
+            }
+            else{
                 rvProducts.adapter = ProductsListAdapter(da, this, requireContext())
-                progressBar.visibility = View.GONE
+            }
+            progressBar.visibility = View.GONE
             })
     }
 

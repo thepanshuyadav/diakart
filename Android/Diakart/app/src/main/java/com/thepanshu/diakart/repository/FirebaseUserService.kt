@@ -28,6 +28,38 @@ object FirebaseUserService {
         }
     }
 
+    suspend fun redeemPoints(inviteCode: String): Boolean {
+        return try {
+            db.runTransaction {
+                    val inviteeDocRef = db.collection("USERS").document(userId)
+                    val inviterDocRef  = db.collection("USERS").document(inviteCode)
+
+                    val inviteeSnapshot = it.get(inviteeDocRef)
+                    val inviterSnapshot = it.get(inviterDocRef)
+
+                    Log.d("REDEEM", inviteeSnapshot.toString())
+                    Log.d("REDEEM", inviterSnapshot.toString())
+
+                    val invitedBy = inviteeSnapshot.getString("invitedBy")
+                    if(invitedBy == null) {
+                        val inviteePoints = inviteeSnapshot.getDouble("points")!! + 5
+                        val inviterPoints = inviterSnapshot.getDouble("points")!! + 5
+
+                        it.update(inviterDocRef, "points", inviterPoints)
+                        it.update(inviteeDocRef, "points", inviteePoints)
+                        it.update(inviteeDocRef, "invitedBy", inviteCode)
+                    }
+            }.isSuccessful
+        } catch (e: Exception) {
+//            Log.e(TAG, "Error getting user's product rating", e)
+//            FirebaseCrashlytics.getInstance().log("Error getting user's product rating")
+//            FirebaseCrashlytics.getInstance().setCustomKey("user_rating", TAG)
+//            FirebaseCrashlytics.getInstance().recordException(e)
+            false
+        }
+
+    }
+
     suspend fun updateRating(rating: UserRatingModel, prodDocId: String) {
 
         db.runTransaction { transaction->
@@ -126,34 +158,6 @@ object FirebaseUserService {
             FirebaseCrashlytics.getInstance().setCustomKey("fetch_wish_list", FirebaseUserService.TAG)
             FirebaseCrashlytics.getInstance().recordException(e)
             emptyList()
-        }
-    }
-
-
-    // todo
-    suspend fun isWishListed(prodDocId: String): Boolean? {
-        try {
-            var bool: Boolean? = null
-            db.collection("USERS")
-                    .document(userId)
-                    .collection("WISHLIST")
-                    .document(prodDocId).addSnapshotListener{snapshot, error->
-                    if (snapshot != null && snapshot.exists()) {
-                        Log.d("WISHLISTED?", "Current data: ${snapshot.data}")
-                        bool = true
-                    } else {
-                        //return false
-                        bool = false
-                    }
-                }
-            return bool
-
-        } catch (e: Exception) {
-            Log.e(FirebaseUserService.TAG, "Error getting wish list", e)
-            FirebaseCrashlytics.getInstance().log("Error getting wish list")
-            FirebaseCrashlytics.getInstance().setCustomKey("wishlist", FirebaseUserService.TAG)
-            FirebaseCrashlytics.getInstance().recordException(e)
-            return null
         }
     }
 }

@@ -11,9 +11,12 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.thepanshu.diakart.BuildConfig
 import com.thepanshu.diakart.R
@@ -30,12 +33,14 @@ class AccountFragment : Fragment() {
     private lateinit var viewModel: AccountViewModel
     private lateinit  var user:UserModel
 
+    private var redeemed = MutableLiveData<Boolean>()
     private lateinit var usernameTv: TextView
     private lateinit var userPointsTv: TextView
     private lateinit var userEmailTv: TextView
     private lateinit var profileImage: ImageView
 
     private lateinit var progressBar:ProgressBar
+    private lateinit var inviteCodeEt:TextInputEditText
     private lateinit var inviteButton: Button
     private lateinit var redeemButton: Button
 
@@ -53,12 +58,9 @@ class AccountFragment : Fragment() {
         redeemButton = root.findViewById(R.id.redeem_button)
 
         progressBar = root.findViewById(R.id.progressBar)
+        inviteCodeEt = root.findViewById(R.id.invite_code_et)
 
         return root
-    }
-
-    private fun checkRedeemCode(code: String) {
-        redeemButton.isEnabled = code.length < 10
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -74,6 +76,31 @@ class AccountFragment : Fragment() {
             userPointsTv.text = user.points.toString()
             progressBar.visibility = View.GONE
         })
+
+        redeemed.observe(viewLifecycleOwner, {
+            if (it!= null) {
+                if(it == true) {
+                    Snackbar.make(requireView(), "Points redeemed 💰", Snackbar.LENGTH_SHORT).show()
+                }
+                else {
+                    Snackbar.make(requireView(), "Couldn't redeem points 😥", Snackbar.LENGTH_SHORT).show()
+                }
+                // TODO: Refresh view
+            }
+        })
+
+
+
+
+        redeemButton.setOnClickListener {
+
+            viewModel.redeemPoints(inviteCodeEt.text.toString()).observe(viewLifecycleOwner, {
+                if(it == true) {
+                    redeemed.postValue(it)
+                }
+            })
+            view?.isEnabled = true
+        }
 
         inviteButton.setOnClickListener {
             val sendIntent = Intent()
