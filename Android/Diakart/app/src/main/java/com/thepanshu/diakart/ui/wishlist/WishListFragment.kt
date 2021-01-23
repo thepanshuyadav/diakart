@@ -40,7 +40,7 @@ class WishListFragment : Fragment(), ProductsListAdapter.OnProductClickListener 
 
         rvProducts = rootView.findViewById(R.id.wish_list_rv)
         progressBar = rootView.findViewById(R.id.wish_list_progressBar)
-        imageView = rootView.findViewById(R.id.wishlist_bg_imageView)
+        imageView = rootView.findViewById(R.id.list_bg_imageView)
 
 
         return rootView

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
@@ -32,6 +33,8 @@ class ProductsListFragment : Fragment(), ProductsListAdapter.OnProductClickListe
     private lateinit var rvProducts: RecyclerView
     private lateinit var progressBar: ProgressBar
 
+    private lateinit var imageView: ImageView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,8 +43,7 @@ class ProductsListFragment : Fragment(), ProductsListAdapter.OnProductClickListe
         val rootView = inflater.inflate(R.layout.fragment_products_list, container, false)
         rvProducts = rootView.findViewById(R.id.products_rv) as RecyclerView
         progressBar = rootView.findViewById<ProgressBar>(R.id.products_list_progress_bar)
-
-
+        imageView = rootView.findViewById(R.id.list_bg_imageView)
 
         // TODO: Use data binding to set the visibility of progress bar
         return rootView
@@ -56,7 +58,11 @@ class ProductsListFragment : Fragment(), ProductsListAdapter.OnProductClickListe
             progressBar.visibility = View.VISIBLE
             data.value = it
             da=it
-            rvProducts.adapter = ProductsListAdapter(da, this, requireContext())
+            if(it.isEmpty()) {
+                imageView.setImageResource(R.drawable.ic_undraw_empty_xct9)
+            } else {
+                rvProducts.adapter = ProductsListAdapter(da, this, requireContext())
+            }
             progressBar.visibility = View.GONE
         })
 
