@@ -22,34 +22,39 @@ class WishListFragment : Fragment(), ProductsListAdapter.OnProductClickListener 
     // TODO: Fetch Wish list
 
     private lateinit var wishListViewModel: WishListViewModel
-    var data= MutableLiveData<List<ProductDetailModel>>()
-    lateinit  var da:List<ProductDetailModel>
+    private var data= MutableLiveData<List<ProductDetailModel>>()
+    private lateinit var da:List<ProductDetailModel>
+
+    private lateinit var rvProducts:RecyclerView
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        wishListViewModel =
-                ViewModelProvider(this).get(WishListViewModel::class.java)
+
         val rootView = inflater.inflate(R.layout.fragment_wishlist, container, false)
 
-        val rvProducts = rootView.findViewById(R.id.wish_list_rv) as RecyclerView
-        val progressBar = rootView.findViewById<ProgressBar>(R.id.wish_list_progressBar)
-        rvProducts.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-
-        wishListViewModel
-                .getWishList()
-                .observe(viewLifecycleOwner, {
-            progressBar.visibility = View.VISIBLE
-            data.value = it
-            da=it
-            rvProducts.adapter = ProductsListAdapter(da, this)
-            progressBar.visibility = View.GONE
-        })
+        rvProducts = rootView.findViewById(R.id.wish_list_rv)
+        progressBar = rootView.findViewById(R.id.wish_list_progressBar)
 
 
         return rootView
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        wishListViewModel =
+            ViewModelProvider(this).get(WishListViewModel::class.java)
+        rvProducts.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        wishListViewModel.getWishList().observe(viewLifecycleOwner, {
+                progressBar.visibility = View.VISIBLE
+                data.value = it
+                da=it
+                rvProducts.adapter = ProductsListAdapter(da, this)
+                progressBar.visibility = View.GONE
+            })
     }
 
     override fun onProductClick(position: Int) {

@@ -1,10 +1,11 @@
 package com.thepanshu.diakart.repository
 
 import android.util.Log
+import android.widget.NumberPicker
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.events.Event
+import com.google.firebase.firestore.*
 import com.google.firebase.ktx.Firebase
 import com.thepanshu.diakart.models.*
 import com.thepanshu.diakart.models.UserModel.Companion.toUser
@@ -131,24 +132,28 @@ object FirebaseUserService {
 
     // todo
     suspend fun isWishListed(prodDocId: String): Boolean? {
-        return try {
+        try {
+            var bool: Boolean? = null
             db.collection("USERS")
                     .document(userId)
                     .collection("WISHLIST")
-                    .document(prodDocId).get().result?.exists()
-//            db.runTransaction {
-//                it.get(db.collection("USERS")
-//                    .document(userId)
-//                    .collection("WISHLIST")
-//                    .document(prodDocId)).exists()
-//            }.result
+                    .document(prodDocId).addSnapshotListener{snapshot, error->
+                    if (snapshot != null && snapshot.exists()) {
+                        Log.d("WISHLISTED?", "Current data: ${snapshot.data}")
+                        bool = true
+                    } else {
+                        //return false
+                        bool = false
+                    }
+                }
+            return bool
 
         } catch (e: Exception) {
             Log.e(FirebaseUserService.TAG, "Error getting wish list", e)
             FirebaseCrashlytics.getInstance().log("Error getting wish list")
             FirebaseCrashlytics.getInstance().setCustomKey("wishlist", FirebaseUserService.TAG)
             FirebaseCrashlytics.getInstance().recordException(e)
-            null
+            return null
         }
     }
 }

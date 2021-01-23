@@ -128,7 +128,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:id="@+id/add_wish_list_btn"
-                android:visibility="gone"
                 android:text="Add to wish list"
                 android:drawableEnd="@drawable/ic_baseline_favorite_24"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
@@ -138,7 +137,6 @@
                 android:layout_gravity="center"
                 android:id="@+id/remove_wish_list_btn"
                 android:text="remove from wishlist"
-                android:visibility="gone"
                 android:drawableEnd="@drawable/ic_baseline_delete_24"
                 app:backgroundTint="#DD2C00"/>
 

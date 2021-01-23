@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 class AccountViewModel : ViewModel() {
     // TODO: Implement the ViewModel
     private var user: MutableLiveData<UserModel>? = null
+
     internal fun getUserDetail(): MutableLiveData<UserModel> {
         if (user == null) {
             user = MutableLiveData()
@@ -23,4 +24,7 @@ class AccountViewModel : ViewModel() {
             user?.value = FirebaseUserService.getProfileData()
         }
     }
+
+
+
 }

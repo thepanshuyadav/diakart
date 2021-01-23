@@ -35,6 +35,7 @@
 
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="wrap_content"
+                        app:cardElevation="16dp"
                         android:layout_height="wrap_content"
                         app:cardCornerRadius="200dp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +61,8 @@
                     android:layout_height="wrap_content"
                     android:minWidth="150dp"
                     android:padding="8dp"
-                    android:translationY="-25dp"
+                    android:translationY="-40dp"
+                    app:cardElevation="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -92,10 +94,113 @@
                             android:layout_margin="8dp"
                             android:gravity="center"
                             tools:text="qwertyuiop@diakart.com" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            android:layout_height="wrap_content">
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:src="@drawable/ic_coin_svgrepo_com"
+                                android:layout_height="24dp"/>
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/user_points"
+                                style="@style/TextAppearance.MaterialComponents.Body1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="8dp"
+                                android:gravity="center"
+                                android:text="100" />
+                        </LinearLayout>
                     </LinearLayout>
 
                 </com.google.android.material.card.MaterialCardView>
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardElevation="16dp"
+                app:cardCornerRadius="16dp"
+                android:layout_margin="8dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingStart="8dp"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/indigo_500"
+                        style="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:text="Earn Points"/>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_height="wrap_content"
+                        style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                        android:text="Invite your friend and you both earn points."/>
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_gravity="center"
+                        android:layout_marginTop="16dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/invite_button"
+                        android:text="Invite"/>
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="16dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingStart="8dp"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/indigo_500"
+                        style="@style/TextAppearance.MaterialComponents.Headline6"
+                        android:text="Redeem Points"/>
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:hint="Invite Code"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/signup_logo">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/referal_code_et"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_gravity="center"
+                        android:layout_marginTop="16dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/redeem_button"
+                        android:text="Redeem"/>
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
 
             <com.google.android.material.button.MaterialButton
@@ -103,9 +208,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:id="@+id/signout_btn"
+                app:elevation="16dp"
                 android:text="Sign out"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:textColor="#F50057"/>
+                android:layout_margin="16dp"
+                app:backgroundTint="#DD2C00"/>
 
 
         </LinearLayout>

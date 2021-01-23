@@ -15,6 +15,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.adapters.ImageListAdapter
 import com.thepanshu.diakart.models.ProductDetailModel
@@ -29,7 +30,6 @@ class ProductDetailFragment : Fragment() {
     private lateinit var productRatings : ArrayList<Int>
     private var rating = MutableLiveData<Int>()
 
-    private var isWishListed = MutableLiveData<Boolean>()
     private lateinit var addWishListButton: Button
     private lateinit var removeWishListButton: Button
     private lateinit var viewModel: ProductDetailViewModel
@@ -111,45 +111,35 @@ class ProductDetailFragment : Fragment() {
             viewModel.setProductRating(rating, product.documentId)
         })
         // MARK: Rating End
-
-        viewModel.isWishListed(product.documentId).observe(viewLifecycleOwner, {
-            rootView.visibility = View.GONE
-            isWishListed.value = it
-            rootView.visibility = View.VISIBLE
-        })
         addWishListButton = rootView.findViewById(R.id.add_wish_list_btn)
         removeWishListButton = rootView.findViewById(R.id.remove_wish_list_btn)
 
-        isWishListed.observe(viewLifecycleOwner, {
-            rootView.visibility = View.GONE
-            if(it == true) {
-                addWishListButton.visibility = View.GONE
-                removeWishListButton.visibility = View.VISIBLE
-            }
-            else {
-                addWishListButton.visibility = View.VISIBLE
-                removeWishListButton.visibility = View.GONE
-            }
-            rootView.visibility = View.VISIBLE
-        })
+        return rootView
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
 
         addWishListButton.setOnClickListener {
-            viewModel.addWishList(product).observe(viewLifecycleOwner, {
-                rootView.visibility = View.GONE
-                isWishListed.postValue(it)
-                rootView.visibility = View.VISIBLE
+            viewModel.addToWishList(product).observe(viewLifecycleOwner, {
+                if(it!=null) {
+                    if(it != true) {
+                        Snackbar.make(requireView(), "Added to wish list! ♥️", Snackbar.LENGTH_SHORT).show()
+                    }
+                }
             })
         }
 
         removeWishListButton.setOnClickListener {
             viewModel.removeFromWishList(product.documentId).observe(viewLifecycleOwner, {
-                rootView.visibility = View.GONE
-                isWishListed.postValue(it)
-                rootView.visibility = View.VISIBLE
+                if(it!=null) {
+                    if(it != false) {
+                        Snackbar.make(requireView(), "Removed from wish list! 💔", Snackbar.LENGTH_SHORT).show()
+                    }
+                }
             })
         }
 
-        return rootView
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

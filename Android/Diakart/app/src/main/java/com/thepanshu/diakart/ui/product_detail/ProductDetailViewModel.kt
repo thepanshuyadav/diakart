@@ -22,23 +22,23 @@ class ProductDetailViewModel: ViewModel() {
     //private var _product_rating: MutableLiveData<List<Int>>? = null
 
 
-    internal fun isWishListed(prodDocId: String): MutableLiveData<Boolean> {
-        if (_is_wishlisted == null) {
-            _is_wishlisted = MutableLiveData()
-            loadWishListedInfo(prodDocId)
-        }
-        return _is_wishlisted as MutableLiveData<Boolean>
-    }
+//    internal fun isWishListed(prodDocId: String): MutableLiveData<Boolean> {
+//        if (_is_wishlisted == null) {
+//            _is_wishlisted = MutableLiveData()
+//            loadWishListedInfo(prodDocId)
+//        }
+//        return _is_wishlisted as MutableLiveData<Boolean>
+//    }
+//
+//
+//    private fun loadWishListedInfo(prodDocId: String) {
+//        viewModelScope.launch {
+//            _is_wishlisted?.postValue(FirebaseUserService.isWishListed(prodDocId))
+//            Log.d("LOAD", _is_wishlisted.toString())
+//        }
+//    }
 
-
-    private fun loadWishListedInfo(prodDocId: String) {
-        viewModelScope.launch {
-            _is_wishlisted?.postValue(FirebaseUserService.isWishListed(prodDocId))
-            Log.d("LOAD", _is_wishlisted.toString())
-        }
-    }
-
-    internal  fun addWishList(productDetailModel: ProductDetailModel):MutableLiveData<Boolean> {
+    internal  fun addToWishList(productDetailModel: ProductDetailModel):MutableLiveData<Boolean> {
         if (_is_wishlisted == null) {
             _is_wishlisted = MutableLiveData()
         }
@@ -48,12 +48,12 @@ class ProductDetailViewModel: ViewModel() {
 
     private fun addToWishListFB(productDetailModel: ProductDetailModel) {
         viewModelScope.launch {
-            _is_wishlisted?.value = FirebaseUserService.addToWishList(productDetailModel)
+            _is_wishlisted?.postValue(FirebaseUserService.addToWishList(productDetailModel))
             Log.d("ADD", _is_wishlisted.toString())
         }
     }
 
-    internal fun removeFromWishList(prodDocId: String):MutableLiveData<Boolean> {
+    internal fun removeFromWishList(prodDocId: String): MutableLiveData<Boolean> {
         if (_is_wishlisted == null) {
             _is_wishlisted = MutableLiveData()
         }
@@ -63,7 +63,7 @@ class ProductDetailViewModel: ViewModel() {
 
     private fun removeFromWishListFB(prodDocId: String) {
         viewModelScope.launch {
-            _is_wishlisted?.value = FirebaseUserService.removeFromWishList(prodDocId).not()
+            _is_wishlisted?.postValue(FirebaseUserService.removeFromWishList(prodDocId).not())
             Log.d("REMOVE", _is_wishlisted.toString())
         }
     }

@@ -1,11 +1,13 @@
 package com.thepanshu.diakart.ui.home
 
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -13,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.material.card.MaterialCardView
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import com.smarteist.autoimageslider.SliderAnimations
@@ -56,6 +59,10 @@ class HomeFragment : Fragment(),
         rvCategory = root.findViewById(R.id.categories_rv) as RecyclerView
         gridListRv = root.findViewById(R.id.grid_list_rv)
         sliderView = root.findViewById(R.id.banner_slider_ad)
+        val couponCardImageView: ImageView = root.findViewById(R.id.coupon_card_image)
+        Glide.with(requireContext())
+                .load(Uri.parse("https://firebasestorage.googleapis.com/v0/b/diakart.appspot.com/o/res%2FCouponCardImage.jpg?alt=media&token=c848d70e-ec80-4531-a124-d05e7d3ad0d0"))
+                .into(couponCardImageView)
         val couponListCard = root.findViewById<MaterialCardView>(R.id.coupons_card_view)
         couponListCard.setOnClickListener {
             //val bundle = bundleOf("categoryProductsRef" to categoryList[position])

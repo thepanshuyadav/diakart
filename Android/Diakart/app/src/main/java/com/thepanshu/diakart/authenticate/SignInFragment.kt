@@ -167,10 +167,11 @@ class SignInFragment : Fragment() {
                         .addOnSuccessListener { document ->
                             if (!document.exists()) {
                                 val userFb = hashMapOf(
-                                        "name" to name,
-                                        "uuid" to uuid,
-                                        "email" to email,
-                                        "profile_pic" to profilePic
+                                    "name" to name,
+                                    "uuid" to uuid,
+                                    "email" to email,
+                                    "profile_pic" to profilePic,
+                                    "points" to 0
                                 )
                                 db.collection("USERS").document(user.uid)
                                     .set(userFb)

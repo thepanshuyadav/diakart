@@ -12,7 +12,8 @@ data class UserModel(
         val name: String,
         val profile_pic: String,
         val uuid: String,
-        val email: String
+        val email: String,
+        val points: Int
 ): Parcelable {
 
     companion object {
@@ -22,7 +23,8 @@ data class UserModel(
                 val imageUrl = getString("profile_pic")!!
                 val uuid = getString("uuid")!!
                 val email = getString("email")!!
-                UserModel(name, imageUrl, uuid, email)
+                val points = getDouble("points")!!.toInt()
+                UserModel(name, imageUrl, uuid, email, points)
             } catch (e: Exception) {
                 Log.e(TAG, "Error converting user profile", e)
                 FirebaseCrashlytics.getInstance().log("Error converting user profile")
