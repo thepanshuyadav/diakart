@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,6 +26,8 @@ class CouponListFragment : Fragment() {
     private lateinit var progressBar: ProgressBar
     private lateinit var recyclerView: RecyclerView
 
+    private lateinit var imageView: ImageView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,6 +35,7 @@ class CouponListFragment : Fragment() {
         rootView = inflater.inflate(R.layout.coupon_list_fragment, container, false)
         progressBar = rootView.findViewById(R.id.progressBar)
         recyclerView = rootView.findViewById(R.id.coupon_list_rv)
+        imageView = rootView.findViewById(R.id.list_bg_imageView)
         return rootView
     }
 
@@ -41,7 +45,12 @@ class CouponListFragment : Fragment() {
         viewModel.getCouponsList().observe(viewLifecycleOwner, {
             progressBar.visibility = View.VISIBLE
             recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            recyclerView.adapter = CouponAdapter(it, requireContext(), rootView)
+            if(it.isEmpty()){
+                imageView.setImageResource(R.drawable.ic_undraw_empty_xct9)
+            }
+            else {
+                recyclerView.adapter = CouponAdapter(it, requireContext(), rootView)
+            }
             progressBar.visibility = View.GONE
         })
         // TODO: Use the ViewModel
