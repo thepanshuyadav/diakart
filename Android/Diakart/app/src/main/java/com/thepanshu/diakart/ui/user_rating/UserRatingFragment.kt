@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.adapters.UserRatingListAdapter
 
@@ -29,6 +31,9 @@ class UserRatingFragment : Fragment(), UserRatingListAdapter.OnProductClickListe
                               savedInstanceState: Bundle?): View? {
 
         val rootView = inflater.inflate(R.layout.user_rating_fragment, container, false)
+        val mAdView = rootView.findViewById<AdView>(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
         userRatingRecyclerView = rootView.findViewById(R.id.user_rating_rv)
         progressBar = rootView.findViewById(R.id.progressBar)
         imageView = rootView.findViewById(R.id.list_bg_imageView)

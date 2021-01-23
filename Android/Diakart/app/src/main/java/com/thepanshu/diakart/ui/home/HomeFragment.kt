@@ -16,6 +16,8 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import com.google.android.material.card.MaterialCardView
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import com.smarteist.autoimageslider.SliderAnimations
@@ -53,6 +55,13 @@ class HomeFragment : Fragment(),
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_home, container, false)
+        val mAdView1 = root.findViewById<AdView>(R.id.adView1)
+        val adRequest1 = AdRequest.Builder().build()
+        mAdView1.loadAd(adRequest1)
+
+        val mAdView2 = root.findViewById<AdView>(R.id.adView2)
+        val adRequest2 = AdRequest.Builder().build()
+        mAdView2.loadAd(adRequest2)
 
 
         progressBar = root.findViewById(R.id.home_progress_bar)

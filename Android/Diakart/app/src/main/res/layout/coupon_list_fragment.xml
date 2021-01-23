@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.coupon_list.CouponListFragment">
     <ProgressBar
         android:layout_width="wrap_content"
@@ -19,5 +20,13 @@
         android:id="@+id/list_bg_imageView"
         android:layout_gravity="center"
         android:layout_height="wrap_content" />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:adSize="BANNER"
+        app:adUnitId="ca-app-pub-5665855701538045/1813573103"
+        android:layout_gravity="center|bottom"/>
 
 </FrameLayout>

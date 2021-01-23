@@ -85,6 +85,16 @@
 
             </com.google.android.material.card.MaterialCardView>
 
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/adView1"
+                android:layout_marginTop="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:adSize="BANNER"
+                app:adUnitId="ca-app-pub-5665855701538045/7815874673"
+                android:layout_gravity="center"/>
+
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/grid_list_rv"
                 android:layout_width="match_parent"
@@ -94,6 +104,13 @@
                 android:nestedScrollingEnabled="false"
                 android:layout_marginEnd="8dp"
                 android:isScrollContainer="false" />
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/adView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:adUnitId="ca-app-pub-5665855701538045/1238858039"
+                android:layout_gravity="center"
+                app:adSize="LARGE_BANNER"/>
 
 
 

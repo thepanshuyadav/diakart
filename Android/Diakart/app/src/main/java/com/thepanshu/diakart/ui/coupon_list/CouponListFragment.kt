@@ -10,6 +10,8 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.adapters.CouponAdapter
 
@@ -36,6 +38,12 @@ class CouponListFragment : Fragment() {
         progressBar = rootView.findViewById(R.id.progressBar)
         recyclerView = rootView.findViewById(R.id.coupon_list_rv)
         imageView = rootView.findViewById(R.id.list_bg_imageView)
+
+        val mAdView = rootView.findViewById<AdView>(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
+
+
         return rootView
     }
 

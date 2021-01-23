@@ -16,6 +16,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.DocumentReference
 import com.thepanshu.diakart.R
@@ -44,6 +46,10 @@ class ProductsListFragment : Fragment(), ProductsListAdapter.OnProductClickListe
         rvProducts = rootView.findViewById(R.id.products_rv) as RecyclerView
         progressBar = rootView.findViewById<ProgressBar>(R.id.products_list_progress_bar)
         imageView = rootView.findViewById(R.id.list_bg_imageView)
+
+        val mAdView = rootView.findViewById<AdView>(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
 
         // TODO: Use data binding to set the visibility of progress bar
         return rootView

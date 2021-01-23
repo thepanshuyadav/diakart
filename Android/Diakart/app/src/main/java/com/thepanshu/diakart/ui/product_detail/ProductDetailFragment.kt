@@ -12,6 +12,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import com.google.android.material.snackbar.Snackbar
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.adapters.ImageListAdapter
@@ -37,6 +39,11 @@ class ProductDetailFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_product_detail, container, false)
         viewModel = ViewModelProvider(this).get(ProductDetailViewModel::class.java)
+
+        val mAdView = rootView.findViewById<AdView>(R.id.adView)
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
+
 
         val rvProductImage = rootView.findViewById(R.id.specific_product_image_rv) as RecyclerView
         rvProductImage.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
