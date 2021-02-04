@@ -55,11 +55,11 @@ class SliderAdapter(private val context: Context, private var mSliderItems: Arra
                 .load(Uri.parse(sliderItem.image))
                 //.placeholder(R.drawable.ic_undraw_loading_frh4)
                 .into(viewHolder.imageViewBackground);
-        Glide.with(context)
-                .asGif()
-                .load(sliderItem.gif)
-                //.placeholder(R.drawable.ic_undraw_loading_frh4)
-                .into(viewHolder.imageGifContainer)
+//        Glide.with(context)
+//                .asGif()
+//                .load(sliderItem.gif)
+//                //.placeholder(R.drawable.ic_undraw_loading_frh4)
+//                .into(viewHolder.imageGifContainer)
     }
 
     override fun getCount(): Int {
@@ -70,12 +70,12 @@ class SliderAdapter(private val context: Context, private var mSliderItems: Arra
     inner class SliderAdapterVH(itemView: View) :
         ViewHolder(itemView) {
         var imageViewBackground: ImageView
-        var imageGifContainer: ImageView
+        //var imageGifContainer: ImageView
         var textViewDescription: TextView
 
         init {
             imageViewBackground = itemView.findViewById(R.id.iv_auto_image_slider)
-            imageGifContainer = itemView.findViewById(R.id.iv_brand_container)
+            //imageGifContainer = itemView.findViewById(R.id.iv_brand_container)
             textViewDescription = itemView.findViewById(R.id.tv_auto_image_slider)
         }
     }

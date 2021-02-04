@@ -13,19 +13,19 @@
         android:scaleType="centerCrop" />
 
 
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="wrap_content"
-        android:layout_gravity="top|end"
-        app:cardCornerRadius="8dp"
-        android:layout_margin="8dp"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/iv_brand_container"
-            android:src="@mipmap/ic_launcher"
-            android:background="@android:color/transparent"
-            android:layout_width="48dp"
-            android:layout_height="48dp" />
-    </com.google.android.material.card.MaterialCardView>
+<!--    <com.google.android.material.card.MaterialCardView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_gravity="top|end"-->
+<!--        app:cardCornerRadius="8dp"-->
+<!--        android:layout_margin="8dp"-->
+<!--        android:layout_height="wrap_content">-->
+<!--        <ImageView-->
+<!--            android:id="@+id/iv_brand_container"-->
+<!--            android:src="@mipmap/ic_launcher"-->
+<!--            android:background="@android:color/transparent"-->
+<!--            android:layout_width="48dp"-->
+<!--            android:layout_height="48dp" />-->
+<!--    </com.google.android.material.card.MaterialCardView>-->
 
 
     <FrameLayout

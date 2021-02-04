@@ -33,7 +33,11 @@ object FirebaseListingsService {
                         val previewRef= it.data?.get("preview") as List<DocumentReference>
                         val preview = ArrayList<ProductDetailModel>()
                         previewRef.forEach { doc ->
-                            preview.add(doc.get().await().toObject(ProductDetailModel::class.java)!!)
+                            val prod = doc.get().await().toObject(ProductDetailModel::class.java)
+                            if(prod!=null) {
+                                prod.description = prod.description.replace('|', '\n', true)
+                                preview.add(prod)
+                            }
 
                         }
                         CategoryModel(icon, title, preview, products)
@@ -69,6 +73,7 @@ object FirebaseListingsService {
             productRefList.forEach { ref ->
                 val prod = ref.get().await().toObject(ProductDetailModel::class.java)
                 if(prod != null) {
+                    prod.description = prod.description.replace('|', '\n')
                     productDetailList.add(prod)
                 }
 

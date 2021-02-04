@@ -18,6 +18,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.DocumentReference
 import com.thepanshu.diakart.R
@@ -43,6 +46,7 @@ class ProductsListFragment : Fragment(), ProductsListAdapter.OnProductClickListe
     ): View? {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_products_list, container, false)
+
         rvProducts = rootView.findViewById(R.id.products_rv) as RecyclerView
         progressBar = rootView.findViewById<ProgressBar>(R.id.products_list_progress_bar)
         imageView = rootView.findViewById(R.id.list_bg_imageView)
@@ -60,7 +64,7 @@ class ProductsListFragment : Fragment(), ProductsListAdapter.OnProductClickListe
         productsListViewModel =
                 ViewModelProvider(this).get(ProductsListViewModel::class.java)
         rvProducts.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        productsListViewModel.getProductsList(productListRef).observe(viewLifecycleOwner, Observer<List<ProductDetailModel>> {
+        productsListViewModel.getProductsList(productListRef).observe(viewLifecycleOwner, {
             progressBar.visibility = View.VISIBLE
             data.value = it
             da=it
@@ -85,5 +89,4 @@ class ProductsListFragment : Fragment(), ProductsListAdapter.OnProductClickListe
             productListRef = arguments?.getParcelable<CategoryModel>("categoryProductsRef")!!.productList
         }
     }
-
 }

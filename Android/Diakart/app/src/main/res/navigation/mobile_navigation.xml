@@ -83,7 +83,8 @@
         android:id="@+id/productDetailFragment"
         android:name="com.thepanshu.diakart.ui.product_detail.ProductDetailFragment"
         android:label="Item"
-        tools:layout="@layout/fragment_product_detail" />
+        tools:layout="@layout/fragment_product_detail" >
+    </fragment>
     <fragment
         android:id="@+id/nav_rating"
         android:name="com.thepanshu.diakart.ui.user_rating.UserRatingFragment"

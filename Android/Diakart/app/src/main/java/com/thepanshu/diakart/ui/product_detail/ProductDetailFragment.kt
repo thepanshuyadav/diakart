@@ -23,7 +23,19 @@ import com.thepanshu.diakart.models.UserRatingModel
 class ProductDetailFragment : Fragment() {
     private lateinit var product: ProductDetailModel
 
+
+
+
+
+    //TODO: Add user rating to total rating
+
+    //TODO: View all site prices
+
+
+
+
     private lateinit var intentToSite: Intent
+    private lateinit var link: String
 
     private lateinit var ratingBar: RatingBar
     private lateinit var productRatings : ArrayList<Int>
@@ -33,6 +45,9 @@ class ProductDetailFragment : Fragment() {
     private lateinit var removeWishListButton: Button
     private lateinit var viewModel: ProductDetailViewModel
 
+    private lateinit var progressBar: ProgressBar
+    private var progressBarUsers: Int = 0
+
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -40,24 +55,25 @@ class ProductDetailFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_product_detail, container, false)
         viewModel = ViewModelProvider(this).get(ProductDetailViewModel::class.java)
 
+
+
         val mAdView = rootView.findViewById<AdView>(R.id.adView)
         val adRequest = AdRequest.Builder().build()
         mAdView.loadAd(adRequest)
 
+        progressBar = rootView.findViewById(R.id.progressBar)
 
         val rvProductImage = rootView.findViewById(R.id.specific_product_image_rv) as RecyclerView
         rvProductImage.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         rvProductImage.adapter = ImageListAdapter(product.images, requireContext())
-
         val productNameTv = rootView.findViewById<TextView>(R.id.specific_product_name)
         val brandNameTv = rootView.findViewById<TextView>(R.id.specific_product_brand_name)
         val productDescTv = rootView.findViewById<TextView>(R.id.specific_product_desc)
-        val productMRPTv = rootView.findViewById<TextView>(R.id.specific_product_price)
         val productQuantityTv = rootView.findViewById<TextView>(R.id.specific_product_quantity)
         productNameTv.text = product.name
         brandNameTv.text = product.brand
         productDescTv.text = product.description
-        productMRPTv.text = "RS ${product.mrp}"
+
         productQuantityTv.text = product.quantity
 
         // MARK: Rating
@@ -105,14 +121,18 @@ class ProductDetailFragment : Fragment() {
         ratingBar = rootView.findViewById(R.id.product_ratingBar)
         ratingBar.setOnRatingBarChangeListener { _, _, _ ->
             rating.value = ratingBar.rating.toInt()
-            Toast.makeText(context, "Rating = ${ratingBar.rating.toDouble()}", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(context, "Rating = ${ratingBar.rating.toDouble()}", Toast.LENGTH_SHORT).show()
         }
         viewModel.getRating(product.documentId).observe(viewLifecycleOwner, {
+            addProgressBarUser()
             ratingBar.rating = it.toFloat()
+            removeProgressBarUser()
         })
         rating.observe(viewLifecycleOwner, {
+            addProgressBarUser()
             val rating = UserRatingModel(it, product.name, product.quantity, product.mrp, product.brand, product.images[0], product.documentId)
             viewModel.setProductRating(rating, product.documentId)
+            removeProgressBarUser()
         })
         // MARK: Rating End
         addWishListButton = rootView.findViewById(R.id.add_wish_list_btn)
@@ -126,24 +146,41 @@ class ProductDetailFragment : Fragment() {
 
         addWishListButton.setOnClickListener {
             viewModel.addToWishList(product).observe(viewLifecycleOwner, {
+                addProgressBarUser()
                 if(it!=null) {
                     if(it != true) {
                         Snackbar.make(requireView(), "Added to wish list! ♥️", Snackbar.LENGTH_SHORT).show()
                     }
                 }
+                removeProgressBarUser()
             })
         }
 
         removeWishListButton.setOnClickListener {
             viewModel.removeFromWishList(product.documentId).observe(viewLifecycleOwner, {
+                addProgressBarUser()
                 if(it!=null) {
                     if(it != false) {
                         Snackbar.make(requireView(), "Removed from wish list! 💔", Snackbar.LENGTH_SHORT).show()
                     }
                 }
+                removeProgressBarUser()
             })
         }
 
+    }
+
+    private fun addProgressBarUser() {
+        progressBarUsers += 1
+        progressBar.visibility = View.VISIBLE
+    }
+
+    private fun removeProgressBarUser() {
+        progressBarUsers -= 1
+        if(progressBarUsers <= 0) {
+            progressBarUsers = 0
+            progressBar.visibility = View.GONE
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -155,15 +192,26 @@ class ProductDetailFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // TODO: Rating bar
         super.onViewCreated(view, savedInstanceState)
+        var price = Int.MAX_VALUE
+        link = ""
+        for(i in 0 .. product.prices.size-1) {
+            if(product.prices[i]<price) {
+                price = product.prices[i]
+                link = product.links[i]
+            }
+        }
+        val productMRPTv = view.findViewById<TextView>(R.id.specific_product_price)
+        productMRPTv.text = "RS ${price}"
+        intentToSite = Intent(Intent.ACTION_VIEW, Uri.parse(link))
 
-        intentToSite = Intent(Intent.ACTION_VIEW, Uri.parse(product.links[0]))
         val buyButton: Button = view.findViewById<TextView>(R.id.link_external_btn) as Button
 
         buyButton.setOnClickListener {
-            if(product.links[0] != "") {
+            if(link!="") {
                 startActivity(intentToSite)
+            } else {
+                Snackbar.make(view, "Invalid Link", Snackbar.LENGTH_SHORT).show()
             }
         }
     }

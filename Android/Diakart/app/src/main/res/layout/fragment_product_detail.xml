@@ -9,10 +9,10 @@
     tools:context=".ui.product_detail.ProductDetailFragment">
 
     <ProgressBar
-        style="@style/Widget.AppCompat.ProgressBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:id="@+id/progressBar"
         android:indeterminate="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,13 +81,6 @@
                         android:textSize="16sp"
                         tools:text="the whole truth" />
                 </LinearLayout>
-<!--                <ImageButton-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:id="@+id/wish_list_btn"-->
-<!--                    android:src="@drawable/ic_baseline_favorite_24"-->
-<!--                    android:layout_gravity="end|center"-->
-<!--                    android:backgroundTint="@android:color/transparent"-->
-<!--                    android:layout_height="match_parent"/>-->
 
 
             </FrameLayout>
