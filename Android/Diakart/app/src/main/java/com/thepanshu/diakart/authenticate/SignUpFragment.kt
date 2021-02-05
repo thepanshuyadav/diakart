@@ -9,20 +9,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.widget.addTextChangedListener
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.thepanshu.diakart.MainActivity
 import com.thepanshu.diakart.R
-import java.util.*
-import kotlin.collections.ArrayList
 
 class SignUpFragment : Fragment() {
 
     private lateinit var signInButton: Button
     private lateinit var signUpButton: Button
 
-    private lateinit var frag_container: FrameLayout
+    private lateinit var fragContainer: FrameLayout
 
     private lateinit var email:TextInputEditText
     private lateinit var name:TextInputEditText
@@ -30,10 +29,8 @@ class SignUpFragment : Fragment() {
 
     private lateinit var progressBar: ProgressBar
 
-    private lateinit var closeButton: ImageButton
-
     private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var firebaseFirestore: FirebaseFirestore
+    private lateinit var firestore: FirebaseFirestore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,7 +41,6 @@ class SignUpFragment : Fragment() {
 
         signInButton = view.findViewById(R.id.signin_button)
         signUpButton = view.findViewById(R.id.signup_materialButton)
-        closeButton = view.findViewById(R.id.signup_close_btn)
 
         email = view.findViewById(R.id.email_text)
         name = view.findViewById(R.id.name_text)
@@ -53,10 +49,10 @@ class SignUpFragment : Fragment() {
         progressBar = view.findViewById(R.id.signUpProgressBar)
         progressBar.visibility = View.INVISIBLE
 
-        frag_container = requireActivity().findViewById(R.id.register_container)
+        fragContainer = requireActivity().findViewById(R.id.register_container)
 
         firebaseAuth = FirebaseAuth.getInstance()
-        firebaseFirestore = FirebaseFirestore.getInstance()
+        firestore = FirebaseFirestore.getInstance()
 
         return view
     }
@@ -80,17 +76,12 @@ class SignUpFragment : Fragment() {
             checkEmail()
             // Send data to firebase
         }
-        closeButton.setOnClickListener {
-            val intent = Intent(activity, MainActivity::class.java)
-            startActivity(intent)
-            requireActivity().finish()
-        }
     }
 
     private fun setFragment(fragment: Fragment) {
         val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
         fragmentTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right)
-        fragmentTransaction.replace(frag_container.id, fragment)
+        fragmentTransaction.replace(fragContainer.id, fragment)
         fragmentTransaction.commit()
     }
 
@@ -109,11 +100,10 @@ class SignUpFragment : Fragment() {
     }
 
     private fun checkEmail() {
-        val emailPattern = "[a-zA-Z0-9._-]+@[a-z]+.[a-z]+"
+        val emailPattern = getString(R.string.email_pattern_regex)
         if(email.text.toString().matches(emailPattern.toRegex())) {
             signUpButton.isEnabled = false
             progressBar.visibility = View.VISIBLE
-            closeButton.isEnabled = false
             firebaseAuth.createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
@@ -127,7 +117,7 @@ class SignUpFragment : Fragment() {
                                 "points" to 0
                             )
 
-                            firebaseFirestore.collection("USERS")
+                            firestore.collection("USERS")
                                     .document(task.result!!.user!!.uid)
                                     .set(user)
                                     .addOnCompleteListener {
@@ -139,9 +129,11 @@ class SignUpFragment : Fragment() {
                                         else {
                                             progressBar.visibility = View.INVISIBLE
                                             signUpButton.isEnabled = true
-                                            closeButton.isEnabled = true
                                             val error = it.exception!!.message
-                                            Toast.makeText(activity, error, Toast.LENGTH_LONG).show()
+                                            if (error != null) {
+                                                Snackbar.make(requireView(), error, Snackbar.LENGTH_SHORT).show()
+                                            }
+                                            //Toast.makeText(activity, error, Toast.LENGTH_LONG).show()
                                         }
                                     }
                         } else {
