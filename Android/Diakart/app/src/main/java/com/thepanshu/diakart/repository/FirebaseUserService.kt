@@ -2,6 +2,7 @@ package com.thepanshu.diakart.repository
 
 import android.util.Log
 import android.widget.NumberPicker
+import android.widget.RatingBar
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.events.Event
@@ -60,28 +61,53 @@ object FirebaseUserService {
 
     }
 
-    suspend fun updateRating(rating: UserRatingModel, prodDocId: String) {
+    //TODO: Implement
 
-        db.runTransaction { transaction->
+    suspend fun updateRating(userRating: UserRatingModel, id: String) {
+
+        db.runTransaction { transaction ->
+            val oldRatingSnap = transaction.get(db.collection("USERS")
+                    .document(userId)
+                    .collection("RATINGS")
+                    .document(id))
+            val product = transaction.get(db.collection("PRODUCTS")
+                    .document(id)).toObject(ProductDetailModel::class.java)!!
+            var old = -1
+            if(oldRatingSnap.exists()) {
+                old = oldRatingSnap["rating"].toString().toInt()
+            }
+            Log.d("RATING", old.toString())
+            product.rating[userRating.rating-1] = product.rating[userRating.rating-1] +1
+            if(old != -1) {
+                product.rating[old-1] = product.rating[old-1]-1
+            }
+            Log.d("RATING", product.toString())
+            transaction.set(db.collection("PRODUCTS")
+                    .document(id), product)
             transaction.set(db.collection("USERS")
                     .document(userId)
                     .collection("RATINGS")
-                    .document(prodDocId),
-                    rating)
+                    .document(id),
+                    userRating)
         }
     }
-    suspend fun getRating(prodDocId: String): Int {
+    suspend fun getRating(prodDocId: String): Int? {
         return try {
-            db.collection("USERS")
+            val documentSnapshot = db.collection("USERS")
                 .document(userId)
                 .collection("RATINGS")
-                .document(prodDocId).get().await()["rating"].toString().toInt()
+                .document(prodDocId).get().await()
+
+            if(!documentSnapshot.exists()) {
+                return -1
+            }
+            return documentSnapshot["rating"].toString().toInt()
         } catch (e: Exception) {
             Log.e(TAG, "Error getting user's product rating", e)
             FirebaseCrashlytics.getInstance().log("Error getting user's product rating")
             FirebaseCrashlytics.getInstance().setCustomKey("user_rating", TAG)
             FirebaseCrashlytics.getInstance().recordException(e)
-            0
+            null
         }
     }
 

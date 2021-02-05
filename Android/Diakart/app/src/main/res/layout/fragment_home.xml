@@ -31,15 +31,11 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="wrap_content"
                 android:paddingTop="8dp"
-                android:layout_marginStart="8dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="16dp"
-                android:layout_marginEnd="8dp"
                 android:layout_height="wrap_content">
                 <com.smarteist.autoimageslider.SliderView
                     android:id="@+id/banner_slider_ad"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="200dp"
                     app:sliderAnimationDuration="600"
                     app:sliderAutoCycleDirection="back_and_forth"
                     app:sliderAutoCycleEnabled="true"
@@ -59,7 +55,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                app:cardCornerRadius="16dp"
                 app:cardElevation="16dp">
 
                 <LinearLayout
@@ -69,7 +64,7 @@
 
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="250dp"
+                        android:layout_height="150dp"
                         android:id="@+id/coupon_card_image"
                         android:scaleType="centerCrop"/>
 

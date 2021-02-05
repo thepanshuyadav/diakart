@@ -19,25 +19,6 @@ class ProductDetailViewModel: ViewModel() {
     private var _rating: MutableLiveData<Int>? = null
     private var _is_wishlisted: MutableLiveData<Boolean>? = null
 
-    //private var _product_rating: MutableLiveData<List<Int>>? = null
-
-
-//    internal fun isWishListed(prodDocId: String): MutableLiveData<Boolean> {
-//        if (_is_wishlisted == null) {
-//            _is_wishlisted = MutableLiveData()
-//            loadWishListedInfo(prodDocId)
-//        }
-//        return _is_wishlisted as MutableLiveData<Boolean>
-//    }
-//
-//
-//    private fun loadWishListedInfo(prodDocId: String) {
-//        viewModelScope.launch {
-//            _is_wishlisted?.postValue(FirebaseUserService.isWishListed(prodDocId))
-//            Log.d("LOAD", _is_wishlisted.toString())
-//        }
-//    }
-
     internal  fun addToWishList(productDetailModel: ProductDetailModel):MutableLiveData<Boolean> {
         if (_is_wishlisted == null) {
             _is_wishlisted = MutableLiveData()

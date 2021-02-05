@@ -36,6 +36,7 @@ class ProductDetailFragment : Fragment() {
 
     private lateinit var intentToSite: Intent
     private lateinit var link: String
+    private var oldRating: Int = -1
 
     private lateinit var ratingBar: RatingBar
     private lateinit var productRatings : ArrayList<Int>
@@ -101,8 +102,12 @@ class ProductDetailFragment : Fragment() {
         totalRatingsTv.text = totalRatings.toString()
         val average = ((productRatings[0] + productRatings[1]*2
                 +productRatings[2]*3 +productRatings[3]*4 +productRatings[4]*5).toDouble()/totalRatings)
-
-        averageRatingTv.text = String.format("%.2f", average).toDouble().toString()
+        if(totalRatings == 0) {
+            averageRatingTv.text = "No ratings"
+        }
+        else {
+            averageRatingTv.text = String.format("%.2f", average).toDouble().toString()
+        }
         oneRatingNo.text = productRatings[0].toString()
         oneRatingBar.progress = (((productRatings[0].toDouble()/totalRatings.toDouble()))*100).toInt()
 
@@ -119,19 +124,22 @@ class ProductDetailFragment : Fragment() {
         fiveRatingBar.progress = ((productRatings[4].toDouble()/totalRatings)*100).toInt()
 
         ratingBar = rootView.findViewById(R.id.product_ratingBar)
+
         ratingBar.setOnRatingBarChangeListener { _, _, _ ->
-            rating.value = ratingBar.rating.toInt()
-            //Toast.makeText(context, "Rating = ${ratingBar.rating.toDouble()}", Toast.LENGTH_SHORT).show()
+            rating.postValue(ratingBar.rating.toInt())
         }
         viewModel.getRating(product.documentId).observe(viewLifecycleOwner, {
             addProgressBarUser()
-            ratingBar.rating = it.toFloat()
+            if(it != null) {
+                oldRating = it
+                ratingBar.rating = it.toFloat()
+            }
             removeProgressBarUser()
         })
         rating.observe(viewLifecycleOwner, {
             addProgressBarUser()
             val rating = UserRatingModel(it, product.name, product.quantity, product.mrp, product.brand, product.images[0], product.documentId)
-            viewModel.setProductRating(rating, product.documentId)
+            viewModel.setProductRating(rating ,product.documentId)
             removeProgressBarUser()
         })
         // MARK: Rating End
