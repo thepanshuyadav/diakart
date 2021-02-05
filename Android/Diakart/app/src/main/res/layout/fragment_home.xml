@@ -65,6 +65,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
+                        android:contentDescription="@string/offers"
                         android:id="@+id/coupon_card_image"
                         android:scaleType="centerCrop"/>
 
@@ -81,7 +82,7 @@
                         style="@style/TextAppearance.MaterialComponents.Caption"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="Coupons and Discount Codes"
+                        android:text="@string/offers"
                         android:textSize="16sp" />
 
                 </LinearLayout>

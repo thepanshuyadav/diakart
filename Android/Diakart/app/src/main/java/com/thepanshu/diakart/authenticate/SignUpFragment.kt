@@ -133,14 +133,13 @@ class SignUpFragment : Fragment() {
                                             if (error != null) {
                                                 Snackbar.make(requireView(), error, Snackbar.LENGTH_SHORT).show()
                                             }
-                                            //Toast.makeText(activity, error, Toast.LENGTH_LONG).show()
                                         }
                                     }
                         } else {
                             progressBar.visibility = View.INVISIBLE
                             signUpButton.isEnabled = true
-                            val error = task.exception!!.message
-                            Toast.makeText(activity, error, Toast.LENGTH_LONG).show()
+                            val error = task.exception!!.message.toString()
+                            Snackbar.make(requireView(), error, Snackbar.LENGTH_SHORT).show()
                         }
                     }
         }

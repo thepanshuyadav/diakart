@@ -93,7 +93,8 @@ class ProductDetailFragment : Fragment() {
         val average = ((productRatings[0] + productRatings[1]*2
                 +productRatings[2]*3 +productRatings[3]*4 +productRatings[4]*5).toDouble()/totalRatings)
         if(totalRatings == 0) {
-            averageRatingTv.text = "No ratings"
+
+            averageRatingTv.text = getString(R.string.no_ratings)
         }
         else {
             averageRatingTv.text = String.format("%.2f", average).toDouble().toString()
@@ -147,7 +148,7 @@ class ProductDetailFragment : Fragment() {
                 addProgressBarUser()
                 if(it!=null) {
                     if(it != true) {
-                        Snackbar.make(requireView(), "Added to wish list! ♥️", Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(requireView(), getString(R.string.added_wishlist), Snackbar.LENGTH_SHORT).show()
                     }
                 }
                 removeProgressBarUser()
@@ -159,7 +160,7 @@ class ProductDetailFragment : Fragment() {
                 addProgressBarUser()
                 if(it!=null) {
                     if(it != false) {
-                        Snackbar.make(requireView(), "Removed from wish list! 💔", Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(requireView(), getString(R.string.removed_wishlist), Snackbar.LENGTH_SHORT).show()
                     }
                 }
                 removeProgressBarUser()

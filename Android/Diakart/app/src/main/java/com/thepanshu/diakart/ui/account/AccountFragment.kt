@@ -12,7 +12,6 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
@@ -25,10 +24,6 @@ import com.thepanshu.diakart.models.UserModel
 
 
 class AccountFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = AccountFragment()
-    }
 
     private lateinit var viewModel: AccountViewModel
     private lateinit  var user:UserModel
@@ -47,7 +42,7 @@ class AccountFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        var root = inflater.inflate(R.layout.account_fragment, container, false)
+        val root = inflater.inflate(R.layout.account_fragment, container, false)
 
         usernameTv = root.findViewById(R.id.username_tv)
         userPointsTv = root.findViewById(R.id.user_points)
@@ -67,7 +62,7 @@ class AccountFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(AccountViewModel::class.java)
 
-        viewModel.getUserDetail().observe(viewLifecycleOwner, Observer<UserModel> {
+        viewModel.getUserDetail().observe(viewLifecycleOwner, {
             progressBar.visibility = View.VISIBLE
             user = it
             usernameTv.text = user.name
@@ -80,10 +75,10 @@ class AccountFragment : Fragment() {
         redeemed.observe(viewLifecycleOwner, {
             if (it!= null) {
                 if(it == true) {
-                    Snackbar.make(requireView(), "Points redeemed 💰", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(requireView(), getString(R.string.points_redeem_success), Snackbar.LENGTH_SHORT).show()
                 }
                 else {
-                    Snackbar.make(requireView(), "Couldn't redeem points 😥", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(requireView(), getString(R.string.point_redeem_fail), Snackbar.LENGTH_SHORT).show()
                 }
                 // TODO: Refresh view
             }
@@ -109,7 +104,7 @@ class AccountFragment : Fragment() {
             sendIntent.putExtra(
                 Intent.EXTRA_TEXT,
                     // TODO: Change text
-                "Hey, Diakart is a healthy food catalog app with discount and coupon information. Get it for free at : https://play.google.com/store/apps/details?id= \nUse invite code to earn points: \n${user.uuid}" + BuildConfig.APPLICATION_ID
+                "Hey, Diakart is a healthy food catalog app with amazing discounts and offer information. Get it for free at : https://play.google.com/store/apps/details?id= \nUse invite code to earn points: \n${user.uuid} to earn rewards." + BuildConfig.APPLICATION_ID
             )
             sendIntent.type = "text/plain"
             startActivity(sendIntent)

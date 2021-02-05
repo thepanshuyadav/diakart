@@ -8,9 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import com.bumptech.glide.Glide
-import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import com.smarteist.autoimageslider.SliderViewAdapter
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.models.SliderModel
@@ -44,38 +42,30 @@ class SliderAdapter(private val context: Context, private var mSliderItems: Arra
         viewHolder.textViewDescription.textSize = 16f
         viewHolder.textViewDescription.setTextColor(Color.WHITE)
         viewHolder.itemView.setOnClickListener {
-            Toast.makeText(
-                context,
-                "This is item in position $position",
-                Toast.LENGTH_SHORT
-            ).show()
+//            Toast.makeText(
+//                context,
+//                "This is item in position $position",
+//                Toast.LENGTH_SHORT
+//            ).show()
         }
 
         Glide.with(context)
                 .load(Uri.parse(sliderItem.image))
-                //.placeholder(R.drawable.ic_undraw_loading_frh4)
-                .into(viewHolder.imageViewBackground);
-//        Glide.with(context)
-//                .asGif()
-//                .load(sliderItem.gif)
-//                //.placeholder(R.drawable.ic_undraw_loading_frh4)
-//                .into(viewHolder.imageGifContainer)
+                .into(viewHolder.imageViewBackground)
     }
 
     override fun getCount(): Int {
-        //slider view count could be dynamic size
         return mSliderItems.size
     }
 
     inner class SliderAdapterVH(itemView: View) :
         ViewHolder(itemView) {
         var imageViewBackground: ImageView
-        //var imageGifContainer: ImageView
         var textViewDescription: TextView
 
         init {
             imageViewBackground = itemView.findViewById(R.id.iv_auto_image_slider)
-            //imageGifContainer = itemView.findViewById(R.id.iv_brand_container)
+            //TODO; Image GIF
             textViewDescription = itemView.findViewById(R.id.tv_auto_image_slider)
         }
     }

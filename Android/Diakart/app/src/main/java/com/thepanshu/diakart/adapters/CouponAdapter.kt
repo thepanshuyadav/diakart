@@ -5,6 +5,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,9 +39,13 @@ class CouponAdapter(
             couponDescTv.text = desc
         }
 
-        fun setCouponValue(value: String, isCoupon: Boolean) {
-            if(isCoupon){
+        fun setCouponValue(value: String) {
+            if(value != ""){
+                Log.d("COUPON", couponList.toString())
                 couponValueTv.text = value
+            }else {
+                copyCoupon.visibility = View.GONE
+                couponValueTv.visibility = View.GONE
             }
         }
 
@@ -57,9 +62,9 @@ class CouponAdapter(
         fun setCopyButton() {
             val myClipboard = getSystemService(context, ClipboardManager::class.java) as ClipboardManager
             copyCoupon.setOnClickListener {
-                val clip = ClipData.newPlainText("Coupon", couponValueTv.text.toString())
+                val clip = ClipData.newPlainText(context.getString(R.string.coupon), couponValueTv.text.toString())
                 myClipboard.setPrimaryClip(clip)
-                Snackbar.make(view, "Text Copied Successfully", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(view, context.getString(R.string.text_copied), Snackbar.LENGTH_SHORT).show()
             }
         }
     }
@@ -73,7 +78,7 @@ class CouponAdapter(
     override fun onBindViewHolder(holder: CouponAdapterViewHolder, position: Int) {
         holder.setCouponTitle(couponList[position].title)
         holder.setCouponDesc(couponList[position].desc)
-        holder.setCouponValue(couponList[position].couponValue, couponList[position].isCoupon)
+        holder.setCouponValue(couponList[position].couponValue)
         holder.setVisitButton(couponList[position].link)
         holder.setCopyButton()
 

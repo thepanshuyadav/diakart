@@ -28,6 +28,7 @@
                 android:id="@+id/products_list_item_image"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:contentDescription="@string/product_image"
                 app:srcCompat="@drawable/ic_baseline_share_24" />
         </com.google.android.material.card.MaterialCardView>
 

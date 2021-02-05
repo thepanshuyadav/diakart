@@ -3,7 +3,6 @@ package com.thepanshu.diakart.ui.home
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -91,7 +90,6 @@ class HomeFragment : Fragment(),
 
         homeViewModel.getBannerList().observe(viewLifecycleOwner, {
             //progressBar.visibility = View.VISIBLE
-            Log.d("BANNER", it.toString())
             bannerList = it
             sliderView.setSliderAdapter(SliderAdapter(requireContext(), bannerList))
             sliderView.setIndicatorAnimation(IndicatorAnimationType.THIN_WORM)

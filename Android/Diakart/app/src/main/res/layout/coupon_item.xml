@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/visit_button"
             android:drawableEnd="@drawable/ic_baseline_open_in_new_24"
-            android:text="Visit site"/>
+            android:text="@string/visit"/>
 
 
     </LinearLayout>

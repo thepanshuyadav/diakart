@@ -50,7 +50,8 @@
                             android:adjustViewBounds="true"
                             android:background="@color/indigo_500"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/ic_baseline_account_circle_24" />
+                            android:src="@drawable/ic_baseline_account_circle_24"
+                            android:contentDescription="@string/profile_image" />
                     </com.google.android.material.card.MaterialCardView>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -100,6 +101,7 @@
                             android:layout_height="wrap_content">
                             <ImageView
                                 android:layout_width="24dp"
+                                android:contentDescription="@string/points"
                                 android:src="@drawable/ic_coin_svgrepo_com"
                                 android:layout_height="24dp"/>
                             <com.google.android.material.textview.MaterialTextView
@@ -109,7 +111,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_margin="8dp"
                                 android:gravity="center"
-                                android:text="100" />
+                                tools:text="100" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -135,20 +137,20 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/indigo_500"
                         style="@style/TextAppearance.MaterialComponents.Headline6"
-                        android:text="Earn Points"/>
+                        android:text="@string/earn_points"/>
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_marginTop="8dp"
                         android:layout_height="wrap_content"
                         style="@style/TextAppearance.MaterialComponents.Subtitle1"
-                        android:text="Invite your friend and you both earn points."/>
+                        android:text="@string/invite_friend"/>
                     <com.google.android.material.button.MaterialButton
                         android:layout_gravity="center"
                         android:layout_marginTop="16dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/invite_button"
-                        android:text="Invite"/>
+                        android:text="@string/invite"/>
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
@@ -171,7 +173,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/indigo_500"
                         style="@style/TextAppearance.MaterialComponents.Headline6"
-                        android:text="Redeem Points"/>
+                        android:text="@string/redeem_points"/>
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
@@ -179,7 +181,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="8dp"
-                        android:hint="Invite Code"
+                        android:hint="@string/invite_code"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/signup_logo">
@@ -196,7 +198,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/redeem_button"
-                        android:text="Redeem"/>
+                        android:text="@string/redeem"/>
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
@@ -208,7 +210,7 @@
                 android:layout_gravity="center"
                 android:id="@+id/signout_btn"
                 app:elevation="16dp"
-                android:text="Sign out"
+                android:text="@string/sign_out"
                 android:layout_margin="16dp"
                 app:backgroundTint="#DD2C00"/>
 

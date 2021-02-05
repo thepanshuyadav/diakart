@@ -25,14 +25,13 @@ data class CouponModel(
                 val couponValue  = getString("couponValue")!!
                 CouponModel(title, desc, isCoupon, couponValue, link)
             } catch (e: Exception) {
-//                Log.e(TAG, "Error converting user profile", e)
-//                FirebaseCrashlytics.getInstance().log("Error converting user profile")
-//                FirebaseCrashlytics.getInstance().setCustomKey("userId", id)
-//                FirebaseCrashlytics.getInstance().recordException(e)
+                Log.e(TAG, "Error converting coupon", e)
+                FirebaseCrashlytics.getInstance().log("Error converting coupon")
+                FirebaseCrashlytics.getInstance().recordException(e)
                 null
             }
         }
 
-        private const val TAG = "User"
+        private const val TAG = "Coupon"
     }
 }

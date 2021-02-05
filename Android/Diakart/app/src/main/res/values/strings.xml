@@ -30,11 +30,51 @@
     <string name="open">Open</string>
     <string name="no_gmail_app">You don\'t have email app installed</string>
     <string name="full_name">Full name</string>
-    <string name="password_hint">Password (atleast 8 characters)</string>
+    <string name="password_hint">Password (at least 8 characters)</string>
     <string name="sign_up">Sign Up</string>
     <string name="already_have_an_account">Already have an account?</string>
     <string name="sign_in">Sign In</string>
     <string name="email_pattern_regex">[a-zA-Z0-9._-]+@[a-z]+.[a-z]+</string>
+    <string name="ratings">Ratings</string>
+    <string name="rating">ratings</string>
+    <string name="_5">5</string>
+    <string name="_4">4</string>
+    <string name="_3">3</string>
+    <string name="_2">2</string>
+    <string name="_1">1</string>
+    <string name="your_rating">Your rating</string>
+    <string name="product_image">Product Image</string>
+    <string name="title">Title</string>
+    <string name="category">Category</string>
+    <string name="view_all">View All</string>
+    <string name="password">Password</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="or">OR</string>
+    <string name="empty">Empty</string>
+    <string name="remove_from_wishlist">remove from wishlist</string>
+    <string name="add_to_wish_list">Add to wish list</string>
+    <string name="about">About</string>
+    <string name="buy">Buy</string>
+    <string name="offers">Offers</string>
+    <string name="visit">Visit</string>
+    <string name="profile_image">Profile Image</string>
+    <string name="points">Points</string>
+    <string name="earn_points">Earn Points</string>
+    <string name="invite_friend">Invite your friend and you both earn points.</string>
+    <string name="invite">Invite</string>
+    <string name="redeem_points">Redeem Points</string>
+    <string name="invite_code">Invite Code</string>
+    <string name="redeem">Redeem</string>
+    <string name="sign_out">Sign out</string>
+    <string name="coupon">Coupon</string>
+    <string name="text_copied">Text Copied Successfully</string>
+    <string name="points_redeem_success">Points redeemed 💰</string>
+    <string name="point_redeem_fail">Couldn\'t redeem points 😥</string>
+    <string name="no_ratings">No ratings</string>
+    <string name="added_wishlist">Added to wish list! ♥️</string>
+    <string name="removed_wishlist">Removed from wish list! 💔</string>
+    <string name="incorrect_email">Incorrect Email</string>
+
     <!-- -
     This is an ad unit ID for an interstitial test ad. Replace with your own interstitial ad unit id.
     For more information, see https://support.google.com/admob/answer/3052638

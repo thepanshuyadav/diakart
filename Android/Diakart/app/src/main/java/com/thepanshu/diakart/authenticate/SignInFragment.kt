@@ -14,10 +14,8 @@ import androidx.fragment.app.Fragment
 import com.google.android.gms.auth.api.signin.*
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
@@ -30,7 +28,7 @@ import com.thepanshu.diakart.R
 class SignInFragment : Fragment() {
 
     private lateinit var signUpButton: Button
-    private lateinit var frag_container: FrameLayout
+    private lateinit var fragContainer: FrameLayout
 
     private lateinit var email: TextInputEditText
     private lateinit var pass: TextInputEditText
@@ -40,7 +38,6 @@ class SignInFragment : Fragment() {
     private lateinit var signInButton: Button
     private lateinit var signInWithGoogleButton: SignInButton
     private lateinit var googleSignInClient: GoogleSignInClient
-    private lateinit var closeButton: ImageButton
 
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var auth: FirebaseAuth
@@ -59,9 +56,8 @@ class SignInFragment : Fragment() {
         signInButton = view.findViewById(R.id.signin_button)
         signInWithGoogleButton = view.findViewById(R.id.sign_in_with_google_btn)
         signInWithGoogleButton.setSize(SignInButton.SIZE_WIDE)
-        closeButton = view.findViewById(R.id.signin_close_btn)
 
-        frag_container = requireActivity().findViewById(R.id.register_container)
+        fragContainer = requireActivity().findViewById(R.id.register_container)
         email = view.findViewById(R.id.email)
         pass = view.findViewById(R.id.pass)
         forgotPass = view.findViewById(R.id.signin_forgot_pass_btn)
@@ -105,12 +101,6 @@ class SignInFragment : Fragment() {
             RegisterActivity.isResetPassFrag = true
             setFragment(ResetPasswordFragment())
         }
-
-        closeButton.setOnClickListener {
-            val intent = Intent(activity, MainActivity::class.java)
-            startActivity(intent)
-            requireActivity().finish()
-        }
     }
     private fun signInWithGoogle() {
         val signInIntent: Intent = googleSignInClient.signInIntent
@@ -128,12 +118,8 @@ class SignInFragment : Fragment() {
                 val account = task.getResult(ApiException::class.java)!!
                 firebaseAuthWithGoogle(account.idToken!!)
             } catch (e: ApiException) {
-//                progressBar.visibility = View.INVISIBLE
-//                signUpButton.isEnabled = true
-//                closeButton.isEnabled = true
-//                signInWithGoogleButton.isEnabled = true
-                val error = e.message
-                Toast.makeText(activity, error, Toast.LENGTH_LONG).show()
+                val error = e.message.toString()
+                Snackbar.make(requireView(), error, Snackbar.LENGTH_LONG).show()
             }
 
         }
@@ -143,7 +129,6 @@ class SignInFragment : Fragment() {
     private fun firebaseAuthWithGoogle(idToken: String) {
         signUpButton.isEnabled = false
         progressBar.visibility = View.VISIBLE
-        closeButton.isEnabled = false
         signInWithGoogleButton.isEnabled = false
         forgotPass.isEnabled = false
         // [END_EXCLUDE]
@@ -152,8 +137,6 @@ class SignInFragment : Fragment() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-
-                    Log.d(TAG, "signInWithCredential:success")
                     val user = auth.currentUser
                     val name = user!!.displayName
                     val uuid = user.uid
@@ -184,12 +167,11 @@ class SignInFragment : Fragment() {
                                         else {
                                             progressBar.visibility = View.INVISIBLE
                                             signUpButton.isEnabled = true
-                                            closeButton.isEnabled = true
                                             signInWithGoogleButton.isEnabled = true
                                             forgotPass.isEnabled = true
 
-                                            val error = it.exception!!.message
-                                            Toast.makeText(activity, error, Toast.LENGTH_LONG).show()
+                                            val error = it.exception!!.message.toString()
+                                            Snackbar.make(requireView(), error, Snackbar.LENGTH_LONG).show()
                                         }
                                     }
                             }
@@ -200,23 +182,22 @@ class SignInFragment : Fragment() {
                             }
                         }
                         .addOnFailureListener { exception ->
-                            Log.d(TAG, "get failed with ", exception)
                             progressBar.visibility = View.INVISIBLE
                             signUpButton.isEnabled = true
-                            closeButton.isEnabled = true
                             signInWithGoogleButton.isEnabled = true
                             forgotPass.isEnabled = true
-                            Toast.makeText(context, "Authentication Failed.\n${exception!!.message.toString()}", Toast.LENGTH_SHORT).show()
+                            val error = exception.message.toString()
+                            Snackbar.make(requireView(), "Authentication Failed.$error", Snackbar.LENGTH_SHORT).show()
                         }
 
                 } else {
                     // If sign in fails, display a message to the user.
                     progressBar.visibility = View.INVISIBLE
                     signUpButton.isEnabled = true
-                    closeButton.isEnabled = true
                     signInWithGoogleButton.isEnabled = true
                     forgotPass.isEnabled = true
-                    Toast.makeText(context, "Authentication Failed.\n${task.exception!!.message.toString()}", Toast.LENGTH_SHORT).show()
+                    val error = task.exception!!.message.toString()
+                    Snackbar.make(requireView(), "Authentication Failed.$error", Snackbar.LENGTH_SHORT).show()
 
                 }
             }
@@ -229,7 +210,6 @@ class SignInFragment : Fragment() {
         if(email.text.toString().matches(emailPattern.toRegex())) {
             signUpButton.isEnabled = false
             progressBar.visibility = View.VISIBLE
-            closeButton.isEnabled = false
             signInWithGoogleButton.isEnabled = false
             firebaseAuth.signInWithEmailAndPassword(email.text.toString(), pass.text.toString())
                 .addOnCompleteListener {
@@ -240,23 +220,22 @@ class SignInFragment : Fragment() {
                     }
                     else {
                         signUpButton.isEnabled = true
-                        closeButton.isEnabled = true
                         signInWithGoogleButton.isEnabled = true
                         progressBar.visibility = View.INVISIBLE
-                        val error = it.exception!!.message
-                        Toast.makeText(activity, error, Toast.LENGTH_LONG).show()
+                        val error = it.exception!!.message.toString()
+                        Snackbar.make(requireView(), error, Snackbar.LENGTH_LONG).show()
                     }
                 }
         }
         else {
-            Toast.makeText(activity, "Incorrect Email", Toast.LENGTH_LONG).show()
+            Snackbar.make(requireView(), getString(R.string.incorrect_email), Snackbar.LENGTH_SHORT).show()
         }
     }
 
     private fun setFragment(fragment: Fragment) {
         val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
         fragmentTransaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
-        fragmentTransaction.replace(frag_container.id, fragment)
+        fragmentTransaction.replace(fragContainer.id, fragment)
         fragmentTransaction.commit()
     }
 
