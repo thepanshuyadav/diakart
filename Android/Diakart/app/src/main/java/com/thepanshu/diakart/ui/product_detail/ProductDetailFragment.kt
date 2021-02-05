@@ -23,17 +23,7 @@ import com.thepanshu.diakart.models.UserRatingModel
 class ProductDetailFragment : Fragment() {
     private lateinit var product: ProductDetailModel
 
-
-
-
-
-    //TODO: Add user rating to total rating
-
     //TODO: View all site prices
-
-
-
-
     private lateinit var intentToSite: Intent
     private lateinit var link: String
     private var oldRating: Int = -1

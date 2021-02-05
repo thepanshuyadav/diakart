@@ -21,6 +21,14 @@
     For more information, see https://support.google.com/admob/answer/3052638
 <!- -->
     <string name="interstitial_ad_unit_id">YOUR_INTERSTITIAL_AD_UNIT_ID</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="enter_your_registered_email">Enter your registered email</string>
+    <string name="email">Email</string>
+    <string name="reset">Reset</string>
+    <string name="back">Back</string>
+    <string name="check_email">Check your email for password reset link</string>
+    <string name="open">Open</string>
+    <string name="no_gmail_app">You don\'t have email app installed</string>
     <!-- -
     This is an ad unit ID for an interstitial test ad. Replace with your own interstitial ad unit id.
     For more information, see https://support.google.com/admob/answer/3052638

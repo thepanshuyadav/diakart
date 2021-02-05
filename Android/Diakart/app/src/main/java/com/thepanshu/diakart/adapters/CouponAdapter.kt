@@ -19,9 +19,9 @@ import com.thepanshu.diakart.models.CouponModel
 
 
 class CouponAdapter(
-    val couponList: List<CouponModel>,
-    val context: Context,
-    val view: View
+        private val couponList: List<CouponModel>,
+        private val context: Context,
+        private val view: View
     ) : RecyclerView.Adapter<CouponAdapter.CouponAdapterViewHolder>() {
     inner class CouponAdapterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val couponTitleTv: TextView = itemView.findViewById(R.id.coupon_title)
@@ -38,8 +38,10 @@ class CouponAdapter(
             couponDescTv.text = desc
         }
 
-        fun setCouponValue(value: String) {
-            couponValueTv.text = value
+        fun setCouponValue(value: String, isCoupon: Boolean) {
+            if(isCoupon){
+                couponValueTv.text = value
+            }
         }
 
         fun setVisitButton(link: String) {
@@ -53,7 +55,7 @@ class CouponAdapter(
             }
         }
         fun setCopyButton() {
-            var myClipboard = getSystemService(context, ClipboardManager::class.java) as ClipboardManager
+            val myClipboard = getSystemService(context, ClipboardManager::class.java) as ClipboardManager
             copyCoupon.setOnClickListener {
                 val clip = ClipData.newPlainText("Coupon", couponValueTv.text.toString())
                 myClipboard.setPrimaryClip(clip)
@@ -71,7 +73,7 @@ class CouponAdapter(
     override fun onBindViewHolder(holder: CouponAdapterViewHolder, position: Int) {
         holder.setCouponTitle(couponList[position].title)
         holder.setCouponDesc(couponList[position].desc)
-        holder.setCouponValue(couponList[position].couponValue)
+        holder.setCouponValue(couponList[position].couponValue, couponList[position].isCoupon)
         holder.setVisitButton(couponList[position].link)
         holder.setCopyButton()
 
