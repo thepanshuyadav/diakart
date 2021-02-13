@@ -1,24 +1,40 @@
 package com.thepanshu.diakart.ui.product_detail
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Button
+import android.widget.ProgressBar
+import android.widget.RatingBar
+import android.widget.TextView
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
+import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.google.android.gms.ads.*
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.adapters.ImageListAdapter
 import com.thepanshu.diakart.models.ProductDetailModel
 import com.thepanshu.diakart.models.UserRatingModel
+
 
 class ProductDetailFragment : Fragment() {
     private lateinit var product: ProductDetailModel
@@ -39,6 +55,10 @@ class ProductDetailFragment : Fragment() {
     private lateinit var progressBar: ProgressBar
     private var progressBarUsers: Int = 0
 
+    private lateinit var coordinatorLayout: CoordinatorLayout
+    private lateinit var toolbar: CollapsingToolbarLayout
+    private var mInterstitialAd: InterstitialAd? = null
+
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?
@@ -46,16 +66,72 @@ class ProductDetailFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_product_detail, container, false)
         viewModel = ViewModelProvider(this).get(ProductDetailViewModel::class.java)
 
-
-
         val mAdView = rootView.findViewById<AdView>(R.id.adView)
         val adRequest = AdRequest.Builder().build()
         mAdView.loadAd(adRequest)
 
+        val mAdView2 = rootView.findViewById<AdView>(R.id.adView2)
+        val adRequest2 = AdRequest.Builder().build()
+        mAdView2.loadAd(adRequest2)
+
+
+        var adRequest3 = AdRequest.Builder().build()
+
+        InterstitialAd.load(requireContext(),"ca-app-pub-5665855701538045/3492547900", adRequest3, object : InterstitialAdLoadCallback() {
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                mInterstitialAd = null
+            }
+
+            override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                Log.d("Ad", "Ad was loaded.")
+                mInterstitialAd = interstitialAd
+            }
+        })
+
+
+
+        coordinatorLayout = rootView.findViewById<CoordinatorLayout>(R.id.coordinator)
+        toolbar = rootView.findViewById<CollapsingToolbarLayout>(R.id.collapsing_toolbar)
+        Glide.with(this)
+            .asBitmap()
+            .load(product.images[0])
+            .into(object : CustomTarget<Bitmap>() {
+                override fun onLoadCleared(placeholder: Drawable?) {
+
+                }
+
+                override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: com.bumptech.glide.request.transition.Transition<in Bitmap>?
+                ) {
+                    val palette = Palette.from(resource).generate()
+                    val darkVibrant = palette.darkVibrantSwatch?.rgb
+                    val vibrant = palette.vibrantSwatch?.rgb
+                    val gradientDrawable = GradientDrawable()
+                    if (vibrant != null && darkVibrant != null) {
+                        gradientDrawable.colors = intArrayOf(vibrant, vibrant,  darkVibrant)
+                    } else {
+                        gradientDrawable.colors = intArrayOf(
+                                Color.TRANSPARENT,
+                                Color.TRANSPARENT
+                        )
+                    }
+                    gradientDrawable.orientation = GradientDrawable.Orientation.LEFT_RIGHT
+                    toolbar.background = gradientDrawable
+                    coordinatorLayout.background = gradientDrawable
+                }
+            })
+
+
+
         progressBar = rootView.findViewById(R.id.progressBar)
 
         val rvProductImage = rootView.findViewById(R.id.specific_product_image_rv) as RecyclerView
-        rvProductImage.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        rvProductImage.layoutManager = LinearLayoutManager(
+                activity,
+                LinearLayoutManager.HORIZONTAL,
+                false
+        )
         rvProductImage.adapter = ImageListAdapter(product.images, requireContext())
         val productNameTv = rootView.findViewById<TextView>(R.id.specific_product_name)
         val brandNameTv = rootView.findViewById<TextView>(R.id.specific_product_brand_name)
@@ -97,7 +173,7 @@ class ProductDetailFragment : Fragment() {
             averageRatingTv.text = getString(R.string.no_ratings)
         }
         else {
-            averageRatingTv.text = String.format("%.2f", average).toDouble().toString()
+            averageRatingTv.text = String.format("%.1f", average).toDouble().toString()
         }
         oneRatingNo.text = productRatings[0].toString()
         oneRatingBar.progress = (((productRatings[0].toDouble()/totalRatings.toDouble()))*100).toInt()
@@ -121,7 +197,7 @@ class ProductDetailFragment : Fragment() {
         }
         viewModel.getRating(product.documentId).observe(viewLifecycleOwner, {
             addProgressBarUser()
-            if(it != null) {
+            if (it != null) {
                 oldRating = it
                 ratingBar.rating = it.toFloat()
             }
@@ -129,8 +205,16 @@ class ProductDetailFragment : Fragment() {
         })
         rating.observe(viewLifecycleOwner, {
             addProgressBarUser()
-            val rating = UserRatingModel(it, product.name, product.quantity, product.mrp, product.brand, product.images[0], product.documentId)
-            viewModel.setProductRating(rating ,product.documentId)
+            val rating = UserRatingModel(
+                    it,
+                    product.name,
+                    product.quantity,
+                    product.mrp,
+                    product.brand,
+                    product.images[0],
+                    product.documentId
+            )
+            viewModel.setProductRating(rating, product.documentId)
             removeProgressBarUser()
         })
         // MARK: Rating End
@@ -146,9 +230,13 @@ class ProductDetailFragment : Fragment() {
         addWishListButton.setOnClickListener {
             viewModel.addToWishList(product).observe(viewLifecycleOwner, {
                 addProgressBarUser()
-                if(it!=null) {
-                    if(it != true) {
-                        Snackbar.make(requireView(), getString(R.string.added_wishlist), Snackbar.LENGTH_SHORT).show()
+                if (it != null) {
+                    if (it != true) {
+                        Snackbar.make(
+                                requireView(),
+                                getString(R.string.added_wishlist),
+                                Snackbar.LENGTH_SHORT
+                        ).show()
                     }
                 }
                 removeProgressBarUser()
@@ -158,9 +246,13 @@ class ProductDetailFragment : Fragment() {
         removeWishListButton.setOnClickListener {
             viewModel.removeFromWishList(product.documentId).observe(viewLifecycleOwner, {
                 addProgressBarUser()
-                if(it!=null) {
-                    if(it != false) {
-                        Snackbar.make(requireView(), getString(R.string.removed_wishlist), Snackbar.LENGTH_SHORT).show()
+                if (it != null) {
+                    if (it != false) {
+                        Snackbar.make(
+                                requireView(),
+                                getString(R.string.removed_wishlist),
+                                Snackbar.LENGTH_SHORT
+                        ).show()
                     }
                 }
                 removeProgressBarUser()
@@ -208,7 +300,29 @@ class ProductDetailFragment : Fragment() {
 
         buyButton.setOnClickListener {
             if(link!="") {
-                startActivity(intentToSite)
+                MaterialAlertDialogBuilder(requireContext())
+                        .setTitle(resources.getString(R.string.alert_title))
+                        .setMessage(resources.getString(R.string.supporting_text))
+                        .setNeutralButton(resources.getString(R.string.cancel)) { dialog, which ->
+
+                        }
+                        .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
+                            mInterstitialAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
+                                override fun onAdDismissedFullScreenContent() {
+                                    startActivity(intentToSite)
+                                }
+
+                                override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
+                                    startActivity(intentToSite)
+                                }
+                            }
+                            if (mInterstitialAd != null) {
+                                mInterstitialAd!!.show(requireActivity());
+                            } else {
+                                startActivity(intentToSite)
+                            }
+                        }
+                        .show()
             } else {
                 Snackbar.make(view, "Invalid Link", Snackbar.LENGTH_SHORT).show()
             }

@@ -31,9 +31,6 @@ class UserRatingFragment : Fragment(), UserRatingListAdapter.OnProductClickListe
                               savedInstanceState: Bundle?): View? {
 
         val rootView = inflater.inflate(R.layout.user_rating_fragment, container, false)
-        val mAdView = rootView.findViewById<AdView>(R.id.adView)
-        val adRequest = AdRequest.Builder().build()
-        mAdView.loadAd(adRequest)
         userRatingRecyclerView = rootView.findViewById(R.id.user_rating_rv)
         progressBar = rootView.findViewById(R.id.progressBar)
         imageView = rootView.findViewById(R.id.list_bg_imageView)

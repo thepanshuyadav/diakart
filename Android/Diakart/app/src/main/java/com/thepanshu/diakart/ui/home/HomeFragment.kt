@@ -58,10 +58,6 @@ class HomeFragment : Fragment(),
         val adRequest1 = AdRequest.Builder().build()
         mAdView1.loadAd(adRequest1)
 
-        val mAdView2 = root.findViewById<AdView>(R.id.adView2)
-        val adRequest2 = AdRequest.Builder().build()
-        mAdView2.loadAd(adRequest2)
-
 
         progressBar = root.findViewById(R.id.home_progress_bar)
         rvCategory = root.findViewById(R.id.categories_rv) as RecyclerView

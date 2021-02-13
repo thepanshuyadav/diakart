@@ -2,6 +2,7 @@ package com.thepanshu.diakart
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.AttributeSet
@@ -104,11 +105,6 @@ class MainActivity : AppCompatActivity() {
             )
             sendIntent.type = "text/plain"
             startActivity(sendIntent)
-            return true
-        }
-
-        if(id == R.id.main_notif_icon) {
-            // TODO: Notification fragment
             return true
         }
         return super.onOptionsItemSelected(item)

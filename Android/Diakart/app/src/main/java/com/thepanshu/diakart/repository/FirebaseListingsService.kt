@@ -110,9 +110,11 @@ object FirebaseListingsService {
         }
     }
 
-    suspend fun getProductDetail(reference: DocumentReference): ProductDetailModel? {
+    suspend fun getProductDetail(reference: String): ProductDetailModel? {
         return try {
-            reference.get().await().toObject(ProductDetailModel::class.java)
+            db.collection("PRODUCTS")
+                    .document(reference)
+                    .get().await().toObject(ProductDetailModel::class.java)
         } catch (e: Exception) {
             Log.e(TAG, "Error getting product details", e)
             FirebaseCrashlytics.getInstance().log("Error getting product details")

@@ -39,9 +39,6 @@ class WishListFragment : Fragment(), ProductsListAdapter.OnProductClickListener 
     ): View? {
 
         val rootView = inflater.inflate(R.layout.fragment_wishlist, container, false)
-        val mAdView = rootView.findViewById<AdView>(R.id.adView)
-        val adRequest = AdRequest.Builder().build()
-        mAdView.loadAd(adRequest)
         rvProducts = rootView.findViewById(R.id.wish_list_rv)
         progressBar = rootView.findViewById(R.id.wish_list_progressBar)
         imageView = rootView.findViewById(R.id.list_bg_imageView)

@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.RecycledViewPool
@@ -72,7 +73,8 @@ class GridListAdapter(
         holder.setCategoryIcon(categoryList[position].icon.toUri())
         val childItemAdapter = GridProductAdapter(position, categoryList[position].preview, gridProductClickListener, context)
         holder.childRecyclerView.setRecycledViewPool(viewPool)
-        val layoutManager = LinearLayoutManager(holder.childRecyclerView.context, LinearLayoutManager.HORIZONTAL, false)
+
+        val layoutManager = GridLayoutManager(holder.childRecyclerView.context, 2, GridLayoutManager.VERTICAL, false)
         layoutManager.initialPrefetchItemCount = categoryList[position].preview.size
         holder.childRecyclerView.layoutManager = layoutManager
         holder.childRecyclerView.adapter = childItemAdapter

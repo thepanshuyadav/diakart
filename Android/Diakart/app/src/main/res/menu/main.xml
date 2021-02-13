@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <item
-        android:id="@+id/main_notif_icon"
-        android:orderInCategory="100"
-        android:title="Notifications"
-        android:icon="@drawable/ic_baseline_notifications_24"
-        app:showAsAction="always" />
+<!--    <item-->
+<!--        android:id="@+id/main_notif_icon"-->
+<!--        android:orderInCategory="100"-->
+<!--        android:title="Notifications"-->
+<!--        android:icon="@drawable/ic_baseline_notifications_24"-->
+<!--        app:showAsAction="always" />-->
     <item
         android:id="@+id/main_share_icon"
         android:orderInCategory="100"

@@ -18,6 +18,7 @@ class ProductDetailViewModel: ViewModel() {
 
     private var _rating: MutableLiveData<Int>? = null
     private var _is_wishlisted: MutableLiveData<Boolean>? = null
+    private var _product: MutableLiveData<ProductDetailModel>? = null
 
     internal  fun addToWishList(productDetailModel: ProductDetailModel):MutableLiveData<Boolean> {
         if (_is_wishlisted == null) {
@@ -25,6 +26,21 @@ class ProductDetailViewModel: ViewModel() {
         }
         addToWishListFB(productDetailModel)
         return _is_wishlisted as MutableLiveData<Boolean>
+    }
+
+    internal  fun getProduct(productId: String):MutableLiveData<ProductDetailModel> {
+        if (_product == null) {
+            _product = MutableLiveData()
+            fetchProduct(productId)
+        }
+        return _product as MutableLiveData<ProductDetailModel>
+    }
+
+    private fun fetchProduct(id: String) {
+        viewModelScope.launch {
+            _product?.postValue(FirebaseListingsService.getProductDetail(id))
+        }
+
     }
 
     private fun addToWishListFB(productDetailModel: ProductDetailModel) {
