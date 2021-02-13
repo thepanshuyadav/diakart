@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@android:color/white"
+    android:background="@color/indigo_200"
     android:id="@+id/coordinator"
     tools:context=".ui.product_detail.ProductDetailFragment">
 
@@ -19,7 +19,7 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/white"
+            android:background="@color/indigo_200"
             android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
             android:id="@+id/collapsing_toolbar"
@@ -48,6 +48,7 @@
         android:baselineAlignBottom="false"
         app:fabSize="normal"
         app:layout_anchor="@id/appbar"
+        android:id="@+id/add_to_wish_list_fb"
         app:layout_anchorGravity="end|bottom"
         android:layout_marginEnd="30dp"
         android:src="@drawable/ic_baseline_favorite_24"/>

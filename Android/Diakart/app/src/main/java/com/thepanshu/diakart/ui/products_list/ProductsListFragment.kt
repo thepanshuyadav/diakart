@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -39,6 +40,7 @@ class ProductsListFragment : Fragment(), ProductsListAdapter.OnProductClickListe
     private lateinit var progressBar: ProgressBar
 
     private lateinit var imageView: ImageView
+    private lateinit var scrollView: NestedScrollView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,6 +52,8 @@ class ProductsListFragment : Fragment(), ProductsListAdapter.OnProductClickListe
         rvProducts = rootView.findViewById(R.id.products_rv) as RecyclerView
         progressBar = rootView.findViewById<ProgressBar>(R.id.products_list_progress_bar)
         imageView = rootView.findViewById(R.id.list_bg_imageView)
+        scrollView = rootView.findViewById(R.id.products_scroll_view)
+        scrollView.visibility = View.GONE
 
         val mAdView = rootView.findViewById<AdView>(R.id.adView)
         val adRequest = AdRequest.Builder().build()
@@ -69,8 +73,10 @@ class ProductsListFragment : Fragment(), ProductsListAdapter.OnProductClickListe
             data.value = it
             da=it
             if(it.isEmpty()) {
+                scrollView.visibility = View.GONE
                 imageView.setImageResource(R.drawable.ic_undraw_empty_xct9)
             } else {
+                scrollView.visibility = View.VISIBLE
                 rvProducts.adapter = ProductsListAdapter(da, this, requireContext())
             }
             progressBar.visibility = View.GONE

@@ -29,6 +29,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.adapters.ImageListAdapter
@@ -57,6 +58,7 @@ class ProductDetailFragment : Fragment() {
 
     private lateinit var coordinatorLayout: CoordinatorLayout
     private lateinit var toolbar: CollapsingToolbarLayout
+    private lateinit var floatingActionButton: FloatingActionButton
     private var mInterstitialAd: InterstitialAd? = null
 
     override fun onCreateView(
@@ -142,7 +144,7 @@ class ProductDetailFragment : Fragment() {
         productDescTv.text = product.description
 
         productQuantityTv.text = product.quantity
-
+        floatingActionButton = rootView.findViewById(R.id.add_to_wish_list_fb)
         // MARK: Rating
         val averageRatingTv = rootView.findViewById<TextView>(R.id.average_rating)
         val totalRatingsTv = rootView.findViewById<TextView>(R.id.total_raters)
@@ -226,6 +228,22 @@ class ProductDetailFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        floatingActionButton.setOnClickListener {
+            viewModel.addToWishList(product).observe(viewLifecycleOwner, {
+                addProgressBarUser()
+                if (it != null) {
+                    if (it != true) {
+                        Snackbar.make(
+                                requireView(),
+                                getString(R.string.added_wishlist),
+                                Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+                removeProgressBarUser()
+            })
+        }
 
         addWishListButton.setOnClickListener {
             viewModel.addToWishList(product).observe(viewLifecycleOwner, {

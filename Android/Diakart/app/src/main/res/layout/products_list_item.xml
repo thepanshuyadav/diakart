@@ -48,7 +48,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 tools:text="Product Brand"
-                android:textColor="@color/indigo_500"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.core.os.bundleOf
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -32,6 +33,8 @@ class WishListFragment : Fragment(), ProductsListAdapter.OnProductClickListener 
     private lateinit var imageView: ImageView
     private lateinit var progressBar: ProgressBar
 
+    private lateinit var scrollView: NestedScrollView
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -42,7 +45,8 @@ class WishListFragment : Fragment(), ProductsListAdapter.OnProductClickListener 
         rvProducts = rootView.findViewById(R.id.wish_list_rv)
         progressBar = rootView.findViewById(R.id.wish_list_progressBar)
         imageView = rootView.findViewById(R.id.list_bg_imageView)
-
+        scrollView = rootView.findViewById(R.id.wishlist_scroll_view)
+        scrollView.visibility = View.GONE
 
         return rootView
     }
@@ -58,9 +62,12 @@ class WishListFragment : Fragment(), ProductsListAdapter.OnProductClickListener 
             da=it
             if(it.isEmpty()) {
                 imageView.setImageResource(R.drawable.ic_undraw_empty_xct9)
+                scrollView.visibility = View.GONE
             }
             else{
+                scrollView.visibility = View.VISIBLE
                 rvProducts.adapter = ProductsListAdapter(da, this, requireContext())
+                imageView.setImageResource(R.drawable.ic_undraw_wishlist)
             }
             progressBar.visibility = View.GONE
             })

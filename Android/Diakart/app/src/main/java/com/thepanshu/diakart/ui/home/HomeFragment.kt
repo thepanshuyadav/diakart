@@ -65,7 +65,7 @@ class HomeFragment : Fragment(),
         sliderView = root.findViewById(R.id.banner_slider_ad)
         val couponCardImageView: ImageView = root.findViewById(R.id.coupon_card_image)
         Glide.with(requireContext())
-                .load(Uri.parse("https://firebasestorage.googleapis.com/v0/b/diakart.appspot.com/o/res%2FCouponCardImage.jpg?alt=media&token=c848d70e-ec80-4531-a124-d05e7d3ad0d0"))
+                .load(Uri.parse("https://firebasestorage.googleapis.com/v0/b/diakart.appspot.com/o/res%2FScreenshot%202021-02-13%20at%2011.32.07%20PM.png?alt=media&token=1a9e7f49-375f-4d90-a067-089924235383"))
                 .into(couponCardImageView)
         val couponListCard = root.findViewById<MaterialCardView>(R.id.coupons_card_view)
         couponListCard.setOnClickListener {
@@ -80,7 +80,6 @@ class HomeFragment : Fragment(),
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-
         rvCategory.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         gridListRv.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
 
