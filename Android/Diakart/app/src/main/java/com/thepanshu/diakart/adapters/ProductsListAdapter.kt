@@ -34,9 +34,8 @@ class ProductsListAdapter(
         holder.productNameTv.text = productsList[position].name
         holder.brandNameTv.text = productsList[position].brand
         holder.productQuantityTv.text = productsList[position].quantity
-        holder.productPriceTv.text = productsList[position].mrp.toString()
+        holder.productPriceTv.text = "RS ${productsList[position].mrp}"
         holder.setProductImage(productsList[position].images[0])
-        //TODO: Picasso to update  product image placeholder
     }
 
     inner class ProductsListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {

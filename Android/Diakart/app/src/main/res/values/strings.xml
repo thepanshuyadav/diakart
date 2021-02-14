@@ -102,4 +102,6 @@
         "An emphasis on user actions makes core functionality immediately apparent and provides "
         "waypoints for the user.\n\n"
     </string>
+    <string name="invalid_link">Invalid Link</string>
+    <string name="wish_list">Wish List</string>
 </resources>

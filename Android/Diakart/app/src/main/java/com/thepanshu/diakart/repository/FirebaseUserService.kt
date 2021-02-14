@@ -1,11 +1,8 @@
 package com.thepanshu.diakart.repository
 
 import android.util.Log
-import android.widget.NumberPicker
-import android.widget.RatingBar
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.google.firebase.events.Event
 import com.google.firebase.firestore.*
 import com.google.firebase.ktx.Firebase
 import com.thepanshu.diakart.models.*
@@ -29,7 +26,7 @@ object FirebaseUserService {
         }
     }
 
-    suspend fun redeemPoints(inviteCode: String): Boolean {
+    fun redeemPoints(inviteCode: String): Boolean {
         return try {
             db.runTransaction {
                     val inviteeDocRef = db.collection("USERS").document(userId)
@@ -52,18 +49,15 @@ object FirebaseUserService {
                     }
             }.isSuccessful
         } catch (e: Exception) {
-//            Log.e(TAG, "Error getting user's product rating", e)
-//            FirebaseCrashlytics.getInstance().log("Error getting user's product rating")
-//            FirebaseCrashlytics.getInstance().setCustomKey("user_rating", TAG)
-//            FirebaseCrashlytics.getInstance().recordException(e)
+            FirebaseCrashlytics.getInstance().log("Error redeeming points")
+            FirebaseCrashlytics.getInstance().setCustomKey("redeem_points", TAG)
+            FirebaseCrashlytics.getInstance().recordException(e)
             false
         }
 
     }
 
-    //TODO: Implement
-
-    suspend fun updateRating(userRating: UserRatingModel, id: String) {
+    fun updateRating(userRating: UserRatingModel, id: String) {
 
         db.runTransaction { transaction ->
             val oldRatingSnap = transaction.get(db.collection("USERS")
@@ -103,9 +97,8 @@ object FirebaseUserService {
             }
             return documentSnapshot["rating"].toString().toInt()
         } catch (e: Exception) {
-            Log.e(TAG, "Error getting user's product rating", e)
             FirebaseCrashlytics.getInstance().log("Error getting user's product rating")
-            FirebaseCrashlytics.getInstance().setCustomKey("user_rating", TAG)
+            FirebaseCrashlytics.getInstance().setCustomKey("user_product_rating", TAG)
             FirebaseCrashlytics.getInstance().recordException(e)
             null
         }
@@ -123,15 +116,14 @@ object FirebaseUserService {
                     it.toObject(UserRatingModel::class.java)
                 }
         } catch (e: Exception) {
-//            Log.e(FirebaseUserService.TAG, "Error getting user details", e)
-//            FirebaseCrashlytics.getInstance().log("Error getting user details")
-//            FirebaseCrashlytics.getInstance().setCustomKey("user", FirebaseUserService.TAG)
-//            FirebaseCrashlytics.getInstance().recordException(e)
+            FirebaseCrashlytics.getInstance().log("Error getting user ratings")
+            FirebaseCrashlytics.getInstance().setCustomKey("get_user_rating", TAG)
+            FirebaseCrashlytics.getInstance().recordException(e)
             emptyList()
         }
     }
 
-    suspend fun addToWishList(product: ProductDetailModel): Boolean {
+    fun addToWishList(product: ProductDetailModel): Boolean {
         return try {
             db.runTransaction { transaction ->
                 transaction.set(db.collection("USERS")
@@ -141,17 +133,16 @@ object FirebaseUserService {
                         product)
             }.isSuccessful
         } catch (e: Exception) {
-//            Log.e(FirebaseUserService.TAG, "Error getting wish list", e)
-//            FirebaseCrashlytics.getInstance().log("Error getting wish list")
-//            FirebaseCrashlytics.getInstance().setCustomKey("wishlist", FirebaseUserService.TAG)
-//            FirebaseCrashlytics.getInstance().recordException(e)
+            FirebaseCrashlytics.getInstance().log("Error adding to wish list")
+            FirebaseCrashlytics.getInstance().setCustomKey("add_to_wish_list", TAG)
+            FirebaseCrashlytics.getInstance().recordException(e)
             false
         }
 
 
     }
 
-    suspend fun removeFromWishList(prodDocId: String): Boolean {
+    fun removeFromWishList(prodDocId: String): Boolean {
         return try {
             db.runTransaction { transaction->
                 transaction.delete(db.collection("USERS")
@@ -160,10 +151,9 @@ object FirebaseUserService {
                         .document(prodDocId))
             }.isSuccessful
         } catch (e: Exception) {
-//            Log.e(FirebaseUserService.TAG, "Error getting wish list", e)
-//            FirebaseCrashlytics.getInstance().log("Error getting wish list")
-//            FirebaseCrashlytics.getInstance().setCustomKey("wishlist", FirebaseUserService.TAG)
-//            FirebaseCrashlytics.getInstance().recordException(e)
+            FirebaseCrashlytics.getInstance().log("Error removing from wish list")
+            FirebaseCrashlytics.getInstance().setCustomKey("remove_wish_list", TAG)
+            FirebaseCrashlytics.getInstance().recordException(e)
             false
         }
     }
@@ -179,9 +169,8 @@ object FirebaseUserService {
                     }
             list
         } catch (e: Exception) {
-            Log.e(FirebaseUserService.TAG, "Error fetching wish list", e)
             FirebaseCrashlytics.getInstance().log("Error fetching wish list")
-            FirebaseCrashlytics.getInstance().setCustomKey("fetch_wish_list", FirebaseUserService.TAG)
+            FirebaseCrashlytics.getInstance().setCustomKey("fetch_wish_list", TAG)
             FirebaseCrashlytics.getInstance().recordException(e)
             emptyList()
         }

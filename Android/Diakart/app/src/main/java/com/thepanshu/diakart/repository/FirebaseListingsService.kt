@@ -1,20 +1,13 @@
 package com.thepanshu.diakart.repository
 
-import android.os.Handler
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import com.google.firebase.FirebaseError
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Transaction
 import com.thepanshu.diakart.models.CategoryModel
 import com.thepanshu.diakart.models.CouponModel
-import com.thepanshu.diakart.models.CouponModel.Companion.toCoupon
 import com.thepanshu.diakart.models.ProductDetailModel
 import com.thepanshu.diakart.models.SliderModel
 import kotlinx.coroutines.tasks.await
-import kotlin.Result.Companion.success
 
 
 object FirebaseListingsService {
@@ -43,9 +36,8 @@ object FirebaseListingsService {
                         CategoryModel(icon, title, preview, products)
                     }
         } catch (e: Exception) {
-            Log.e(TAG, "Error getting user details", e)
-            FirebaseCrashlytics.getInstance().log("Error getting user details")
-            FirebaseCrashlytics.getInstance().setCustomKey("user", TAG)
+            FirebaseCrashlytics.getInstance().log("Error getting category")
+            FirebaseCrashlytics.getInstance().setCustomKey("category", TAG)
             FirebaseCrashlytics.getInstance().recordException(e)
             return emptyList()
         }
@@ -57,9 +49,8 @@ object FirebaseListingsService {
                 it.toObject(CouponModel::class.java)
             }
         } catch (e: Exception) {
-            Log.e(TAG, "Error getting user details", e)
-            FirebaseCrashlytics.getInstance().log("Error getting user details")
-            FirebaseCrashlytics.getInstance().setCustomKey("user", TAG)
+            FirebaseCrashlytics.getInstance().log("Error getting coupon list")
+            FirebaseCrashlytics.getInstance().setCustomKey("coupon_list", TAG)
             FirebaseCrashlytics.getInstance().recordException(e)
             null
         }
@@ -80,9 +71,8 @@ object FirebaseListingsService {
             }
             productDetailList
         } catch (e: Exception) {
-            Log.e(TAG, "Error getting user details", e)
-            FirebaseCrashlytics.getInstance().log("Error getting user details")
-            FirebaseCrashlytics.getInstance().setCustomKey("user", TAG)
+            FirebaseCrashlytics.getInstance().log("Error getting product list")
+            FirebaseCrashlytics.getInstance().setCustomKey("product_list", TAG)
             FirebaseCrashlytics.getInstance().recordException(e)
             null
         }
@@ -102,7 +92,6 @@ object FirebaseListingsService {
             }
             return bannerList
         } catch (e: Exception) {
-            Log.e(TAG, "Error getting banner", e)
             FirebaseCrashlytics.getInstance().log("Error getting banner")
             FirebaseCrashlytics.getInstance().setCustomKey("banner", TAG)
             FirebaseCrashlytics.getInstance().recordException(e)
@@ -116,9 +105,8 @@ object FirebaseListingsService {
                     .document(reference)
                     .get().await().toObject(ProductDetailModel::class.java)
         } catch (e: Exception) {
-            Log.e(TAG, "Error getting product details", e)
             FirebaseCrashlytics.getInstance().log("Error getting product details")
-            FirebaseCrashlytics.getInstance().setCustomKey("PRODUCT", TAG)
+            FirebaseCrashlytics.getInstance().setCustomKey("product_details", TAG)
             FirebaseCrashlytics.getInstance().recordException(e)
             null
         }

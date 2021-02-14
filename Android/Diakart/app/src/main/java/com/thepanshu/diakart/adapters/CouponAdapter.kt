@@ -41,7 +41,6 @@ class CouponAdapter(
 
         fun setCouponValue(value: String) {
             if(value != ""){
-                Log.d("COUPON", couponList.toString())
                 couponValueTv.text = value
             }else {
                 copyCoupon.visibility = View.GONE

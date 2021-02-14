@@ -1,12 +1,10 @@
-package com.thepanshu.diakart
+package com.thepanshu.diakart.activities
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.AttributeSet
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -26,6 +24,8 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.thepanshu.diakart.BuildConfig
+import com.thepanshu.diakart.R
 
 
 class MainActivity : AppCompatActivity() {
@@ -74,8 +74,6 @@ class MainActivity : AppCompatActivity() {
         val docRef = db.collection("USERS").document(user!!.uid)
         docRef.get().addOnSuccessListener {
             if (it != null) {
-
-                Log.d("PHOTO", "DocumentSnapshot data: ${it.data}")
                 userNameTv.text = it.data?.get("name").toString()
                 userEmailTv.text = it.data?.get("email").toString()
                 imageSrc = it.data?.get("profile_pic").toString()
@@ -101,7 +99,7 @@ class MainActivity : AppCompatActivity() {
             sendIntent.action = Intent.ACTION_SEND
             sendIntent.putExtra(
                 Intent.EXTRA_TEXT,
-                "Hey check out this app at: https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID
+                "Diakart is a healthy guilt free food catalog app with amazing discounts and offer information. Get it for free at :\n: https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID
             )
             sendIntent.type = "text/plain"
             startActivity(sendIntent)

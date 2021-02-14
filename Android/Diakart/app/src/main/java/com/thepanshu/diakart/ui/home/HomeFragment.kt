@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -48,6 +50,10 @@ class HomeFragment : Fragment(),
 
     private lateinit var homeViewModel: HomeViewModel
 
+    private lateinit var accountShortcut: FrameLayout
+    private lateinit var ratingsShortcut: FrameLayout
+    private lateinit var wishlistShortcut: FrameLayout
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -63,6 +69,31 @@ class HomeFragment : Fragment(),
         rvCategory = root.findViewById(R.id.categories_rv) as RecyclerView
         gridListRv = root.findViewById(R.id.grid_list_rv)
         sliderView = root.findViewById(R.id.banner_slider_ad)
+
+        wishlistShortcut = root.findViewById(R.id.wishlist_home_short)
+        wishlistShortcut.findViewById<TextView>(R.id.category_name_tv).text = getString(R.string.menu_wish_list)
+        wishlistShortcut.findViewById<ImageView>(R.id.category_icon_image).setImageResource(R.drawable.ic_heart_svgrepo_com)
+
+        accountShortcut = root.findViewById(R.id.account_home_short)
+        accountShortcut.findViewById<TextView>(R.id.category_name_tv).text = getString(R.string.menu_account)
+        accountShortcut.findViewById<ImageView>(R.id.category_icon_image).setImageResource(R.drawable.ic_user)
+
+        ratingsShortcut = root.findViewById(R.id.ratings_home_short)
+        ratingsShortcut.findViewById<TextView>(R.id.category_name_tv).text = getString(R.string.ratings)
+        ratingsShortcut.findViewById<ImageView>(R.id.category_icon_image).setImageResource(R.drawable.ic_rating_svgrepo_com)
+
+        wishlistShortcut.setOnClickListener {
+            val navController = view?.let { Navigation.findNavController(it) }
+            navController?.navigate(R.id.action_nav_home_to_nav_wishlist)
+        }
+        accountShortcut.setOnClickListener {
+            val navController = view?.let { Navigation.findNavController(it) }
+            navController?.navigate(R.id.action_nav_home_to_nav_account)
+        }
+        ratingsShortcut.setOnClickListener {
+            val navController = view?.let { Navigation.findNavController(it) }
+            navController?.navigate(R.id.action_nav_home_to_nav_rating)
+        }
         val couponCardImageView: ImageView = root.findViewById(R.id.coupon_card_image)
         Glide.with(requireContext())
                 .load(Uri.parse("https://firebasestorage.googleapis.com/v0/b/diakart.appspot.com/o/res%2FScreenshot%202021-02-13%20at%2011.32.07%20PM.png?alt=media&token=1a9e7f49-375f-4d90-a067-089924235383"))

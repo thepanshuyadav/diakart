@@ -1,7 +1,6 @@
 package com.thepanshu.diakart.adapters
 
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.Drawable
@@ -12,12 +11,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.palette.graphics.Palette
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
-import com.google.android.material.card.MaterialCardView
 import com.thepanshu.diakart.R
 import com.thepanshu.diakart.models.ProductDetailModel
 
@@ -32,7 +29,6 @@ class GridProductAdapter (
         private val productImageView: ImageView = itemView.findViewById(R.id.grid_product_image)
         private val productTitleTv = itemView.findViewById<TextView>(R.id.grid_product_title)
         private val productSubtitleTv = itemView.findViewById<TextView>(R.id.grid_product_subtitle)
-        private val cardView = itemView.findViewById<MaterialCardView>(R.id.cardView)
 
         init {
             itemView.setOnClickListener(this)
@@ -42,7 +38,7 @@ class GridProductAdapter (
             productTitleTv.text = productTitle
         }
         fun setProductSubtitle(productSubtitle: Int) {
-            productSubtitleTv.text = productSubtitle.toString()
+            productSubtitleTv.text = "RS $productSubtitle"
         }
         fun setProductImage(productImageLink: String) {
             Glide.with(context).load(Uri.parse(productImageLink)).into(productImageView)

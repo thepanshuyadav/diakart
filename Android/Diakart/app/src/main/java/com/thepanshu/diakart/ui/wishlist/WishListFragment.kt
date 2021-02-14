@@ -23,7 +23,6 @@ import com.thepanshu.diakart.models.ProductDetailModel
 
 class WishListFragment : Fragment(), ProductsListAdapter.OnProductClickListener  {
 
-    // TODO: Fetch Wish list
 
     private lateinit var wishListViewModel: WishListViewModel
     private var data= MutableLiveData<List<ProductDetailModel>>()

@@ -80,7 +80,6 @@ class AccountFragment : Fragment() {
                 else {
                     Snackbar.make(requireView(), getString(R.string.point_redeem_fail), Snackbar.LENGTH_SHORT).show()
                 }
-                // TODO: Refresh view
             }
         })
 

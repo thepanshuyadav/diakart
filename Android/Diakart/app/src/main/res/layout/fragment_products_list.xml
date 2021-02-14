@@ -7,19 +7,19 @@
     android:background="?android:colorBackground"
     tools:context=".ui.products_list.ProductsListFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="15dp"
-        android:id="@+id/appbar"
-        android:fitsSystemWindows="true">
+<!--    <com.google.android.material.appbar.AppBarLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="15dp"-->
+<!--        android:id="@+id/appbar"-->
+<!--        android:fitsSystemWindows="true">-->
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="?android:colorBackground"
-            android:fitsSystemWindows="true"
-            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-            android:id="@+id/collapsing_toolbar">
+<!--        <com.google.android.material.appbar.CollapsingToolbarLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:background="?android:colorBackground"-->
+<!--            android:fitsSystemWindows="true"-->
+<!--            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"-->
+<!--            android:id="@+id/collapsing_toolbar">-->
 
 <!--                        <com.google.android.material.textview.MaterialTextView-->
 <!--                            android:layout_width="wrap_content"-->
@@ -31,9 +31,9 @@
 <!--                            android:text="Explore \nProducts"-->
 <!--                            tools:ignore="HardcodedText" />-->
 
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+<!--        </com.google.android.material.appbar.CollapsingToolbarLayout>-->
 
-    </com.google.android.material.appbar.AppBarLayout>
+<!--    </com.google.android.material.appbar.AppBarLayout>-->
 
     <ProgressBar
         android:id="@+id/products_list_progress_bar"
@@ -67,8 +67,6 @@
                 android:layout_marginTop="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
                 app:adSize="BANNER"
                 android:layout_gravity="bottom|center"
                 app:adUnitId="ca-app-pub-5665855701538045/7239491302"

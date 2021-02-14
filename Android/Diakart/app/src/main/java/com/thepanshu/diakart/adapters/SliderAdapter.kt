@@ -15,20 +15,20 @@ import com.thepanshu.diakart.models.SliderModel
 
 class SliderAdapter(private val context: Context, private var mSliderItems: ArrayList<SliderModel>) :
     SliderViewAdapter<SliderAdapter.SliderAdapterVH>() {
-    fun renewItems(sliderItems: ArrayList<SliderModel>) {
-        mSliderItems = sliderItems
-        notifyDataSetChanged()
-    }
-
-    fun deleteItem(position: Int) {
-        mSliderItems.removeAt(position)
-        notifyDataSetChanged()
-    }
-
-    fun addItem(sliderItem: SliderModel) {
-        mSliderItems.add(sliderItem)
-        notifyDataSetChanged()
-    }
+//    fun renewItems(sliderItems: ArrayList<SliderModel>) {
+//        mSliderItems = sliderItems
+//        notifyDataSetChanged()
+//    }
+//
+//    fun deleteItem(position: Int) {
+//        mSliderItems.removeAt(position)
+//        notifyDataSetChanged()
+//    }
+//
+//    fun addItem(sliderItem: SliderModel) {
+//        mSliderItems.add(sliderItem)
+//        notifyDataSetChanged()
+//    }
 
     override fun onCreateViewHolder(parent: ViewGroup): SliderAdapterVH {
         val inflate: View =

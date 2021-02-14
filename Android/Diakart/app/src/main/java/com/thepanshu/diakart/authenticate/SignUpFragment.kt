@@ -13,7 +13,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.thepanshu.diakart.MainActivity
+import com.thepanshu.diakart.activities.MainActivity
 import com.thepanshu.diakart.R
 
 class SignUpFragment : Fragment() {

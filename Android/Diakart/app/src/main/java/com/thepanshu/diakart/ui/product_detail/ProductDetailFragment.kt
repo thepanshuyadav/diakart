@@ -1,8 +1,10 @@
 package com.thepanshu.diakart.ui.product_detail
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
@@ -77,7 +79,7 @@ class ProductDetailFragment : Fragment() {
         mAdView2.loadAd(adRequest2)
 
 
-        var adRequest3 = AdRequest.Builder().build()
+        val adRequest3 = AdRequest.Builder().build()
 
         InterstitialAd.load(requireContext(),"ca-app-pub-5665855701538045/3492547900", adRequest3, object : InterstitialAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
@@ -85,15 +87,14 @@ class ProductDetailFragment : Fragment() {
             }
 
             override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                Log.d("Ad", "Ad was loaded.")
                 mInterstitialAd = interstitialAd
             }
         })
 
 
 
-        coordinatorLayout = rootView.findViewById<CoordinatorLayout>(R.id.coordinator)
-        toolbar = rootView.findViewById<CollapsingToolbarLayout>(R.id.collapsing_toolbar)
+        coordinatorLayout = rootView.findViewById(R.id.coordinator)
+        toolbar = rootView.findViewById(R.id.collapsing_toolbar)
         Glide.with(this)
             .asBitmap()
             .load(product.images[0])
@@ -111,7 +112,7 @@ class ProductDetailFragment : Fragment() {
                     val vibrant = palette.vibrantSwatch?.rgb
                     val gradientDrawable = GradientDrawable()
                     if (vibrant != null && darkVibrant != null) {
-                        gradientDrawable.colors = intArrayOf(vibrant, vibrant,  darkVibrant)
+                        gradientDrawable.colors = intArrayOf(vibrant,  darkVibrant)
                     } else {
                         gradientDrawable.colors = intArrayOf(
                                 Color.TRANSPARENT,
@@ -295,7 +296,7 @@ class ProductDetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if(arguments?.getParcelable<ProductDetailModel>("product") != null){
-            product = arguments?.getParcelable<ProductDetailModel>("product")!!
+            product = arguments?.getParcelable("product")!!
             productRatings = product.rating
         }
     }
@@ -304,7 +305,7 @@ class ProductDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         var price = Int.MAX_VALUE
         link = ""
-        for(i in 0 .. product.prices.size-1) {
+        for(i in 0 until product.prices.size) {
             if(product.prices[i]<price) {
                 price = product.prices[i]
                 link = product.links[i]
@@ -321,10 +322,10 @@ class ProductDetailFragment : Fragment() {
                 MaterialAlertDialogBuilder(requireContext())
                         .setTitle(resources.getString(R.string.alert_title))
                         .setMessage(resources.getString(R.string.supporting_text))
-                        .setNeutralButton(resources.getString(R.string.cancel)) { dialog, which ->
+                        .setNeutralButton(resources.getString(R.string.cancel)) { _, _ ->
 
                         }
-                        .setPositiveButton(resources.getString(R.string.accept)) { dialog, which ->
+                        .setPositiveButton(resources.getString(R.string.accept)) { _, _ ->
                             mInterstitialAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
                                 override fun onAdDismissedFullScreenContent() {
                                     startActivity(intentToSite)
@@ -335,14 +336,14 @@ class ProductDetailFragment : Fragment() {
                                 }
                             }
                             if (mInterstitialAd != null) {
-                                mInterstitialAd!!.show(requireActivity());
+                                mInterstitialAd!!.show(requireActivity())
                             } else {
                                 startActivity(intentToSite)
                             }
                         }
                         .show()
             } else {
-                Snackbar.make(view, "Invalid Link", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(view, getString(R.string.invalid_link), Snackbar.LENGTH_SHORT).show()
             }
         }
     }

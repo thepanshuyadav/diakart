@@ -48,9 +48,8 @@
                             android:layout_width="125dp"
                             android:layout_height="125dp"
                             android:adjustViewBounds="true"
-                            android:background="@color/indigo_500"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/ic_baseline_account_circle_24"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_user"
                             android:contentDescription="@string/profile_image" />
                     </com.google.android.material.card.MaterialCardView>
 

@@ -1,16 +1,17 @@
-package com.thepanshu.diakart
+package com.thepanshu.diakart.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.google.firebase.auth.FirebaseAuth
+import com.thepanshu.diakart.R
 import com.thepanshu.diakart.authenticate.RegisterActivity
 import java.util.*
 import kotlin.concurrent.schedule
 
 class SplashActivity : AppCompatActivity() {
 
-    lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var firebaseAuth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)

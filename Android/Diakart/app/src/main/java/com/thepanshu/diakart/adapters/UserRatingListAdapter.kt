@@ -36,7 +36,6 @@ class UserRatingListAdapter(
         holder.productPriceTv.text = userRatingList[position].mrp.toString()
         holder.setProductImage(userRatingList[position].image)
         holder.productRatingView.rating = userRatingList[position].rating.toFloat()
-        //TODO: Picasso to update  product image placeholder
     }
 
     inner class ProductRatingListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
