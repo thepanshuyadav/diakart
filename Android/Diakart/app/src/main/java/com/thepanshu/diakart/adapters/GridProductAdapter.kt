@@ -37,8 +37,15 @@ class GridProductAdapter (
         fun setProductTitle(productTitle: String) {
             productTitleTv.text = productTitle
         }
-        fun setProductSubtitle(productSubtitle: Int) {
-            productSubtitleTv.text = "RS $productSubtitle"
+        fun setProductSubtitle(prices: ArrayList<Int>) {
+            var price = Int.MAX_VALUE
+            for(i in 0 until prices.size) {
+                val value = prices[i]
+                if(value < price) {
+                    price = value
+                }
+            }
+            productSubtitleTv.text = "RS $price"
         }
         fun setProductImage(productImageLink: String) {
             Glide.with(context).load(Uri.parse(productImageLink)).into(productImageView)
@@ -97,7 +104,7 @@ class GridProductAdapter (
     override fun onBindViewHolder(holder: CategoryProductViewHolder, position: Int) {
         holder.setProductImage(categoryProductList[position].images[0])
         holder.setProductTitle(categoryProductList[position].name)
-        holder.setProductSubtitle(categoryProductList[position].mrp)
+        holder.setProductSubtitle(categoryProductList[position].prices)
         holder.setBackground(categoryProductList[position].images[0])
 
     }

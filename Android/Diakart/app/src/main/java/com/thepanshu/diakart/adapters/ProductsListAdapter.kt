@@ -34,7 +34,14 @@ class ProductsListAdapter(
         holder.productNameTv.text = productsList[position].name
         holder.brandNameTv.text = productsList[position].brand
         holder.productQuantityTv.text = productsList[position].quantity
-        holder.productPriceTv.text = "RS ${productsList[position].mrp}"
+        var price = Int.MAX_VALUE
+        for(i in 0 until productsList[position].prices.size) {
+            val value = productsList[position].prices[i]
+            if(value < price) {
+                price = value
+            }
+        }
+        holder.productPriceTv.text = "RS ${price}"
         holder.setProductImage(productsList[position].images[0])
     }
 

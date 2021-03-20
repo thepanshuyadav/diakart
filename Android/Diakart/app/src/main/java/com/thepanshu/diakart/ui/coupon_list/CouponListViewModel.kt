@@ -4,9 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.firestore.DocumentReference
 import com.thepanshu.diakart.models.CouponModel
-import com.thepanshu.diakart.models.ProductDetailModel
 import com.thepanshu.diakart.repository.FirebaseListingsService
 import kotlinx.coroutines.launch
 
