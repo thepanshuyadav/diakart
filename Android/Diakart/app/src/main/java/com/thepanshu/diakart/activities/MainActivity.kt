@@ -21,9 +21,12 @@ import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.google.android.gms.ads.MobileAds
 import com.google.android.material.navigation.NavigationView
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.auth.FirebaseAuth
+//import com.google.firebase.auth.ktx.auth
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.firestore.FirebaseFirestore
+//import com.google.firebase.firestore.ktx.firestore
+//import com.google.firebase.ktx.Firebase
 import com.thepanshu.diakart.BuildConfig
 import com.thepanshu.diakart.R
 
@@ -42,6 +45,8 @@ class MainActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         MobileAds.initialize(this) {}
+
+        FirebaseCrashlytics.getInstance().log("Error getting category")
 
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
@@ -69,8 +74,10 @@ class MainActivity : AppCompatActivity() {
         context: Context,
         attrs: AttributeSet
     ): View? {
-        val user = Firebase.auth.currentUser
-        val db = Firebase.firestore
+        val user = FirebaseAuth.getInstance().currentUser
+        val db = FirebaseFirestore.getInstance()
+        //val user = Firebase.auth.currentUser
+        //val db = Firebase.firestore
         val docRef = db.collection("USERS").document(user!!.uid)
         docRef.get().addOnSuccessListener {
             if (it != null) {

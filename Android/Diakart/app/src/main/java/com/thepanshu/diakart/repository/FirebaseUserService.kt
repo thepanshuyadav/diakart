@@ -1,17 +1,16 @@
 package com.thepanshu.diakart.repository
 
 import android.util.Log
-import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.firestore.*
-import com.google.firebase.ktx.Firebase
 import com.thepanshu.diakart.models.*
 import com.thepanshu.diakart.models.UserModel.Companion.toUser
 import kotlinx.coroutines.tasks.await
 
 object FirebaseUserService {
     private const val TAG = "FirebaseUserService"
-    private val userId = Firebase.auth.currentUser?.uid.toString()
+    private val userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
     private val db = FirebaseFirestore.getInstance()
     suspend fun getProfileData(): UserModel? {
         return try {

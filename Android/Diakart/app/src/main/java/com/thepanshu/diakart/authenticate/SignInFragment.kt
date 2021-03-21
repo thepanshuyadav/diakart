@@ -16,9 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.firestore.FirebaseFirestore
 import com.thepanshu.diakart.activities.MainActivity
 import com.thepanshu.diakart.R
 
@@ -63,7 +61,7 @@ class SignInFragment : Fragment() {
         progressBar.visibility = View.INVISIBLE
 
         firebaseAuth = FirebaseAuth.getInstance()
-        auth = Firebase.auth
+        auth = FirebaseAuth.getInstance()
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
@@ -142,7 +140,7 @@ class SignInFragment : Fragment() {
                     val profilePic = user.photoUrl.toString()
 
                     // TODO: Send to firebase
-                    val db = Firebase.firestore
+                    val db = FirebaseFirestore.getInstance()
                     val docRef = db.collection("USERS").document(user.uid)
                     docRef.get()
                         .addOnSuccessListener { document ->
